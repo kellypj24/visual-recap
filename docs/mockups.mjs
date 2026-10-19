@@ -183,3 +183,48 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
   ]
   writeFileSync(new URL('strip.svg', import.meta.url), svg(W, H, body))
 }
+
+// 4. The history panel (/visual-recap history): weeks, projects, tools.
+{
+  const PW = 56, weekW = PW - 26, projW = PW - 32
+  const hm = m => `${Math.floor(m / 60)}h${String(m % 60).padStart(2, '0')}m`
+  // Minutes per category, in CATS order as catBar draws them.
+  const weeks = [
+    ['2026-10-12', 64, { thinking: 160, reading: 70, editing: 55, shell: 80, web: 10, agents: 40, other: 15 }],
+    ['2026-10-05', 81, { thinking: 210, reading: 95, editing: 80, shell: 110, web: 20, agents: 25, other: 30 }],
+    ['2026-09-28', 47, { thinking: 120, reading: 60, editing: 35, shell: 45, agents: 60, other: 10 }],
+    ['2026-09-21', 22, { thinking: 60, reading: 25, editing: 20, shell: 30, other: 5 }],
+  ]
+  const sumOf = t => Object.values(t).reduce((a, b) => a + b, 0)
+  const top = Math.max(...weeks.map(([, , t]) => sumOf(t)))
+  const total = weeks.reduce((n, [, , t]) => n + sumOf(t), 0)
+  const bar = t => {
+    const out = []
+    let acc = 0, drawn = 0
+    for (const c of Object.keys(C)) {
+      if (!t[c]) continue
+      acc += t[c]
+      const upto = Math.round((acc / top) * weekW)
+      if (upto > drawn) out.push(seg('▆'.repeat(upto - drawn), { color: C[c][1] }))
+      drawn = Math.max(drawn, upto)
+    }
+    return out
+  }
+  const pane = [
+    [bold('Last 26 weeks'), dim(`  agent ${hm(total)} · 214 turns · 31 sessions`)],
+    [dim('48M tokens, cache included')], [],
+    [bold('By week')], [dim('Week of     Turns  Agent')],
+    ...weeks.map(([w, n, t]) => [seg(`${w}  ${String(n).padStart(5)} ${hm(sumOf(t)).padStart(6)}  `), ...bar(t)]),
+    ['thinking', 'reading', 'editing', 'shell', 'agents'].flatMap(c => [seg('■', { color: C[c][1] }), dim(` ${C[c][0]}  `)]),
+    [], [bold('By project')],
+  ]
+  for (const [name, m] of [['light-labs', 760], ['visual-recap', 380], ['scouter', 250], ['dotfiles', 80]]) {
+    const k = Math.round((m / total) * projW)
+    pane.push([seg(name.padEnd(15)), seg('█'.repeat(k), { color: '#B1B9F9' }), seg('░'.repeat(projW - k)), seg(` ${hm(m).padStart(6)} ${String(Math.round((m / total) * 100)).padStart(3)}%`)])
+  }
+  pane.push([], [bold('Top tools')])
+  for (const [t, n] of [['Bash', 1204], ['Read', 911], ['Edit', 486], ['Grep', 302], ['mcp__claude-in-chrome__computer', 118]]) {
+    pane.push([seg(t.padEnd(32)), dim(String(n).padStart(7))])
+  }
+  writeFileSync(new URL('history.svg', import.meta.url), svg(PAD * 2 + PW * CW, PAD * 2 + pane.length * LH - LH * 0.5, column(pane, PAD, PAD)))
+}

@@ -1,4 +1,4 @@
-import type { Cat, Span, Turn } from '../types'
+import type { Cat, History, Span, Turn, TurnRecord, Week } from '../types'
 
 export const CATS: Record<Cat, { label: string; color: string }> = {
   thinking: { label: 'Thinking', color: '#D97757' },
@@ -124,4 +124,136 @@ export function summaryPrompt(turn: Turn, answer: string): string {
 export function fallbackSummary(turn: Turn): string {
   if (!turn.actions.length) return turn.prompt ? `Replied to: ${turn.prompt.slice(0, 80)}` : 'Replied.'
   return `${turn.actions.length} actions: ${turn.actions.slice(0, 3).join(', ')}`
+}
+
+export type RecordInfo = {
+  session: string
+  project: string
+  root: string
+  usage?: { model: string; input_tokens: number; output_tokens: number; cache_read_input_tokens: number; cache_creation_input_tokens: number }
+}
+
+// What a finished turn writes to the log: its active time per category, its tool counts, its tokens.
+export function turnRecord(turn: Turn, spans: readonly Span[], info: RecordInfo): TurnRecord {
+  const end = turn.end ?? turn.start
+  const mine = spans.filter(x => x.start < end && (x.end ?? end) > turn.start)
+  const time: Partial<Record<Cat, number>> = {}
+  for (const [c, ms] of Object.entries(totals(sweep(mine, [turn], turn.start, end)))) {
+    if (c !== 'idle' && ms >= 1) time[c as Cat] = Math.round(ms)
+  }
+  const u = info.usage
+  return {
+    v: 1,
+    session: info.session,
+    turn: turn.id,
+    start: turn.start,
+    end,
+    ms: end - turn.start,
+    isAborted: turn.isAborted ?? false,
+    project: info.project,
+    root: info.root,
+    ...(u
+      ? {
+          model: u.model,
+          tokens: {
+            input: u.input_tokens,
+            output: u.output_tokens,
+            cacheRead: u.cache_read_input_tokens,
+            cacheWrite: u.cache_creation_input_tokens,
+          },
+        }
+      : {}),
+    time,
+    tools: turn.tools ?? {},
+    prompt: turn.prompt,
+    ...(turn.summary !== undefined ? { summary: turn.summary } : {}),
+  }
+}
+
+// Replaces the line for the same turn, or appends one.
+export function upsertLine(jsonl: string, rec: TurnRecord): string {
+  const lines = jsonl.split('\n').filter(l => l.trim() !== '')
+  const i = lines.findIndex(l => parseRecord(l)?.turn === rec.turn)
+  const line = JSON.stringify(rec)
+  if (i < 0) lines.push(line)
+  else lines[i] = line
+  return lines.join('\n') + '\n'
+}
+
+export function parseRecord(line: string): TurnRecord | undefined {
+  try {
+    const r = JSON.parse(line) as TurnRecord
+    return r && r.v === 1 && typeof r.start === 'number' ? r : undefined
+  } catch {
+    return undefined
+  }
+}
+
+// The Monday of `ms`'s week, local time, as YYYY-MM-DD.
+export function weekOf(ms: number): string {
+  const d = new Date(ms)
+  d.setHours(0, 0, 0, 0)
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7))
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
+
+export function historyOf(records: readonly TurnRecord[], topTools = 8): History {
+  const weeks = new Map<string, Week>()
+  const projects = new Map<string, { name: string; turns: number; ms: number }>()
+  const tools = new Map<string, number>()
+  const sessions = new Set<string>()
+  let ms = 0
+  let tokens = 0
+  for (const r of records) {
+    const active = Object.values(r.time).reduce((n, x) => n + (x ?? 0), 0)
+    sessions.add(r.session)
+    ms += active
+    tokens += r.tokens ? r.tokens.input + r.tokens.output + r.tokens.cacheRead + r.tokens.cacheWrite : 0
+    const key = weekOf(r.start)
+    const w = weeks.get(key) ?? { week: key, turns: 0, ms: 0, time: {} }
+    w.turns++
+    w.ms += active
+    for (const [c, x] of Object.entries(r.time) as [Cat, number][]) w.time[c] = (w.time[c] ?? 0) + x
+    weeks.set(key, w)
+    const p = projects.get(r.project) ?? { name: r.project, turns: 0, ms: 0 }
+    p.turns++
+    p.ms += active
+    projects.set(r.project, p)
+    for (const [t, n] of Object.entries(r.tools)) tools.set(t, (tools.get(t) ?? 0) + n)
+  }
+  return {
+    turns: records.length,
+    sessions: sessions.size,
+    ms,
+    tokens,
+    weeks: [...weeks.values()].sort((a, b) => (a.week < b.week ? 1 : -1)),
+    projects: [...projects.values()].sort((a, b) => b.ms - a.ms),
+    tools: [...tools].map(([name, n]) => ({ name, n })).sort((a, b) => b.n - a.n).slice(0, topTools),
+  }
+}
+
+// A bar `width` columns long at full scale, cut into categories by their share of `time`.
+export function catBar(time: Partial<Record<Cat, number>>, scale: number, width: number): { cat: Cat; n: number }[] {
+  const cats = (Object.keys(CATS) as Cat[]).filter(c => (time[c] ?? 0) > 0)
+  const out: { cat: Cat; n: number }[] = []
+  let acc = 0
+  let drawn = 0
+  for (const c of cats) {
+    acc += time[c]!
+    const upto = scale > 0 ? Math.round((acc / scale) * width) : 0
+    if (upto > drawn) out.push({ cat: c, n: upto - drawn })
+    drawn = Math.max(drawn, upto)
+  }
+  return out
+}
+
+export function fmtTokens(n: number): string {
+  if (n < 1000) return String(n)
+  if (n < 1e6) return `${Math.round(n / 1000)}k`
+  return `${(n / 1e6).toFixed(n < 1e7 ? 1 : 0)}M`
+}
+
+export function plural(n: number, word: string): string {
+  return `${n} ${word}${n === 1 ? '' : 's'}`
 }

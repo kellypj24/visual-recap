@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="472.8" height="441" viewBox="0 0 472.8 441">
+<rect width="472.8" height="441" rx="10" fill="#0d1117" stroke="#30363d"/>
+<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
+<text x="18" y="30.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Last</text>
+<text x="57" y="30.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">26</text>
+<text x="80.4" y="30.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">weeks</text>
+<text x="135" y="30.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">agent</text>
+<text x="181.79999999999998" y="30.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">24h30m</text>
+<text x="236.39999999999998" y="30.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·</text>
+<text x="252" y="30.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">214</text>
+<text x="283.2" y="30.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">turns</text>
+<text x="330" y="30.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·</text>
+<text x="345.59999999999997" y="30.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31</text>
+<text x="369" y="30.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">sessions</text>
+<text x="18" y="48.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">48M</text>
+<text x="49.2" y="48.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">tokens,</text>
+<text x="111.6" y="48.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">cache</text>
+<text x="158.4" y="48.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">included</text>
+<text x="18" y="84.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">By</text>
+<text x="41.4" y="84.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">week</text>
+<text x="18" y="102.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Week</text>
+<text x="57" y="102.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">of</text>
+<text x="111.6" y="102.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Turns</text>
+<text x="166.2" y="102.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Agent</text>
+<text x="18" y="120.96" textLength="78" lengthAdjust="spacingAndGlyphs" fill="#d7dade">2026-10-12</text>
+<text x="135" y="120.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">64</text>
+<text x="166.2" y="120.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">7h10m</text>
+<rect x="220.79999999999998" y="111.96" width="62.4" height="11.16" fill="#D97757"/>
+<rect x="283.2" y="111.96" width="31.2" height="11.16" fill="#5B9BD5"/>
+<rect x="314.4" y="111.96" width="23.4" height="11.16" fill="#6BBF59"/>
+<rect x="337.8" y="111.96" width="31.2" height="11.16" fill="#C678DD"/>
+<rect x="369" y="111.96" width="7.8" height="11.16" fill="#4FB6C2"/>
+<rect x="376.8" y="111.96" width="15.6" height="11.16" fill="#E5C07B"/>
+<rect x="392.4" y="111.96" width="7.8" height="11.16" fill="#9DA5B4"/>
+<text x="18" y="138.96" textLength="78" lengthAdjust="spacingAndGlyphs" fill="#d7dade">2026-10-05</text>
+<text x="135" y="138.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">81</text>
+<text x="166.2" y="138.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">9h30m</text>
+<rect x="220.79999999999998" y="129.96" width="85.8" height="11.16" fill="#D97757"/>
+<rect x="306.59999999999997" y="129.96" width="39" height="11.16" fill="#5B9BD5"/>
+<rect x="345.59999999999997" y="129.96" width="31.2" height="11.16" fill="#6BBF59"/>
+<rect x="376.8" y="129.96" width="46.8" height="11.16" fill="#C678DD"/>
+<rect x="423.59999999999997" y="129.96" width="7.8" height="11.16" fill="#4FB6C2"/>
+<rect x="431.4" y="129.96" width="7.8" height="11.16" fill="#E5C07B"/>
+<rect x="439.2" y="129.96" width="15.6" height="11.16" fill="#9DA5B4"/>
+<text x="18" y="156.96" textLength="78" lengthAdjust="spacingAndGlyphs" fill="#d7dade">2026-09-28</text>
+<text x="135" y="156.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">47</text>
+<text x="166.2" y="156.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">5h30m</text>
+<rect x="220.79999999999998" y="147.96" width="46.8" height="11.16" fill="#D97757"/>
+<rect x="267.6" y="147.96" width="23.4" height="11.16" fill="#5B9BD5"/>
+<rect x="291" y="147.96" width="15.6" height="11.16" fill="#6BBF59"/>
+<rect x="306.59999999999997" y="147.96" width="23.4" height="11.16" fill="#C678DD"/>
+<rect x="330" y="147.96" width="23.4" height="11.16" fill="#E5C07B"/>
+<text x="18" y="174.96" textLength="78" lengthAdjust="spacingAndGlyphs" fill="#d7dade">2026-09-21</text>
+<text x="135" y="174.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">22</text>
+<text x="166.2" y="174.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">2h20m</text>
+<rect x="220.79999999999998" y="165.96" width="23.4" height="11.16" fill="#D97757"/>
+<rect x="244.2" y="165.96" width="7.8" height="11.16" fill="#5B9BD5"/>
+<rect x="252" y="165.96" width="15.6" height="11.16" fill="#6BBF59"/>
+<rect x="267.6" y="165.96" width="7.8" height="11.16" fill="#C678DD"/>
+<rect x="19" y="185.4" width="5.8" height="5.8" rx="1" fill="#D97757"/>
+<text x="33.6" y="192.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
+<rect x="112.6" y="185.4" width="5.8" height="5.8" rx="1" fill="#5B9BD5"/>
+<text x="127.19999999999999" y="192.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Reading</text>
+<rect x="198.4" y="185.4" width="5.8" height="5.8" rx="1" fill="#6BBF59"/>
+<text x="213" y="192.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Editing</text>
+<rect x="284.2" y="185.4" width="5.8" height="5.8" rx="1" fill="#C678DD"/>
+<text x="298.8" y="192.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Shell</text>
+<rect x="354.4" y="185.4" width="5.8" height="5.8" rx="1" fill="#E5C07B"/>
+<text x="369" y="192.96" textLength="70.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Subagents</text>
+<text x="18" y="228.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">By</text>
+<text x="41.4" y="228.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">project</text>
+<text x="18" y="246.96" textLength="78" lengthAdjust="spacingAndGlyphs" fill="#d7dade">light-labs</text>
+<rect x="135" y="237.6" width="93.6" height="10.799999999999999" fill="#B1B9F9"/>
+<rect x="228.6" y="237.6" width="93.6" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<text x="330" y="246.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">12h40m</text>
+<text x="392.4" y="246.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">52%</text>
+<text x="18" y="264.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">visual-recap</text>
+<rect x="135" y="255.6" width="46.8" height="10.799999999999999" fill="#B1B9F9"/>
+<rect x="181.79999999999998" y="255.6" width="140.4" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<text x="337.8" y="264.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">6h20m</text>
+<text x="392.4" y="264.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">26%</text>
+<text x="18" y="282.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">scouter</text>
+<rect x="135" y="273.6" width="31.2" height="10.799999999999999" fill="#B1B9F9"/>
+<rect x="166.2" y="273.6" width="156" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<text x="337.8" y="282.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">4h10m</text>
+<text x="392.4" y="282.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">17%</text>
+<text x="18" y="300.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">dotfiles</text>
+<rect x="135" y="291.6" width="7.8" height="10.799999999999999" fill="#B1B9F9"/>
+<rect x="142.8" y="291.6" width="179.4" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<text x="337.8" y="300.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">1h20m</text>
+<text x="400.2" y="300.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">5%</text>
+<text x="18" y="336.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Top</text>
+<text x="49.2" y="336.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">tools</text>
+<text x="18" y="354.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Bash</text>
+<text x="291" y="354.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">1204</text>
+<text x="18" y="372.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Read</text>
+<text x="298.8" y="372.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">911</text>
+<text x="18" y="390.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Edit</text>
+<text x="298.8" y="390.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">486</text>
+<text x="18" y="408.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Grep</text>
+<text x="298.8" y="408.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">302</text>
+<text x="18" y="426.96" textLength="241.79999999999998" lengthAdjust="spacingAndGlyphs" fill="#d7dade">mcp__claude-in-chrome__computer</text>
+<text x="298.8" y="426.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">118</text>
+</g>
+</svg>

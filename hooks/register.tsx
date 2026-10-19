@@ -1,10 +1,31 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
-import type { Cat, Mark, Span, Turn } from '../types'
-import { CATS, catOf, fallbackSummary, fmt, labelOf, runs, strip, summaryPrompt, sweep, totals } from './recap'
+import type { Cat, History, Mark, Span, Turn, TurnRecord } from '../types'
+import type { RecordInfo } from './recap'
+import {
+  CATS,
+  catBar,
+  catOf,
+  fallbackSummary,
+  fmt,
+  fmtTokens,
+  plural,
+  historyOf,
+  labelOf,
+  parseRecord,
+  runs,
+  strip,
+  summaryPrompt,
+  sweep,
+  totals,
+  turnRecord,
+  upsertLine,
+} from './recap'
 
 const PANE = 'visual-recap'
+const HISTORY_PANE = 'visual-recap-history'
+const HISTORY_DAYS = 182
 const MAX_SPANS = 3000 // ponytail: oldest spans drop off; totals then undercount very long sessions
 const MAX_ACTIONS = 60
 
@@ -15,6 +36,7 @@ const startedAt = atom({ plugin: 'visual-recap', key: 'startedAt' } as const, 0)
 // Animation step while a turn runs; only the band reads it, so the panel redraws once a second, not four times.
 const marks = atom({ plugin: 'visual-recap', key: 'marks' } as const, [] as Mark[])
 const frame = atom({ plugin: 'visual-recap', key: 'frame' } as const, 0)
+const history = atom({ plugin: 'visual-recap', key: 'history' } as const, null as History | null)
 
 const SPIN = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 const PULSE = ['▂', '▄', '▆', '█', '▆', '▄']
@@ -85,17 +107,80 @@ async function summarize($: $, turnId: string, answer: string) {
   await update($, turns, l => l.map(t => (t.id === turnId ? { ...t, summary } : t)))
 }
 
+type Usage = RecordInfo['usage']
+
+async function logDir($: $) {
+  const config = await $.env.get('CLAUDE_CONFIG_DIR')
+  const home = (await $.env.get('HOME')) ?? (await $.env.get('USERPROFILE'))
+  const base = config ?? (home ? `${home}/.claude` : undefined)
+  return base && `${base}/visual-recap/turns`
+}
+
+async function recordInfo($: $, usage: Usage): Promise<RecordInfo> {
+  const [session, root, repo] = await Promise.all([$.session.id(), $.session.root(), $.session.repo()])
+  const project = repo?.name ?? root.split(/[\\/]/).filter(Boolean).at(-1) ?? root
+  return { session, project, root, usage }
+}
+
+// One writer per file (the session), but the summary rewrites the line the turn's end wrote: queue them.
+let writes = Promise.resolve()
+
+function logTurn($: $, file: string, rec: TurnRecord) {
+  writes = writes
+    .then(async () => {
+      const old = await $.fs.read(file).catch(() => '')
+      await $.fs.write(file, upsertLine(old, rec))
+    })
+    .catch(() => undefined)
+  return writes
+}
+
+// The turn's line goes out at once, so quitting right after a turn keeps it, and again with its summary.
+async function finishTurn($: $, turnId: string, answer: string, usage: Usage, keepHistory: boolean) {
+  const dir = keepHistory ? await logDir($).catch(() => undefined) : undefined
+  const info = dir ? await recordInfo($, usage).catch(() => undefined) : undefined
+  const write = async () => {
+    if (!dir || !info) return
+    const [tu, sp] = await Promise.all([read($, turns), read($, spans)])
+    const turn = tu.find(t => t.id === turnId)
+    if (turn) await logTurn($, `${dir}/${info.session}.jsonl`, turnRecord(turn, sp, info))
+  }
+  await write()
+  await summarize($, turnId, answer).catch(() => undefined)
+  await write()
+}
+
+async function loadHistory($: $) {
+  const dir = await logDir($)
+  const records: TurnRecord[] = []
+  if (dir) {
+    const since = (await $.clock.now()) - HISTORY_DAYS * 86_400_000
+    const files = await $.fs.list(dir).catch(() => [])
+    for (const f of files) {
+      if (f.kind !== 'file' || !f.name.endsWith('.jsonl') || f.mtimeMs < since) continue
+      const text = await $.fs.read(`${dir}/${f.name}`).catch(() => '')
+      for (const line of text.split('\n')) {
+        const r = parseRecord(line)
+        if (r && r.start >= since) records.push(r)
+      }
+    }
+  }
+  await update($, history, () => historyOf(records))
+}
+
 function openPane($: $) {
   return $.ui.open({ id: PANE, title: 'Recap', columns: 56 })
 }
 
 export const register: Register = (on, options) => {
   const showBand = options.showBand !== false
+  const keepHistory = options.history !== false
 
   on('session.start', async ($, e, next) => {
     await $.command.register({
       name: 'visual-recap',
       description: 'Open the visual recap: time by activity and a summary timeline',
+      argumentHint: '[history]',
     })
     if ((await read($, startedAt)) === 0) {
       const t = await $.clock.now()
@@ -108,7 +193,13 @@ export const register: Register = (on, options) => {
     return next(e)
   })
 
-  on('command.run', { command: 'visual-recap' }, async $ => {
+  on('command.run', { command: 'visual-recap' }, async ($, e) => {
+    if (e.args.trim() === 'history') {
+      await loadHistory($)
+      await $.ui.open({ id: HISTORY_PANE, title: 'Recap history', columns: 56 })
+
+      return { text: 'Visual recap history opened.' }
+    }
     await openPane($)
 
     return { text: 'Visual recap opened.' }
@@ -131,8 +222,10 @@ export const register: Register = (on, options) => {
     const action = e.agentId === undefined ? label : `↳ ${label}`
     await update($, turns, l => {
       const i = l.findLastIndex(t => t.end === undefined)
-      if (i < 0 || l[i]!.actions.length >= MAX_ACTIONS) return l
-      return l.with(i, { ...l[i]!, actions: [...l[i]!.actions, action] })
+      if (i < 0) return l
+      const t = l[i]!
+      const tools = { ...t.tools, [e.tool]: (t.tools?.[e.tool] ?? 0) + 1 }
+      return l.with(i, { ...t, tools, actions: t.actions.length >= MAX_ACTIONS ? t.actions : [...t.actions, action] })
     })
     // Subagent calls happen inside the Agent call's span; timing them too would double count.
     if (e.agentId !== undefined) return next(e)
@@ -157,8 +250,8 @@ export const register: Register = (on, options) => {
       await update($, spans, l => l.map(s => (s.end === undefined ? { ...s, end: t } : s)))
       await update($, now, () => t)
       stopTicker()
-      const answer = e.answer
-      $.clock.after(1, () => void summarize($, e.turnId, answer).catch(() => undefined))
+      const { answer, usage } = e
+      $.clock.after(1, () => void finishTurn($, e.turnId, answer, usage, keepHistory).catch(() => undefined))
     }
 
     return result
@@ -292,6 +385,72 @@ export const register: Register = (on, options) => {
               <Text dimColor={t.summary === undefined}>{t.summary ?? 'Summarizing…'}</Text>
             )}
           </Box>
+        ))}
+      </Box>
+    )
+  })
+
+  // Totals across sessions from the turn log, read when /visual-recap history runs.
+  on('ui.render', { component: 'Pane', requestId: HISTORY_PANE }, async ($, e) => {
+    const { Box, Text } = $.ui.resolve(e)
+    const hist = await read($, history)
+    const width = Math.max(30, e.props.bodyColumns)
+    if (!hist) return <Text dimColor>Reading the turn log…</Text>
+    if (hist.turns === 0) {
+      return <Text dimColor>No turns logged yet. Each finished turn is added to the log.</Text>
+    }
+    const weeks = hist.weeks.slice(0, 12)
+    const top = Math.max(...weeks.map(w => w.ms), 1)
+    const weekW = Math.max(6, width - 26)
+    const projW = Math.max(6, width - 32)
+    const seen = (Object.keys(CATS) as Cat[]).filter(c => weeks.some(w => (w.time[c] ?? 0) > 0))
+
+    return (
+      <Box flexDirection="column">
+        <Text>
+          <Text weight="bold">Last {HISTORY_DAYS / 7 | 0} weeks</Text>
+          <Text dimColor>  agent {fmt(hist.ms)} · {plural(hist.turns, 'turn')} · {plural(hist.sessions, 'session')}</Text>
+        </Text>
+        {hist.tokens > 0 && <Text dimColor>{fmtTokens(hist.tokens)} tokens, cache included</Text>}
+        <Text> </Text>
+        <Text weight="bold">By week</Text>
+        <Text dimColor>{'Week of     Turns  Agent'}</Text>
+        {weeks.map(w => (
+          <Text wrap="truncate">
+            {`${w.week}  ${String(w.turns).padStart(5)} ${fmt(w.ms).padStart(6)}  `}
+            {catBar(w.time, top, weekW).map(r => (
+              <Text color={CATS[r.cat].color}>{'▆'.repeat(r.n)}</Text>
+            ))}
+          </Text>
+        ))}
+        <Text wrap="truncate">
+          {seen.map(c => (
+            <Text>
+              <Text color={CATS[c].color}>■</Text>
+              <Text dimColor> {CATS[c].label}  </Text>
+            </Text>
+          ))}
+        </Text>
+        <Text> </Text>
+        <Text weight="bold">By project</Text>
+        {hist.projects.slice(0, 8).map(p => {
+          const k = Math.round((p.ms / (hist.ms || 1)) * projW)
+          return (
+            <Text wrap="truncate">
+              {p.name.slice(0, 14).padEnd(15)}
+              <Text color="suggestion">{'█'.repeat(k)}</Text>
+              <Text dimColor>{'░'.repeat(projW - k)}</Text>
+              {` ${fmt(p.ms).padStart(6)} ${String(Math.round((p.ms / (hist.ms || 1)) * 100)).padStart(3)}%`}
+            </Text>
+          )
+        })}
+        <Text> </Text>
+        <Text weight="bold">Top tools</Text>
+        {hist.tools.map(t => (
+          <Text wrap="truncate">
+            {t.name.slice(0, width - 8).padEnd(Math.min(32, width - 8))}
+            <Text dimColor>{String(t.n).padStart(7)}</Text>
+          </Text>
         ))}
       </Box>
     )

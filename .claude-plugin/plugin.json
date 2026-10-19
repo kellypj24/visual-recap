@@ -28,6 +28,12 @@
       "description": "Open the recap panel when a session starts (/visual-recap opens it any time)",
       "type": "boolean",
       "default": false
+    },
+    "history": {
+      "title": "Keep history",
+      "description": "Log each finished turn to ~/.claude/visual-recap/turns for /visual-recap history",
+      "type": "boolean",
+      "default": true
     }
   }
 }

@@ -19,6 +19,10 @@ While the agent works, the strip is tall, its right edge pulses and a spinner tu
 - A timeline of turns, newest first. Each turn has when it started (from session start), how long it took, a strip of that turn alone, and a one-line description of what happened. A running turn shows your prompt as **Working: …**; a finished one shows **Summarizing…** for a second or two until its description arrives; one you stopped with Esc is marked **interrupted**.
 - Dividers where the conversation was compacted or cleared with `/clear`. The timeline and totals carry on past them.
 
+![The history panel: agent time per week as strips by activity, time per project, and the most-used tools](docs/history.svg)
+
+**History** (`/visual-recap history`) totals every session from the last 26 weeks: agent time and turns per week with a strip by activity, time per project, and the most-used tools. It reads the turn log described below.
+
 The images are mockups with sample data, drawn by `docs/mockups.mjs`.
 
 ## Install
@@ -47,6 +51,7 @@ In `/config`, under visual-recap:
 | --- | --- | --- |
 | Show band | on | Shows the strip and totals above the prompt. |
 | Open panel at startup | off | Opens the panel when a session starts. |
+| Keep history | on | Logs each finished turn to disk for `/visual-recap history`. |
 
 ## How time is counted
 
@@ -62,6 +67,25 @@ In `/config`, under visual-recap:
 ## Turn descriptions use an extra model call
 
 When a turn ends, the mod asks Haiku for a one-sentence description. It sends your prompt, the actions taken (file names, commands) and the start of the agent's reply. This uses your account and costs one small call per turn. If the call fails, the entry lists the turn's first actions instead.
+
+## The turn log
+
+With Keep history on, each finished turn on the main loop adds one JSON line to `~/.claude/visual-recap/turns/<session id>.jsonl` (under `$CLAUDE_CONFIG_DIR` when that is set). Nothing leaves your machine. Each line holds:
+
+| Field | Contents |
+| --- | --- |
+| `v` | Format version, `1` |
+| `session`, `turn` | Session id (the transcript's file name) and turn id |
+| `start`, `end`, `ms` | Epoch milliseconds, and the turn's length |
+| `isAborted` | Whether you stopped the turn |
+| `project`, `root` | The git repo's name, or the project folder's, and its path |
+| `model`, `tokens` | The answering model and `input`, `output`, `cacheRead`, `cacheWrite` token counts |
+| `time` | Working time per activity in ms (`thinking`, `reading`, `editing`, `shell`, `web`, `agents`, `asking`, `other`) |
+| `tools` | Calls per tool name, subagents' included |
+| `prompt` | Your prompt, first 500 characters |
+| `summary` | The turn's one-line description |
+
+The line is written when the turn ends and rewritten once its description arrives. The files are plain JSONL, so DuckDB and similar tools read them directly: `select * from read_json('~/.claude/visual-recap/turns/*.jsonl')`. Delete the folder to clear history.
 
 ## Contributing
 
