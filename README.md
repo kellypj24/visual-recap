@@ -26,20 +26,18 @@ The images are mockups with sample data, drawn by `docs/mockups.mjs`.
 At the prompt of a Claude Code terminal session:
 
 ```
-/plugin install visual-recap --marketplace mascah/visual-recap
+/plugin install visual-recap --marketplace mascah/claude-plugins
 ```
 
-Answer `y` to add the marketplace, then pick a scope (user scope is first; press Enter).
+Answer `y` to add the [mascah marketplace](https://github.com/mascah/claude-plugins), which lists my other plugins too, then pick a scope (user scope is first; press Enter).
 
 From a shell:
 
 ```
-claude plugin install visual-recap --marketplace mascah/visual-recap
+claude plugin install visual-recap --marketplace mascah/claude-plugins
 ```
 
-In the desktop app: click + next to the prompt box, then Plugins, Add marketplace with `mascah/visual-recap`, then Add plugin.
-
-It's also listed in the [mascah marketplace](https://github.com/mascah/claude-plugins) with my other plugins: `/plugin marketplace add mascah/claude-plugins`, then `/plugin install visual-recap@mascah`.
+In the desktop app: click + next to the prompt box, then Plugins, Add marketplace with `mascah/claude-plugins`, then Add plugin.
 
 ## Settings
 
