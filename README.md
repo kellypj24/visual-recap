@@ -2,8 +2,19 @@
 
 A Claude Code mod that shows where the agent spends its time, live, and keeps a running timeline of what happened in the session.
 
-- **Band above the prompt:** a colored strip of the agent's working time (thinking, reading, editing, shell, web, subagents, asking you, other tools), what it's doing right now, and running totals.
-- **Panel (`/visual-recap`):** time per activity as bars, time spent waiting on you, and a timeline of turns, newest first, each with a one-sentence description.
+![The band above the prompt, mid-turn: a colored strip of working time, the running command, and totals per activity](docs/band.svg)
+
+**The band** sits above the prompt. The strip runs left to right through the agent's working time, colored by activity. Under it: what the agent is doing right now and for how long, then the running totals, largest first. It updates every second while the agent works.
+
+![The panel docked beside the conversation: time per activity as bars, then a timeline of turns with descriptions](docs/panel.svg)
+
+**The panel** (`/visual-recap`) docks beside the conversation in fullscreen mode, or opens above the prompt otherwise. It shows:
+
+- Session length and how much of it the agent was working.
+- Time per activity as bars, plus time spent waiting on you.
+- A timeline of turns, newest first. Each turn has when it started (from session start), how long it took, a strip of that turn alone, and a one-line description of what happened. A running turn shows your prompt as **Working: …**; a finished one shows **Summarizing…** for a second or two until its description arrives; one you stopped with Esc is marked **interrupted**.
+
+The images are mockups with sample data, drawn by `docs/mockups.mjs`.
 
 ## Install
 
@@ -36,7 +47,11 @@ In `/config`, under visual-recap:
 
 - Time inside a tool call goes to that tool's activity. Parallel calls split their shared time.
 - Time inside a turn with no tool running counts as Thinking.
-- Time between turns counts as Waiting on you. The band's strip leaves it out.
+- Time between turns counts as Waiting on you. The band's strip leaves it out, so a long break doesn't flatten the picture:
+
+![Wall clock with idle gaps above; the band strip below, with the gaps removed](docs/strip.svg)
+
+- Each cell of a strip takes the color of whatever filled most of that slice of time. A session with only short answers so far is one solid Thinking bar.
 - Subagents' work counts once, as Subagents.
 
 ## Turn descriptions use an extra model call
@@ -49,6 +64,7 @@ When a turn ends, the mod asks Haiku for a one-sentence description. It sends yo
 claude plugin validate .
 claude plugin test .
 claude --plugin-dir .
+node docs/mockups.mjs   # redraw the README images
 ```
 
 ## License

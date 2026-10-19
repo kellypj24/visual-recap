@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="706.8" height="180" viewBox="0 0 706.8 180">
+<rect width="706.8" height="180" rx="10" fill="#0d1117" stroke="#30363d"/>
+<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" xml:space="preserve">
+<text x="18" y="30.96" textLength="202.79999999999998" lengthAdjust="spacingAndGlyphs" fill="#6f757e">> fix the flaky login test</text>
+<text x="18" y="66.96" textLength="195" lengthAdjust="spacingAndGlyphs" fill="#6f757e">⏺ Bash(npm test -- login)</text>
+<text x="18" y="84.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">  ⎿ Running…</text>
+<rect x="18" y="111.96" width="39" height="11.16" fill="#D97757"/>
+<rect x="57" y="111.96" width="70.2" height="11.16" fill="#5B9BD5"/>
+<rect x="127.2" y="111.96" width="23.4" height="11.16" fill="#D97757"/>
+<rect x="150.6" y="111.96" width="39" height="11.16" fill="#5B9BD5"/>
+<rect x="189.6" y="111.96" width="101.39999999999999" height="11.16" fill="#6BBF59"/>
+<rect x="291" y="111.96" width="31.2" height="11.16" fill="#D97757"/>
+<rect x="322.2" y="111.96" width="140.4" height="11.16" fill="#C678DD"/>
+<rect x="462.59999999999997" y="111.96" width="23.4" height="11.16" fill="#D97757"/>
+<rect x="486" y="111.96" width="39" height="11.16" fill="#6BBF59"/>
+<rect x="525" y="111.96" width="62.4" height="11.16" fill="#4FB6C2"/>
+<rect x="587.4" y="111.96" width="31.2" height="11.16" fill="#D97757"/>
+<rect x="618.6" y="111.96" width="54.6" height="11.16" fill="#C678DD"/>
+<text x="18" y="138.96" textLength="187.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">▶ Bash Run tests · 12s  </text>
+<rect x="206.2" y="131.4" width="5.8" height="5.8" rx="1" fill="#C678DD"/>
+<text x="213" y="138.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e"> Shell 43s  </text>
+<rect x="307.59999999999997" y="131.4" width="5.8" height="5.8" rx="1" fill="#D97757"/>
+<text x="314.4" y="138.96" textLength="117" lengthAdjust="spacingAndGlyphs" fill="#6f757e"> Thinking 31s  </text>
+<rect x="432.4" y="131.4" width="5.8" height="5.8" rx="1" fill="#6BBF59"/>
+<text x="439.2" y="138.96" textLength="109.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e"> Editing 31s  </text>
+<rect x="549.4" y="131.4" width="5.8" height="5.8" rx="1" fill="#5B9BD5"/>
+<text x="556.1999999999999" y="138.96" textLength="109.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e"> Reading 22s  </text>
+<rect x="18.5" y="146.5" width="670.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
+<text x="29.7" y="166" fill="#d7dade">&gt;</text>
+</g>
+</svg>
