@@ -5,6 +5,7 @@ const scroll = { offset: 0, bodyRows: 20 }
 test('band and pane draw a turn with a tool call on terminal and desktop', async ($, on) => {
   const clock = mock.clock(on, { now: 1_000 })
   on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.complete', () => ({ text: '' }))
   on('tool.call', async () => {
     await clock.advance(4_000)
     return { result: 'ok' }
@@ -35,4 +36,16 @@ test('band and pane draw a turn with a tool call on terminal and desktop', async
     expect(await pane.find({ text: /Other tools/ })).toBeDefined()
     await pane.unmount()
   }
+
+  // Once the turn ends the band says so, instead of animating.
+  await clock.advance(2_000)
+  await $.turn.complete({ answer: 'fixed', durationMs: 9_000, isAborted: false, turnId: 't1', reason: 'answer' })
+  const band = await $.ui.mount({
+    plugin: 'visual-recap',
+    surface: 'terminal',
+    component: 'AbovePrompt',
+    props: { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 80, scroll, view: {} } as never,
+  })
+  expect(await band.find({ text: /Done in 9s · waiting on you/ })).toBeDefined()
+  await band.unmount()
 })

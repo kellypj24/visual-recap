@@ -12,6 +12,6 @@ export type Turn = {
 
 declare module 'claude-code' {
   interface PluginState {
-    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number }
+    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number }
   }
 }

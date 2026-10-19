@@ -61,9 +61,10 @@ function column(lines, x, y0) {
     let col = 0
     for (const [text, s] of line) {
       const fill = s.color ?? (s.dim ? DIM : FG)
-      for (const run of text.match(/(▆+|█+|░+|■|[^▆█░■]+)/g) ?? []) {
+      for (const run of text.match(/(▆+|▂+|█+|░+|■|[^▆▂█░■]+)/g) ?? []) {
         const px = x + col * CW, w = run.length * CW
         if (run[0] === '▆') out.push(`<rect x="${px}" y="${top + LH * 0.22}" width="${w}" height="${LH * 0.62}" fill="${fill}"/>`)
+        else if (run[0] === '▂') out.push(`<rect x="${px}" y="${top + LH * 0.62}" width="${w}" height="${LH * 0.2}" fill="${fill}"/>`)
         else if (run[0] === '█') out.push(`<rect x="${px}" y="${top + LH * 0.2}" width="${w}" height="${LH * 0.6}" fill="${fill}"/>`)
         else if (run[0] === '░') out.push(`<rect x="${px}" y="${top + LH * 0.2}" width="${w}" height="${LH * 0.6}" fill="${DIM}" opacity="0.3"/>`)
         else if (run[0] === '■') out.push(`<rect x="${px + 1}" y="${top + LH * 0.3}" width="${CW - 2}" height="${CW - 2}" rx="1" fill="${fill}"/>`)
@@ -91,17 +92,24 @@ ${body.join('\n')}
 const s2 = [['thinking', 9], ['reading', 14], ['thinking', 5], ['reading', 8], ['editing', 22], ['thinking', 6], ['shell', 31], ['thinking', 4], ['editing', 9], ['web', 12], ['thinking', 7], ['shell', 12]]
 const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing', 14], ['thinking', 11]]
 
-// 1. The band, mid-turn.
+// 1. The band: mid-turn (tall strip, pulsing edge, spinner), then stopped (thin strip, done line).
 {
   const W = 84
-  const lines = [
+  const draw = (file, lines) =>
+    writeFileSync(new URL(file, import.meta.url), svg(PAD * 2 + (W + 2) * CW, PAD * 2 + lines.length * LH - LH, column(lines, PAD, PAD)))
+  draw('band.svg', [
     [dim('> fix the flaky login test')], [],
     [dim('⏺ Bash(npm test -- login)')], [dim('  ⎿ Running…')], [],
-    strip(s2, W),
-    [bold('▶ Bash Run tests · 12s  '), ...legend(s2, 4)],
+    [...strip(s2, W - 1), seg('█', { color: C.shell[1] })],
+    [seg('⠹', { color: C.shell[1] }), bold(' Bash Run tests · 12s  '), ...legend(s2, 4)],
     { prompt: W + 2 }, [],
-  ]
-  writeFileSync(new URL('band.svg', import.meta.url), svg(PAD * 2 + (W + 2) * CW, PAD * 2 + lines.length * LH - LH, column(lines, PAD, PAD)))
+  ])
+  draw('band-done.svg', [
+    [dim('⏺ Fixed: the test now awaits the session refresh before asserting. All')], [dim('  42 login tests pass.')], [],
+    strip(s2, W, '▂'),
+    [dim('✓ Done in 2m40s · waiting on you  '), ...legend(s2, 3)],
+    { prompt: W + 2 }, [],
+  ])
 }
 
 // 2. The panel docked beside the conversation, band underneath.
@@ -137,7 +145,7 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
     [dim('⏺ Update(src/settings/Panel.tsx)')], [dim('  ⎿ …')],
   ]
   while (left.length < pane.length - 5) left.push([])
-  left.push(strip(s3, LW), [bold('▶ Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
+  left.push([...strip(s3, LW - 1), seg('█', { color: C.editing[1] })], [seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
   const rows = Math.max(left.length + 1, pane.length)
   const xR = PAD + (LW + 3) * CW
   const width = xR + PW * CW + PAD

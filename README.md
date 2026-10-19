@@ -4,7 +4,11 @@ A Claude Code mod that shows where the agent spends its time, live, and keeps a 
 
 ![The band above the prompt, mid-turn: a colored strip of working time, the running command, and totals per activity](docs/band.svg)
 
-**The band** sits above the prompt. The strip runs left to right through the agent's working time, colored by activity. Under it: what the agent is doing right now and for how long, then the running totals, largest first. It updates every second while the agent works.
+**The band** sits above the prompt. The strip runs left to right through the agent's working time, colored by activity. Under it: what the agent is doing right now and for how long, then the running totals, largest first.
+
+While the agent works, the strip is tall, its right edge pulses and a spinner turns beside the current action. When the agent stops, the strip drops to a thin line and the band says how long the turn took:
+
+![The band after a turn: a thin strip and "Done in 2m40s · waiting on you"](docs/band-done.svg)
 
 ![The panel docked beside the conversation: time per activity as bars, then a timeline of turns with descriptions](docs/panel.svg)
 

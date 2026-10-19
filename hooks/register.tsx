@@ -12,6 +12,11 @@ const spans = atom({ plugin: 'visual-recap', key: 'spans' } as const, [] as Span
 const turns = atom({ plugin: 'visual-recap', key: 'turns' } as const, [] as Turn[])
 const now = atom({ plugin: 'visual-recap', key: 'now' } as const, 0)
 const startedAt = atom({ plugin: 'visual-recap', key: 'startedAt' } as const, 0)
+// Animation step while a turn runs; only the band reads it, so the panel redraws once a second, not four times.
+const frame = atom({ plugin: 'visual-recap', key: 'frame' } as const, 0)
+
+const SPIN = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+const PULSE = ['▂', '▄', '▆', '█', '▆', '▄']
 
 type $ = EngineInterface
 
@@ -37,14 +42,21 @@ function sortedCats(tot: Partial<Record<Cat | 'idle', number>>) {
 }
 
 let ticker: { cancel: () => void } | undefined
+let ticks = 0
 
 async function setNow($: $) {
   const t = await $.clock.now()
   await update($, now, () => t)
 }
 
+function tick($: $) {
+  ticks++
+  void update($, frame, n => n + 1)
+  if (ticks % 4 === 0) void setNow($)
+}
+
 function startTicker($: $) {
-  ticker ??= $.clock.every(1000, () => void setNow($))
+  ticker ??= $.clock.every(250, () => tick($))
 }
 
 function stopTicker() {
@@ -147,22 +159,37 @@ export const register: Register = (on, options) => {
   })
 
   // Wide and short: a strip of agent-active time, then the live action and a legend.
+  // Working: tall strip, a pulsing leading edge and a spinner. Stopped: the strip drops to a thin line.
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     if (!showBand || e.props.hasSurvey) return next(e)
     const s = await snapshot($)
-    const cols = strip(s.pieces, Math.max(10, e.props.bodyColumns))
+    const isWorking = s.live !== undefined
+    const f = isWorking ? await read($, frame) : 0
+    const cols = strip(s.pieces, Math.max(10, e.props.bodyColumns) - (isWorking ? 1 : 0))
     if (!cols.length) return next(e)
     const { Box, Text } = $.ui.resolve(e)
+    const nowCat: Cat = s.running?.cat ?? 'thinking'
+    const last = s.tu.at(-1)
 
     return (
       <Box flexDirection="column">
         <Text wrap="truncate">
           {runs(cols).map(r => (
-            <Text color={CATS[r.cat].color}>{'▆'.repeat(r.n)}</Text>
+            <Text color={CATS[r.cat].color}>{(isWorking ? '▆' : '▂').repeat(r.n)}</Text>
           ))}
+          {isWorking ? <Text color={CATS[nowCat].color}>{PULSE[f % PULSE.length]}</Text> : null}
         </Text>
         <Text wrap="truncate">
-          {s.liveText ? <Text weight="bold">▶ {s.liveText}  </Text> : null}
+          {isWorking ? (
+            <Text>
+              <Text color={CATS[nowCat].color}>{SPIN[f % SPIN.length]}</Text>
+              <Text weight="bold"> {s.liveText}  </Text>
+            </Text>
+          ) : last?.end !== undefined ? (
+            <Text dimColor>
+              ✓ {last.isAborted ? 'Interrupted after' : 'Done in'} {fmt(last.end - last.start)} · waiting on you{'  '}
+            </Text>
+          ) : null}
           {sortedCats(s.tot).map(c => (
             <Text>
               <Text color={CATS[c].color}>■</Text>
