@@ -34,6 +34,8 @@ claude plugin install visual-recap --marketplace mascah/visual-recap
 
 In the desktop app: click + next to the prompt box, then Plugins, Add marketplace with `mascah/visual-recap`, then Add plugin.
 
+It's also listed in the [mascah marketplace](https://github.com/mascah/claude-plugins) with my other plugins: `/plugin marketplace add mascah/claude-plugins`, then `/plugin install visual-recap@mascah`.
+
 ## Settings
 
 In `/config`, under visual-recap:
