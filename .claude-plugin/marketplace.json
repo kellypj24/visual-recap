@@ -1,0 +1,15 @@
+{
+  "name": "visual-recap",
+  "owner": {
+    "name": "Mike Ascah",
+    "url": "https://github.com/mascah"
+  },
+  "description": "The visual-recap mod for Claude Code.",
+  "plugins": [
+    {
+      "name": "visual-recap",
+      "source": "./",
+      "description": "Live view of where the agent spends its time, plus a running summary timeline of the session."
+    }
+  ]
+}

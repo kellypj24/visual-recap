@@ -1,0 +1,33 @@
+{
+  "name": "visual-recap",
+  "version": "0.1.0",
+  "description": "Live view of where the agent spends its time, plus a running summary timeline of the session.",
+  "author": {
+    "name": "Mike Ascah",
+    "url": "https://github.com/mascah"
+  },
+  "homepage": "https://github.com/mascah/visual-recap",
+  "repository": "https://github.com/mascah/visual-recap",
+  "license": "MIT",
+  "keywords": [
+    "mod",
+    "timeline",
+    "time-tracking",
+    "ui"
+  ],
+  "types": "./types/index.d.ts",
+  "userConfig": {
+    "showBand": {
+      "title": "Show band",
+      "description": "Show the time strip and totals above the prompt",
+      "type": "boolean",
+      "default": true
+    },
+    "openPanel": {
+      "title": "Open panel at startup",
+      "description": "Open the recap panel when a session starts (/visual-recap opens it any time)",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
