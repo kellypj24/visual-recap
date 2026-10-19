@@ -6,6 +6,8 @@ test('band and pane draw a turn with a tool call on terminal and desktop', async
   const clock = mock.clock(on, { now: 1_000 })
   on('turn.start', ($, e) => ({ turnId: e.turnId }))
   on('turn.complete', () => ({ text: '' }))
+  on('session.compact', () => ({ messages: [{ role: 'user', text: 'summary', toolUses: [] }] }))
+  on('session.end', ($, e) => ({ sessionId: e.sessionId }))
   on('tool.call', async () => {
     await clock.advance(4_000)
     return { result: 'ok' }
@@ -48,4 +50,18 @@ test('band and pane draw a turn with a tool call on terminal and desktop', async
   })
   expect(await band.find({ text: /Done in 9s · waiting on you/ })).toBeDefined()
   await band.unmount()
+
+  // Compacting and clearing leave dividers in the timeline.
+  await $.session.compact({ trigger: 'auto', messages: [{ role: 'user', text: 'summary', toolUses: [] }] })
+  await $.session.end({ reason: 'clear', sessionId: 's1' } as never)
+  const pane = await $.ui.mount({
+    plugin: 'visual-recap',
+    surface: 'terminal',
+    component: 'Pane',
+    requestId: 'visual-recap',
+    props: { title: 'Recap', isFocused: false, bodyColumns: 50, placement: 'dock', scroll, view: {} } as never,
+  })
+  expect(await pane.find({ text: /── Auto-compacted · \+/ })).toBeDefined()
+  expect(await pane.find({ text: /── Cleared · \+/ })).toBeDefined()
+  await pane.unmount()
 })

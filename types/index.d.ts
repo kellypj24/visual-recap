@@ -10,8 +10,11 @@ export type Turn = {
   isAborted?: boolean
 }
 
+// A divider in the timeline: where the conversation was cleared or compacted.
+export type Mark = { at: number; kind: 'clear' | 'compact'; isAuto?: boolean }
+
 declare module 'claude-code' {
   interface PluginState {
-    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number }
+    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number; marks: Mark[] }
   }
 }

@@ -17,6 +17,7 @@ While the agent works, the strip is tall, its right edge pulses and a spinner tu
 - Session length and how much of it the agent was working.
 - Time per activity as bars, plus time spent waiting on you.
 - A timeline of turns, newest first. Each turn has when it started (from session start), how long it took, a strip of that turn alone, and a one-line description of what happened. A running turn shows your prompt as **Working: …**; a finished one shows **Summarizing…** for a second or two until its description arrives; one you stopped with Esc is marked **interrupted**.
+- Dividers where the conversation was compacted or cleared with `/clear`. The timeline and totals carry on past them.
 
 The images are mockups with sample data, drawn by `docs/mockups.mjs`.
 

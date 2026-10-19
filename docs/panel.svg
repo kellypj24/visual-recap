@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="933" height="558" viewBox="0 0 933 558">
-<rect width="933" height="558" rx="10" fill="#0d1117" stroke="#30363d"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="933" height="594" viewBox="0 0 933 594">
+<rect width="933" height="594" rx="10" fill="#0d1117" stroke="#30363d"/>
 <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
 <text x="18" y="30.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">></text>
 <text x="33.6" y="30.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">add</text>
@@ -26,35 +26,35 @@
 <text x="33.6" y="156.96" textLength="234" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Update(src/settings/Panel.tsx)</text>
 <text x="33.6" y="174.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">⎿</text>
 <text x="49.2" y="174.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">…</text>
-<rect x="18" y="453.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="33.6" y="453.96" width="31.2" height="11.16" fill="#5B9BD5"/>
-<rect x="64.8" y="453.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="72.6" y="453.96" width="15.6" height="11.16" fill="#5B9BD5"/>
-<rect x="88.2" y="453.96" width="39" height="11.16" fill="#6BBF59"/>
-<rect x="127.2" y="453.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="142.8" y="453.96" width="54.6" height="11.16" fill="#C678DD"/>
-<rect x="197.4" y="453.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="205.2" y="453.96" width="15.6" height="11.16" fill="#6BBF59"/>
-<rect x="220.79999999999998" y="453.96" width="23.4" height="11.16" fill="#4FB6C2"/>
-<rect x="244.2" y="453.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="259.79999999999995" y="453.96" width="23.4" height="11.16" fill="#C678DD"/>
-<rect x="283.2" y="453.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="298.8" y="453.96" width="85.8" height="11.16" fill="#E5C07B"/>
-<rect x="384.59999999999997" y="453.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="400.2" y="453.96" width="23.4" height="11.16" fill="#6BBF59"/>
-<rect x="423.59999999999997" y="453.96" width="23.4" height="11.16" fill="#D97757"/>
-<rect x="447" y="453.6" width="7.8" height="10.799999999999999" fill="#6BBF59"/>
-<text x="18" y="480.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6BBF59">⠹</text>
-<text x="33.6" y="480.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Edit</text>
-<text x="72.6" y="480.96" textLength="140.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">hooks/register.tsx</text>
-<text x="220.8" y="480.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">·</text>
-<text x="236.4" y="480.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">3s</text>
-<rect x="268.6" y="473.4" width="5.8" height="5.8" rx="1" fill="#D97757"/>
-<text x="283.2" y="480.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
-<text x="353.4" y="480.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">56s</text>
-<rect x="18.5" y="488.5" width="436.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
-<text x="29.7" y="508" fill="#d7dade">&gt;</text>
-<line x1="466.5" y1="18" x2="466.5" y2="540" stroke="#30363d"/>
+<rect x="18" y="489.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="33.6" y="489.96" width="31.2" height="11.16" fill="#5B9BD5"/>
+<rect x="64.8" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
+<rect x="72.6" y="489.96" width="15.6" height="11.16" fill="#5B9BD5"/>
+<rect x="88.2" y="489.96" width="39" height="11.16" fill="#6BBF59"/>
+<rect x="127.2" y="489.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="142.8" y="489.96" width="54.6" height="11.16" fill="#C678DD"/>
+<rect x="197.4" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
+<rect x="205.2" y="489.96" width="15.6" height="11.16" fill="#6BBF59"/>
+<rect x="220.79999999999998" y="489.96" width="23.4" height="11.16" fill="#4FB6C2"/>
+<rect x="244.2" y="489.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="259.79999999999995" y="489.96" width="23.4" height="11.16" fill="#C678DD"/>
+<rect x="283.2" y="489.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="298.8" y="489.96" width="85.8" height="11.16" fill="#E5C07B"/>
+<rect x="384.59999999999997" y="489.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="400.2" y="489.96" width="23.4" height="11.16" fill="#6BBF59"/>
+<rect x="423.59999999999997" y="489.96" width="23.4" height="11.16" fill="#D97757"/>
+<rect x="447" y="489.6" width="7.8" height="10.799999999999999" fill="#6BBF59"/>
+<text x="18" y="516.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6BBF59">⠹</text>
+<text x="33.6" y="516.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Edit</text>
+<text x="72.6" y="516.96" textLength="140.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">hooks/register.tsx</text>
+<text x="220.8" y="516.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">·</text>
+<text x="236.4" y="516.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">3s</text>
+<rect x="268.6" y="509.4" width="5.8" height="5.8" rx="1" fill="#D97757"/>
+<text x="283.2" y="516.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
+<text x="353.4" y="516.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">56s</text>
+<rect x="18.5" y="524.5" width="436.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
+<text x="29.7" y="544" fill="#d7dade">&gt;</text>
+<line x1="466.5" y1="18" x2="466.5" y2="576" stroke="#30363d"/>
 <text x="478.2" y="30.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Session</text>
 <text x="540.6" y="30.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">42m10s</text>
 <text x="603" y="30.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">agent</text>
@@ -122,67 +122,72 @@
 <rect x="751.2" y="291.96" width="15.6" height="11.16" fill="#D97757"/>
 <rect x="766.8" y="291.96" width="31.2" height="11.16" fill="#6BBF59"/>
 <text x="478.2" y="318.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Summarizing…</text>
-<text x="478.2" y="354.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+22m15s</text>
-<text x="556.2" y="354.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">2m40s</text>
-<rect x="610.8" y="345.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="626.4" y="345.96" width="15.6" height="11.16" fill="#5B9BD5"/>
-<rect x="642" y="345.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="649.8" y="345.96" width="7.8" height="11.16" fill="#5B9BD5"/>
-<rect x="657.6" y="345.96" width="31.2" height="11.16" fill="#6BBF59"/>
-<rect x="688.8" y="345.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="696.6" y="345.96" width="39" height="11.16" fill="#C678DD"/>
-<rect x="735.5999999999999" y="345.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="743.4" y="345.96" width="15.6" height="11.16" fill="#6BBF59"/>
-<rect x="759" y="345.96" width="15.6" height="11.16" fill="#4FB6C2"/>
-<rect x="774.5999999999999" y="345.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="782.4" y="345.96" width="15.6" height="11.16" fill="#C678DD"/>
-<text x="478.2" y="372.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Fixed</text>
-<text x="525" y="372.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
-<text x="556.2" y="372.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">flaky</text>
-<text x="603" y="372.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">login</text>
-<text x="649.8" y="372.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">test</text>
-<text x="688.8" y="372.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">by</text>
-<text x="712.2" y="372.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">awaiting</text>
-<text x="782.4" y="372.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
-<text x="813.5999999999999" y="372.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">session</text>
-<text x="478.2" y="390.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">refresh,</text>
-<text x="548.4" y="390.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">then</text>
-<text x="587.4" y="390.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">ran</text>
-<text x="618.6" y="390.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
-<text x="649.8" y="390.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">suite</text>
-<text x="696.6" y="390.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">green.</text>
-<text x="478.2" y="426.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+18m02s</text>
-<text x="571.8" y="426.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">42s</text>
-<rect x="610.8" y="417.96" width="39" height="11.16" fill="#D97757"/>
-<rect x="649.8" y="417.96" width="62.4" height="11.16" fill="#5B9BD5"/>
-<rect x="712.2" y="417.96" width="85.8" height="11.16" fill="#C678DD"/>
-<text x="805.8" y="426.96" textLength="85.8" lengthAdjust="spacingAndGlyphs" fill="#E5A50A">interrupted</text>
-<text x="478.2" y="444.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Started</text>
-<text x="540.6" y="444.96" textLength="70.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">profiling</text>
-<text x="618.6" y="444.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
-<text x="649.8" y="444.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">build</text>
-<text x="696.6" y="444.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">before</text>
-<text x="751.2" y="444.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">being</text>
-<text x="798" y="444.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">interrupted.</text>
-<text x="478.2" y="480.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+3m11s</text>
-<text x="556.2" y="480.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">4m05s</text>
-<rect x="610.8" y="471.96" width="23.4" height="11.16" fill="#D97757"/>
-<rect x="634.2" y="471.96" width="54.6" height="11.16" fill="#5B9BD5"/>
-<rect x="688.8" y="471.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="704.4" y="471.96" width="46.8" height="11.16" fill="#6BBF59"/>
-<rect x="751.2" y="471.96" width="46.8" height="11.16" fill="#C678DD"/>
-<text x="478.2" y="498.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Read</text>
-<text x="517.2" y="498.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
-<text x="548.4" y="498.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">auth</text>
-<text x="587.4" y="498.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">module</text>
-<text x="642" y="498.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">and</text>
-<text x="673.2" y="498.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">added</text>
-<text x="720" y="498.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">retry</text>
-<text x="766.8" y="498.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">with</text>
-<text x="805.8" y="498.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">backoff</text>
-<text x="868.2" y="498.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">to</text>
-<text x="478.2" y="516.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
-<text x="509.4" y="516.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">token</text>
-<text x="556.2" y="516.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">refresh.</text>
+<text x="478.2" y="354.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">──</text>
+<text x="501.59999999999997" y="354.96" textLength="109.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Auto-compacted</text>
+<text x="618.6" y="354.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·</text>
+<text x="634.2" y="354.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+30m12s</text>
+<text x="696.6" y="354.96" textLength="218.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">────────────────────────────</text>
+<text x="478.2" y="390.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+22m15s</text>
+<text x="556.2" y="390.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">2m40s</text>
+<rect x="610.8" y="381.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="626.4" y="381.96" width="15.6" height="11.16" fill="#5B9BD5"/>
+<rect x="642" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
+<rect x="649.8" y="381.96" width="7.8" height="11.16" fill="#5B9BD5"/>
+<rect x="657.6" y="381.96" width="31.2" height="11.16" fill="#6BBF59"/>
+<rect x="688.8" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
+<rect x="696.6" y="381.96" width="39" height="11.16" fill="#C678DD"/>
+<rect x="735.5999999999999" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
+<rect x="743.4" y="381.96" width="15.6" height="11.16" fill="#6BBF59"/>
+<rect x="759" y="381.96" width="15.6" height="11.16" fill="#4FB6C2"/>
+<rect x="774.5999999999999" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
+<rect x="782.4" y="381.96" width="15.6" height="11.16" fill="#C678DD"/>
+<text x="478.2" y="408.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Fixed</text>
+<text x="525" y="408.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
+<text x="556.2" y="408.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">flaky</text>
+<text x="603" y="408.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">login</text>
+<text x="649.8" y="408.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">test</text>
+<text x="688.8" y="408.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">by</text>
+<text x="712.2" y="408.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">awaiting</text>
+<text x="782.4" y="408.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
+<text x="813.5999999999999" y="408.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">session</text>
+<text x="478.2" y="426.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">refresh,</text>
+<text x="548.4" y="426.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">then</text>
+<text x="587.4" y="426.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">ran</text>
+<text x="618.6" y="426.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
+<text x="649.8" y="426.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">suite</text>
+<text x="696.6" y="426.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">green.</text>
+<text x="478.2" y="462.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+18m02s</text>
+<text x="571.8" y="462.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">42s</text>
+<rect x="610.8" y="453.96" width="39" height="11.16" fill="#D97757"/>
+<rect x="649.8" y="453.96" width="62.4" height="11.16" fill="#5B9BD5"/>
+<rect x="712.2" y="453.96" width="85.8" height="11.16" fill="#C678DD"/>
+<text x="805.8" y="462.96" textLength="85.8" lengthAdjust="spacingAndGlyphs" fill="#E5A50A">interrupted</text>
+<text x="478.2" y="480.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Started</text>
+<text x="540.6" y="480.96" textLength="70.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">profiling</text>
+<text x="618.6" y="480.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
+<text x="649.8" y="480.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">build</text>
+<text x="696.6" y="480.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">before</text>
+<text x="751.2" y="480.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">being</text>
+<text x="798" y="480.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">interrupted.</text>
+<text x="478.2" y="516.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+3m11s</text>
+<text x="556.2" y="516.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">4m05s</text>
+<rect x="610.8" y="507.96" width="23.4" height="11.16" fill="#D97757"/>
+<rect x="634.2" y="507.96" width="54.6" height="11.16" fill="#5B9BD5"/>
+<rect x="688.8" y="507.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="704.4" y="507.96" width="46.8" height="11.16" fill="#6BBF59"/>
+<rect x="751.2" y="507.96" width="46.8" height="11.16" fill="#C678DD"/>
+<text x="478.2" y="534.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Read</text>
+<text x="517.2" y="534.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
+<text x="548.4" y="534.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">auth</text>
+<text x="587.4" y="534.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">module</text>
+<text x="642" y="534.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">and</text>
+<text x="673.2" y="534.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">added</text>
+<text x="720" y="534.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">retry</text>
+<text x="766.8" y="534.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">with</text>
+<text x="805.8" y="534.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">backoff</text>
+<text x="868.2" y="534.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">to</text>
+<text x="478.2" y="552.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
+<text x="509.4" y="552.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">token</text>
+<text x="556.2" y="552.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">refresh.</text>
 </g>
 </svg>

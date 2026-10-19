@@ -128,11 +128,16 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
   const turns = [
     { at: '41m02s', dur: '1m08s', seq: [['thinking', 20], ['reading', 12], ['editing', 9]], line: dim('Working: add a dark mode toggle to settings') },
     { at: '35m40s', dur: '1m31s', seq: [['thinking', 10], ['agents', 48], ['thinking', 6], ['editing', 14]], line: dim('Summarizing…') },
+    { divider: '── Auto-compacted · +30m12s ' },
     { at: '22m15s', dur: '2m40s', seq: s2, line: seg('Fixed the flaky login test by awaiting the session'), more: seg('refresh, then ran the suite green.') },
     { at: '18m02s', dur: '42s', seq: [['thinking', 8], ['reading', 14], ['shell', 20]], interrupted: true, line: seg('Started profiling the build before being interrupted.') },
     { at: '3m11s', dur: '4m05s', seq: [['thinking', 30], ['reading', 70], ['thinking', 25], ['editing', 60], ['shell', 60]], line: seg('Read the auth module and added retry with backoff to'), more: seg('the token refresh.') },
   ]
   for (const t of turns) {
+    if (t.divider) {
+      pane.push([dim(t.divider.padEnd(PW, '─'))], [])
+      continue
+    }
     pane.push([dim(`+${t.at.padEnd(7)} ${t.dur.padStart(6)}  `), ...strip(t.seq, 24), ...(t.interrupted ? [seg(' interrupted', { color: WARN })] : [])])
     pane.push([t.line])
     if (t.more) pane.push([t.more])

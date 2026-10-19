@@ -1,7 +1,7 @@
 import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
-import type { Cat, Span, Turn } from '../types'
+import type { Cat, Mark, Span, Turn } from '../types'
 import { CATS, catOf, fallbackSummary, fmt, labelOf, runs, strip, summaryPrompt, sweep, totals } from './recap'
 
 const PANE = 'visual-recap'
@@ -13,6 +13,7 @@ const turns = atom({ plugin: 'visual-recap', key: 'turns' } as const, [] as Turn
 const now = atom({ plugin: 'visual-recap', key: 'now' } as const, 0)
 const startedAt = atom({ plugin: 'visual-recap', key: 'startedAt' } as const, 0)
 // Animation step while a turn runs; only the band reads it, so the panel redraws once a second, not four times.
+const marks = atom({ plugin: 'visual-recap', key: 'marks' } as const, [] as Mark[])
 const frame = atom({ plugin: 'visual-recap', key: 'frame' } as const, 0)
 
 const SPIN = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
@@ -62,6 +63,11 @@ function startTicker($: $) {
 function stopTicker() {
   ticker?.cancel()
   ticker = undefined
+}
+
+async function addMark($: $, kind: Mark['kind'], isAuto?: boolean) {
+  const at = await $.clock.now()
+  await update($, marks, l => [...l, { at, kind, ...(isAuto ? { isAuto } : {}) }].slice(-100))
 }
 
 async function summarize($: $, turnId: string, answer: string) {
@@ -158,6 +164,23 @@ export const register: Register = (on, options) => {
     return result
   })
 
+  on('session.compact', async ($, e, next) => {
+    const result = await next(e)
+    // precompute only prepares a summary for later; a skip leaves the conversation as it was.
+    if (e.agentId === undefined && e.trigger !== 'precompute' && result.skip === undefined) {
+      await addMark($, 'compact', e.trigger === 'auto')
+    }
+
+    return result
+  })
+
+  // A /clear ends the conversation but not the process: the timeline carries on past a divider.
+  on('session.end', async ($, e, next) => {
+    if (e.reason === 'clear') await addMark($, 'clear')
+
+    return next(e)
+  })
+
   // Wide and short: a strip of agent-active time, then the live action and a legend.
   // Working: tall strip, a pulsing leading edge and a spinner. Stopped: the strip drops to a thin line.
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
@@ -205,6 +228,7 @@ export const register: Register = (on, options) => {
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const { Box, Text } = $.ui.resolve(e)
     const s = await snapshot($)
+    const mk = await read($, marks)
     const width = Math.max(30, e.props.bodyColumns)
     const active = s.to - s.st - (s.tot.idle ?? 0)
     const barW = Math.max(6, width - 25)
@@ -243,7 +267,15 @@ export const register: Register = (on, options) => {
         <Text> </Text>
         <Text weight="bold">Timeline</Text>
         {s.tu.length === 0 && <Text dimColor>No turns yet.</Text>}
-        {[...s.tu].reverse().map(t => (
+        {[...s.tu, ...mk]
+          .sort((a, b) => ('at' in b ? b.at : b.start) - ('at' in a ? a.at : a.start))
+          .map(t => 'at' in t ? (
+          <Box marginBottom={1}>
+            <Text dimColor wrap="truncate">
+              {`── ${t.kind === 'clear' ? 'Cleared' : t.isAuto ? 'Auto-compacted' : 'Compacted'} · +${fmt(t.at - s.st)} `.padEnd(width, '─')}
+            </Text>
+          </Box>
+        ) : (
           <Box flexDirection="column" marginBottom={1}>
             <Text wrap="truncate">
               <Text dimColor>+{fmt(t.start - s.st).padEnd(7)} {fmt((t.end ?? s.to) - t.start).padStart(6)}  </Text>
