@@ -50,14 +50,15 @@ async function setNow($: $) {
   await update($, now, () => t)
 }
 
-function tick($: $) {
+// With the band off nothing reads frame, so only the once-a-second clock runs.
+function tick($: $, isAnimated: boolean) {
   ticks++
-  void update($, frame, n => n + 1)
-  if (ticks % 4 === 0) void setNow($)
+  if (isAnimated) void update($, frame, n => n + 1)
+  if (!isAnimated || ticks % 4 === 0) void setNow($)
 }
 
-function startTicker($: $) {
-  ticker ??= $.clock.every(250, () => tick($))
+function startTicker($: $, isAnimated: boolean) {
+  ticker ??= $.clock.every(isAnimated ? 250 : 1000, () => tick($, isAnimated))
 }
 
 function stopTicker() {
@@ -102,7 +103,7 @@ export const register: Register = (on, options) => {
       await update($, startedAt, () => t)
       await update($, now, () => t)
     }
-    if ((await read($, turns)).some(t => t.end === undefined)) startTicker($)
+    if ((await read($, turns)).some(t => t.end === undefined)) startTicker($, showBand)
     if (options.openPanel === true) void openPane($)
 
     return next(e)
@@ -120,7 +121,7 @@ export const register: Register = (on, options) => {
       const turn: Turn = { id: e.turnId, start: t, prompt: e.text.slice(0, 500), actions: [] }
       await update($, turns, l => [...l, turn].slice(-300))
       await update($, now, () => t)
-      startTicker($)
+      startTicker($, showBand)
     }
 
     return next(e)

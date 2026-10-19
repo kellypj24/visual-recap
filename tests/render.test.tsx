@@ -65,3 +65,21 @@ test('band and pane draw a turn with a tool call on terminal and desktop', async
   expect(await pane.find({ text: /── Cleared · \+/ })).toBeDefined()
   await pane.unmount()
 })
+
+test('with the band off the panel clock still ticks', { options: { showBand: false } }, async ($, on) => {
+  const clock = mock.clock(on, { now: 1_000 })
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  await clock.advance(10_000)
+  await $.turn.start({ text: 'fix the bug', turnId: 't1' })
+  await clock.advance(5_000)
+
+  const pane = await $.ui.mount({
+    plugin: 'visual-recap',
+    surface: 'terminal',
+    component: 'Pane',
+    requestId: 'visual-recap',
+    props: { title: 'Recap', isFocused: false, bodyColumns: 50, placement: 'dock', scroll, view: {} } as never,
+  })
+  expect(await pane.find({ text: /Session 5s/ })).toBeDefined()
+  await pane.unmount()
+})
