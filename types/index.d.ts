@@ -1,5 +1,6 @@
 export type Cat = 'thinking' | 'reading' | 'editing' | 'shell' | 'web' | 'agents' | 'asking' | 'other'
-export type Span = { id: string; cat: Cat; label: string; start: number; end?: number }
+// A subagent's own run is a span too (agentId set), tied to the main turn that spawned it.
+export type Span = { id: string; cat: Cat; label: string; start: number; end?: number; agentId?: string; turnId?: string }
 export type Turn = {
   id: string
   start: number

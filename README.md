@@ -57,7 +57,7 @@ In `/config`, under visual-recap:
 ![Wall clock with idle gaps above; the band strip below, with the gaps removed](docs/strip.svg)
 
 - Each cell of a strip takes the color of whatever filled most of that slice of time. A session with only short answers so far is one solid Thinking bar.
-- Subagents' work counts once, as Subagents.
+- Subagents' work counts once, as Subagents, from when a subagent starts until it finishes. A background subagent keeps the band working after the turn that launched it ends.
 
 ## Turn descriptions use an extra model call
 

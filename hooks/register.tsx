@@ -65,6 +65,12 @@ function stopTicker() {
   ticker = undefined
 }
 
+// Background subagents outlive the turn that spawned them; keep animating until they finish too.
+async function stopTickerIfIdle($: $) {
+  const [tu, sp] = await Promise.all([read($, turns), read($, spans)])
+  if (!tu.some(t => t.end === undefined) && !sp.some(s => s.end === undefined)) stopTicker()
+}
+
 async function addMark($: $, kind: Mark['kind'], isAuto?: boolean) {
   const at = await $.clock.now()
   await update($, marks, l => [...l, { at, kind, ...(isAuto ? { isAuto } : {}) }].slice(-100))
@@ -102,7 +108,8 @@ export const register: Register = (on, options) => {
       await update($, startedAt, () => t)
       await update($, now, () => t)
     }
-    if ((await read($, turns)).some(t => t.end === undefined)) startTicker($)
+    const [tu, sp] = await Promise.all([read($, turns), read($, spans)])
+    if (tu.some(t => t.end === undefined) || sp.some(s => s.end === undefined)) startTicker($)
     if (options.openPanel === true) void openPane($)
 
     return next(e)
@@ -115,13 +122,21 @@ export const register: Register = (on, options) => {
   })
 
   on('turn.start', async ($, e, next) => {
+    const t = await $.clock.now()
     if (e.agentId === undefined) {
-      const t = await $.clock.now()
       const turn: Turn = { id: e.turnId, start: t, prompt: e.text.slice(0, 500), actions: [] }
       await update($, turns, l => [...l, turn].slice(-300))
-      await update($, now, () => t)
-      startTicker($)
+    } else {
+      // A background Agent call returns at once, so its span covers none of the subagent's work: time the subagent's own run.
+      const agentId = e.agentId
+      const [tu, sp] = await Promise.all([read($, turns), read($, spans)])
+      const turnId = (tu.findLast(x => x.end === undefined) ?? tu.at(-1))?.id
+      const call = sp.findLast(x => x.end === undefined && x.cat === 'agents' && x.agentId === undefined)
+      const span: Span = { id: `${agentId}:${t}`, cat: 'agents', label: call?.label ?? 'Subagent', start: t, agentId, turnId }
+      await update($, spans, l => [...l, span].slice(-MAX_SPANS))
     }
+    await update($, now, () => t)
+    startTicker($)
 
     return next(e)
   })
@@ -129,8 +144,10 @@ export const register: Register = (on, options) => {
   on('tool.call', async ($, e, next) => {
     const label = labelOf(e as unknown as Record<string, unknown>)
     const action = e.agentId === undefined ? label : `↳ ${label}`
+    // A subagent's calls belong to the turn that spawned it, which may have ended since.
+    const turnId = e.agentId === undefined ? undefined : (await read($, spans)).findLast(s => s.agentId === e.agentId)?.turnId
     await update($, turns, l => {
-      const i = l.findLastIndex(t => t.end === undefined)
+      const i = turnId === undefined ? l.findLastIndex(t => t.end === undefined) : l.findLastIndex(t => t.id === turnId)
       if (i < 0 || l[i]!.actions.length >= MAX_ACTIONS) return l
       return l.with(i, { ...l[i]!, actions: [...l[i]!.actions, action] })
     })
@@ -151,15 +168,18 @@ export const register: Register = (on, options) => {
 
   on('turn.complete', async ($, e, next) => {
     const result = await next(e)
+    const t = await $.clock.now()
     if (e.agentId === undefined) {
-      const t = await $.clock.now()
       await update($, turns, l => l.map(x => (x.id === e.turnId ? { ...x, end: t, isAborted: e.isAborted } : x)))
-      await update($, spans, l => l.map(s => (s.end === undefined ? { ...s, end: t } : s)))
-      await update($, now, () => t)
-      stopTicker()
+      await update($, spans, l => l.map(s => (s.end === undefined && s.agentId === undefined ? { ...s, end: t } : s)))
       const answer = e.answer
       $.clock.after(1, () => void summarize($, e.turnId, answer).catch(() => undefined))
+    } else {
+      const agentId = e.agentId
+      await update($, spans, l => l.map(s => (s.end === undefined && s.agentId === agentId ? { ...s, end: t } : s)))
     }
+    await update($, now, () => t)
+    await stopTickerIfIdle($)
 
     return result
   })
@@ -177,6 +197,10 @@ export const register: Register = (on, options) => {
   // A /clear ends the conversation but not the process: the timeline carries on past a divider.
   on('session.end', async ($, e, next) => {
     if (e.reason === 'clear') await addMark($, 'clear')
+    // A subagent the session takes down with it never reports its end.
+    const t = await $.clock.now()
+    await update($, spans, l => l.map(s => (s.end === undefined ? { ...s, end: t } : s)))
+    stopTicker()
 
     return next(e)
   })
@@ -186,7 +210,7 @@ export const register: Register = (on, options) => {
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     if (!showBand || e.props.hasSurvey) return next(e)
     const s = await snapshot($)
-    const isWorking = s.live !== undefined
+    const isWorking = s.live !== undefined || s.running !== undefined
     const f = isWorking ? await read($, frame) : 0
     const cols = strip(s.pieces, Math.max(10, e.props.bodyColumns) - (isWorking ? 1 : 0))
     if (!cols.length) return next(e)
