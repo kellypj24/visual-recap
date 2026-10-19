@@ -65,16 +65,9 @@ In `/config`, under visual-recap:
 
 When a turn ends, the mod asks Haiku for a one-sentence description. It sends your prompt, the actions taken (file names, commands) and the start of the agent's reply. This uses your account and costs one small call per turn. If the call fails, the entry lists the turn's first actions instead.
 
-## Development
+## Contributing
 
-```
-claude plugin validate .
-claude plugin test .
-claude --plugin-dir .
-node docs/mockups.mjs   # redraw the README images
-```
-
-Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat: …`, `fix: …`). On each push to `main`, [release-please](https://github.com/googleapis/release-please) keeps a release PR open; merging it bumps the version in `.claude-plugin/plugin.json`, tags the release and writes the changelog. Claude Code offers installed copies an update when that version changes.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
