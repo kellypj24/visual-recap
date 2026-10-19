@@ -3,6 +3,10 @@ on:
   push:
     branches: [main]
   pull_request:
+  # Weekly against the latest Claude Code, to catch changes to the mod API before users do.
+  schedule:
+    - cron: '0 14 * * 1'
+  workflow_dispatch:
 jobs:
   plugin:
     runs-on: ubuntu-latest
