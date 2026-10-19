@@ -15,6 +15,6 @@ export type Mark = { at: number; kind: 'clear' | 'compact'; isAuto?: boolean }
 
 declare module 'claude-code' {
   interface PluginState {
-    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number; marks: Mark[] }
+    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number; marks: Mark[]; bandShown: boolean | null }
   }
 }

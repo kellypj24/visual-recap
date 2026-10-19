@@ -45,7 +45,7 @@ In `/config`, under visual-recap:
 
 | Setting | Default | What it does |
 | --- | --- | --- |
-| Show band | on | Shows the strip and totals above the prompt. |
+| Show band | on | Shows the strip and totals above the prompt. `/recap-toggle` hides or shows it for the session (`/recap-toggle on`, `/recap-toggle off`), even mid-turn. |
 | Open panel at startup | off | Opens the panel when a session starts. |
 
 ## How time is counted

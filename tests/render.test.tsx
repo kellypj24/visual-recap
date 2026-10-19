@@ -65,3 +65,34 @@ test('band and pane draw a turn with a tool call on terminal and desktop', async
   expect(await pane.find({ text: /── Cleared · \+/ })).toBeDefined()
   await pane.unmount()
 })
+
+test('/recap-toggle hides and shows the band', async ($, on) => {
+  const clock = mock.clock(on, { now: 1_000 })
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  // The host's own band, drawn when visual-recap passes.
+  on('ui.render', ($, e) => {
+    const { Text } = $.ui.resolve(e)
+    return <Text>host band</Text>
+  })
+  await clock.advance(10_000)
+  await $.turn.start({ text: 'fix the bug', turnId: 't1' })
+  await clock.advance(3_000)
+
+  const props = { hasSurvey: false, isWorking: true, maxRows: 10, bodyColumns: 80, scroll, view: {} } as never
+  const isShown = async () => {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface: 'terminal', component: 'AbovePrompt', props })
+    const found = await band.find({ text: /Thinking/ })
+    await band.unmount()
+    return found !== undefined
+  }
+
+  expect(await isShown()).toBe(true)
+  expect(await $.command.run({ command: 'recap-toggle', args: '' } as never)).toEqual({ text: 'Visual recap band hidden.' })
+  expect(await isShown()).toBe(false)
+  await $.command.run({ command: 'recap-toggle', args: '' } as never)
+  expect(await isShown()).toBe(true)
+  await $.command.run({ command: 'recap-toggle', args: 'on' } as never)
+  expect(await isShown()).toBe(true)
+  await $.command.run({ command: 'recap-toggle', args: 'off' } as never)
+  expect(await isShown()).toBe(false)
+})

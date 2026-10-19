@@ -15,6 +15,8 @@ const startedAt = atom({ plugin: 'visual-recap', key: 'startedAt' } as const, 0)
 // Animation step while a turn runs; only the band reads it, so the panel redraws once a second, not four times.
 const marks = atom({ plugin: 'visual-recap', key: 'marks' } as const, [] as Mark[])
 const frame = atom({ plugin: 'visual-recap', key: 'frame' } as const, 0)
+// Set by /recap-toggle; null follows the Show band setting.
+const bandShown = atom({ plugin: 'visual-recap', key: 'bandShown' } as const, null as boolean | null)
 
 const SPIN = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 const PULSE = ['▂', '▄', '▆', '█', '▆', '▄']
@@ -97,6 +99,12 @@ export const register: Register = (on, options) => {
       name: 'visual-recap',
       description: 'Open the visual recap: time by activity and a summary timeline',
     })
+    await $.command.register({
+      name: 'recap-toggle',
+      description: 'Show or hide the visual recap band above the prompt',
+      argumentHint: '[on|off]',
+      immediate: true,
+    })
     if ((await read($, startedAt)) === 0) {
       const t = await $.clock.now()
       await update($, startedAt, () => t)
@@ -112,6 +120,13 @@ export const register: Register = (on, options) => {
     await openPane($)
 
     return { text: 'Visual recap opened.' }
+  })
+
+  on('command.run', { command: 'recap-toggle' }, async ($, e) => {
+    const arg = e.args.trim()
+    const next = await update($, bandShown, v => (arg === 'on' ? true : arg === 'off' ? false : !(v ?? showBand)))
+
+    return { text: next ? 'Visual recap band shown.' : 'Visual recap band hidden.' }
   })
 
   on('turn.start', async ($, e, next) => {
@@ -184,7 +199,7 @@ export const register: Register = (on, options) => {
   // Wide and short: a strip of agent-active time, then the live action and a legend.
   // Working: tall strip, a pulsing leading edge and a spinner. Stopped: the strip drops to a thin line.
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
-    if (!showBand || e.props.hasSurvey) return next(e)
+    if (!((await read($, bandShown)) ?? showBand) || e.props.hasSurvey) return next(e)
     const s = await snapshot($)
     const isWorking = s.live !== undefined
     const f = isWorking ? await read($, frame) : 0
