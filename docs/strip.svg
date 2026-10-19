@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="150" viewBox="0 0 760 150">
 <rect width="760" height="150" rx="10" fill="#0d1117" stroke="#30363d"/>
-<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13" xml:space="preserve">
+<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
 <defs><pattern id="idle" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#0d1117"/><rect width="2" height="6" fill="#6f757e"/></pattern></defs>
 <text x="18" y="30" fill="#6f757e">Wall clock (striped = waiting on you)</text>
 <rect x="18" y="38" width="10.595121951219513" height="20" fill="#D97757"/>

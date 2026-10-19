@@ -67,7 +67,10 @@ function column(lines, x, y0) {
         else if (run[0] === '█') out.push(`<rect x="${px}" y="${top + LH * 0.2}" width="${w}" height="${LH * 0.6}" fill="${fill}"/>`)
         else if (run[0] === '░') out.push(`<rect x="${px}" y="${top + LH * 0.2}" width="${w}" height="${LH * 0.6}" fill="${DIM}" opacity="0.3"/>`)
         else if (run[0] === '■') out.push(`<rect x="${px + 1}" y="${top + LH * 0.3}" width="${CW - 2}" height="${CW - 2}" rx="1" fill="${fill}"/>`)
-        else out.push(`<text x="${px}" y="${top + LH * 0.72}" textLength="${w}" lengthAdjust="spacingAndGlyphs" fill="${fill}"${s.bold ? ' font-weight="700"' : ''}>${esc(run)}</text>`)
+        // Each word at its own column: browsers collapse spaces, so spacing never comes from the text itself.
+        else
+          for (const m of run.matchAll(/\S+/g))
+            out.push(`<text x="${px + m.index * CW}" y="${top + LH * 0.72}" textLength="${m[0].length * CW}" lengthAdjust="spacingAndGlyphs" fill="${fill}"${s.bold ? ' font-weight="700"' : ''}>${esc(m[0])}</text>`)
         col += run.length
       }
     }
@@ -78,7 +81,7 @@ function column(lines, x, y0) {
 function svg(width, height, body) {
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
 <rect width="${width}" height="${height}" rx="10" fill="${BG}" stroke="${BORDER}"/>
-<g font-family="${FONT}" font-size="13" xml:space="preserve">
+<g font-family="${FONT}" font-size="13">
 ${body.join('\n')}
 </g>
 </svg>
