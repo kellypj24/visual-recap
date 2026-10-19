@@ -74,6 +74,8 @@ claude --plugin-dir .
 node docs/mockups.mjs   # redraw the README images
 ```
 
+Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (`feat: …`, `fix: …`). On each push to `main`, [release-please](https://github.com/googleapis/release-please) keeps a release PR open; merging it bumps the version in `.claude-plugin/plugin.json`, tags the release and writes the changelog. Claude Code offers installed copies an update when that version changes.
+
 ## License
 
 MIT
