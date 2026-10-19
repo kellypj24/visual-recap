@@ -15,8 +15,8 @@ export function catOf(tool: string): Cat {
   if (/^(Read|Grep|Glob|LS|NotebookRead|LSP|ToolSearch)$/.test(tool)) return 'reading'
   if (/^(Edit|Write|MultiEdit|NotebookEdit)$/.test(tool)) return 'editing'
   if (/^(Bash|BashOutput|KillShell|PowerShell|Monitor)$/.test(tool)) return 'shell'
-  if (/^(WebFetch|WebSearch)$|^mcp__claude-in-chrome/.test(tool)) return 'web'
-  if (/^(Agent|Task|SendMessage)$/.test(tool)) return 'agents'
+  if (/^(WebFetch|WebSearch)$|^mcp__claude-in-chrome|^mcp__(remote-devices__)?Claude_Browser__/.test(tool)) return 'web'
+  if (/^(Agent|Task|SendMessage|ListAgents|TaskStop)$/.test(tool)) return 'agents'
   if (/^(AskUserQuestion|ExitPlanMode)$/.test(tool)) return 'asking'
   return 'other'
 }
