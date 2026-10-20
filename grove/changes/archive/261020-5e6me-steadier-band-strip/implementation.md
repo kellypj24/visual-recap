@@ -47,3 +47,5 @@ What changed:
 
     - record-editing: applied to specs/record-editing/spec.md
 -->
+
+- band: applied to specs/band/spec.md

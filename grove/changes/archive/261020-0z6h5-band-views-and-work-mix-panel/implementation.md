@@ -89,3 +89,7 @@ Status: done
 
     - record-editing: applied to specs/record-editing/spec.md
 -->
+
+- time-accounting: applied to specs/time-accounting/spec.md
+- band: applied to specs/band/spec.md
+- panel: applied to specs/panel/spec.md

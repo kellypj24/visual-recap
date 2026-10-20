@@ -106,3 +106,6 @@ Evidence:
 
     - record-editing: applied to specs/record-editing/spec.md
 -->
+
+- appearance: applied to specs/appearance/spec.md
+- band: applied to specs/band/spec.md
