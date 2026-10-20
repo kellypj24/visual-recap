@@ -32,18 +32,23 @@ export function labelOf(input: Record<string, unknown>): string {
 
 export type Piece = { t0: number; t1: number; cats: (Cat | 'idle')[] }
 
-// Splits [from, to] into pieces by what was running: tools win, else thinking
-// inside a turn, else idle. Parallel tools share a piece.
+// Splits [from, to] into pieces by what was running: main-loop tools win, else thinking
+// inside a turn, else a subagent's own run, else idle. Parallel tools share a piece.
 export function sweep(spans: readonly Span[], turns: readonly Turn[], from: number, to: number): Piece[] {
   const ev: [number, number, string][] = []
   for (const t of turns) ev.push([t.start, 1, 'turn'], [t.end ?? to, -1, 'turn'])
-  for (const s of spans) ev.push([s.start, 1, s.cat], [s.end ?? to, -1, s.cat])
+  // A subagent's run (agentId set) is background: it fills only time the main loop leaves idle.
+  for (const s of spans) {
+    const k = s.agentId === undefined ? s.cat : 'subagent'
+    ev.push([s.start, 1, k], [s.end ?? to, -1, k])
+  }
   ev.sort((a, b) => a[0] - b[0])
   const open = new Map<string, number>()
   const current = (): Piece['cats'] => {
-    const tools = [...open].filter(([k, n]) => k !== 'turn' && n > 0).map(([k]) => k as Cat)
+    const tools = [...open].filter(([k, n]) => k !== 'turn' && k !== 'subagent' && n > 0).map(([k]) => k as Cat)
     if (tools.length) return tools
-    return (open.get('turn') ?? 0) > 0 ? ['thinking'] : ['idle']
+    if ((open.get('turn') ?? 0) > 0) return ['thinking']
+    return (open.get('subagent') ?? 0) > 0 ? ['agents'] : ['idle']
   }
   const out: Piece[] = []
   let prev = from

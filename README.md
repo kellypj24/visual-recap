@@ -59,7 +59,7 @@ In `/config`, under visual-recap:
 ![Wall clock with idle gaps above; the band strip below, with the gaps removed](docs/strip.svg)
 
 - The band's strip always shows the whole session. It fills from the left at a fixed scale, starting at one second per cell, so blocks already drawn stay put while the newest one grows. When the bar is full, the scale doubles and every block halves in one step. Each block gets a whole number of cells, as close to its share of the time as it can be. A turn's strip in the panel always spans its full width.
-- Subagents' work counts once, as Subagents.
+- Subagents' work counts once, as Subagents, from when a subagent starts until it finishes. Time the main agent spends thinking or running its own tools meanwhile counts as that instead. A background subagent keeps the band working after the turn that launched it ends.
 
 ## Turn descriptions use an extra model call
 

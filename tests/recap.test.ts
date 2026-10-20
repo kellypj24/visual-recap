@@ -18,6 +18,23 @@ test('time splits into thinking, tools and idle without double counting', async 
   expect(tot.idle).toBe(50)
 })
 
+test("a subagent's run fills only time the main loop leaves idle", async () => {
+  // t1 launches a background agent at 1s and ends at 2s; t2 thinks 4s, then runs a 6s Bash.
+  const turns: Turn[] = [
+    { id: 't1', start: 0, end: 2, prompt: 'x', actions: [] },
+    { id: 't2', start: 5, end: 15, prompt: 'y', actions: [] },
+  ]
+  const sp: Span[] = [
+    { id: 'a', cat: 'agents', label: 'Agent', start: 1, end: 20, agentId: 'a1', turnId: 't1' },
+    { id: 'b', cat: 'shell', label: 'Bash', start: 9, end: 15 },
+  ]
+  const tot = totals(sweep(sp, turns, 0, 25))
+  expect(tot.shell).toBe(6)
+  expect(tot.thinking).toBe(6) // t1's 2s + t2's 4s
+  expect(tot.agents).toBe(8) // 2-5 and 15-20, while the main loop was idle
+  expect(tot.idle).toBe(5)
+})
+
 test('the strip covers active time only, left to right', async () => {
   const cols = strip(sweep(spans, [turn], 0, 150), 10)
   expect(cols.length).toBe(10)
