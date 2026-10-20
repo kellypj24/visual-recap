@@ -50,8 +50,8 @@ In `/config`, under visual-recap:
 
 ## How time is counted
 
-- Time inside a tool call goes to that tool's activity. Parallel calls split their shared time.
-- Time inside a turn with no tool running counts as Thinking.
+- Time inside a tool call goes to that tool's activity, starting from when the model begins writing the call: writing a file's contents counts as Editing, composing a long command as Shell. Parallel calls split their shared time.
+- Time inside a turn with no tool being written or running counts as Thinking: the model's reasoning, its reply text, and waiting for a response to start.
 - Time between turns counts as Waiting on you. The band's strip leaves it out, so a long break doesn't flatten the picture:
 
 ![Wall clock with idle gaps above; the band strip below, with the gaps removed](docs/strip.svg)

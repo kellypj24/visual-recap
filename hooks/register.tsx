@@ -127,6 +127,33 @@ export const register: Register = (on, options) => {
     return next(e)
   })
 
+  // tool.call fires once the model has written the call's arguments, which can take far longer
+  // than running it (a Write's contents, a long heredoc). Count that writing as the tool's time too.
+  on('turn.step', async function* ($, e, next) {
+    if (e.agentId !== undefined) return yield* next(e)
+    let open: string | undefined
+    const close = async () => {
+      if (!open) return
+      const id = open
+      open = undefined
+      const end = await $.clock.now()
+      await update($, spans, l => l.map(s => (s.id === id ? { ...s, end } : s)))
+    }
+    try {
+      for await (const c of next(e)) {
+        if (open && c.kind !== 'input' && c.kind !== 'engine') await close()
+        if (c.kind === 'tool') {
+          open = `input:${c.id}`
+          const span: Span = { id: open, cat: catOf(c.name), label: `Writing ${c.name}`, start: await $.clock.now() }
+          await update($, spans, l => [...l, span].slice(-MAX_SPANS))
+        }
+        yield c
+      }
+    } finally {
+      await close()
+    }
+  })
+
   on('tool.call', async ($, e, next) => {
     const label = labelOf(e as unknown as Record<string, unknown>)
     const action = e.agentId === undefined ? label : `↳ ${label}`

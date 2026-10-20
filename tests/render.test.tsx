@@ -65,3 +65,29 @@ test('band and pane draw a turn with a tool call on terminal and desktop', async
   expect(await pane.find({ text: /── Cleared · \+/ })).toBeDefined()
   await pane.unmount()
 })
+
+const pane = { title: 'Recap', isFocused: false, bodyColumns: 50, placement: 'dock', scroll, view: {} } as never
+
+test('time the model spends writing a tool call counts as that tool, not thinking', async ($, on) => {
+  const clock = mock.clock(on, { now: 1_000 })
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.step', async function* (_$, e) {
+    yield { kind: 'thinking', index: 0, text: 'hmm' } as const
+    await clock.sleep(2_000)
+    yield { kind: 'tool', index: 1, id: 'w1', name: 'Write' } as const
+    await clock.sleep(30_000)
+    yield { kind: 'input', index: 1, json: '{"file_path":"a.ts","content":"x"}' } as const
+    yield { kind: 'stop', stopReason: 'tool_use', usage: null } as const
+    return { turnId: e.turnId, index: e.index, answer: '', toolUses: [], stopReason: 'tool_use', usage: null }
+  })
+  await $.turn.start({ text: 'write it', turnId: 't1' })
+  const step = $.turn.step({ turnId: 't1', index: 0, model: 'm', messageCount: 1 })
+  const drain = (async () => { for await (const _ of step) void _ })()
+  await clock.advance(32_000)
+  await drain
+
+  const view = await $.ui.mount({ plugin: 'visual-recap', surface: 'terminal', component: 'Pane', requestId: 'visual-recap', props: pane })
+  expect(await view.find({ text: /Editing.* 30s/ })).toBeDefined()
+  expect(await view.find({ text: /Thinking.*  2s/ })).toBeDefined()
+  await view.unmount()
+})
