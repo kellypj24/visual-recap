@@ -1,7 +1,7 @@
 import { expect, test } from 'claude-code/testing'
 
 import type { Cat, Span, Turn } from '../types'
-import { catOf, labelOf, runs, scaleFor, strip, sweep, totals } from '../hooks/recap'
+import { CATS, catOf, colorOf, labelOf, runs, scaleFor, strip, sweep, totals } from '../hooks/recap'
 import type { Piece } from '../hooks/recap'
 
 const turn: Turn = { id: 't', start: 0, end: 100, prompt: 'x', actions: [] }
@@ -98,4 +98,26 @@ test('tools map to categories and short labels', async () => {
   expect(catOf('mcp__foo__bar')).toBe('other')
   expect(labelOf({ tool: 'Read', file_path: '/a/b/c/d.ts' })).toBe('Read c/d.ts')
   expect(labelOf({ tool: 'Bash', command: 'npm test', description: 'Run tests' })).toBe('Bash Run tests')
+})
+
+test('every category has a default color, a theme key and a glyph of its own', async () => {
+  const cats = Object.keys(CATS) as Cat[]
+  expect(cats).toHaveLength(8)
+  for (const c of cats) {
+    expect(CATS[c].color).toMatch(/^#[0-9A-F]{6}$/)
+    expect(CATS[c].theme.length > 0).toBe(true)
+    expect([...CATS[c].glyph]).toHaveLength(1)
+  }
+  expect(new Set(cats.map(c => CATS[c].glyph)).size).toBe(8)
+  expect(new Set(cats.map(c => CATS[c].color)).size).toBe(8)
+  // The proposal's Option 1, as the "Thinking beside Asking you" scenario names it.
+  expect(CATS.thinking.color).toBe('#C8601A')
+  expect(CATS.asking.color).toBe('#2FA88A')
+})
+
+test('the palette setting picks default colors or theme keys, anything unknown falling back to default', async () => {
+  expect(colorOf('shell', 'theme')).toBe('bashBorder')
+  expect(colorOf('shell', 'default')).toBe(CATS.shell.color)
+  expect(colorOf('shell', undefined)).toBe(CATS.shell.color)
+  expect(colorOf('shell', 'neon')).toBe(CATS.shell.color)
 })

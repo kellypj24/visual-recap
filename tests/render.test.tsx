@@ -1,4 +1,8 @@
 import { expect, mock, test } from 'claude-code/testing'
+import type { TestBody } from 'claude-code/testing'
+
+import type { Cat } from '../types'
+import { CATS } from '../hooks/recap'
 
 const scroll = { offset: 0, bodyRows: 20 }
 
@@ -94,9 +98,15 @@ test('time the model spends writing a tool call counts as that tool, not thinkin
 
 const bandProps = { hasSurvey: false, isWorking: true, maxRows: 10, bodyColumns: 80, scroll, view: {} } as never
 
+const ALL = Object.keys(CATS) as Cat[]
+const STRIP = new RegExp(`^[${ALL.map(c => CATS[c].glyph).join('')}]`)
+type Found = { props: Record<string, unknown>; children: unknown[]; text: string }
+type Part = { props: Record<string, unknown>; children: string[] }
+type Drawn = { find: (q: { type: string; text: RegExp }) => Promise<Found | undefined>; findAll: (q: { type: string; text: RegExp }) => Promise<Found[]> }
+
 // The strip line as one color per column, the pulsing leading edge left off.
-async function stripCols(band: { find: (q: { type: string; text: RegExp }) => Promise<{ children: unknown[] } | undefined> }) {
-  const line = await band.find({ type: 'Text', text: /^▆/ })
+async function stripCols(band: Drawn) {
+  const line = await band.find({ type: 'Text', text: STRIP })
   const parts = (line?.children ?? []) as { props: { color?: string }; children: string[] }[]
   return parts.slice(0, -1).flatMap(p => Array.from(p.children.join(''), () => p.props.color))
 }
@@ -132,7 +142,7 @@ test('a second later the band keeps the blocks it drew, on terminal and desktop'
 })
 
 const band = { hasSurvey: false, isWorking: false, maxRows: 10, bodyColumns: 80, scroll, view: {} } as never
-const AGENTS_COLOR = '#E5C07B'
+const AGENTS_COLOR = CATS.agents.color
 
 test('a background subagent is timed from its own run and its calls stay with the turn that spawned it', async ($, on) => {
   const clock = mock.clock(on, { now: 1_000 })
@@ -193,9 +203,9 @@ test('a background subagent is timed from its own run and its calls stay with th
     expect(await view.find({ text: /Subagents.*  9s/ })).toBeDefined()
     // The subagent's call went to t1, not t2, and no turn's bar takes the subagent's colour.
     expect(await view.find({ text: /1 actions: Bash date/ })).toBeDefined()
-    const bars = await view.findAll({ type: 'Text', text: /^▆+$/ })
-    expect(bars.length).toBeGreaterThan(0)
-    expect(bars.some(b => b.props.color === AGENTS_COLOR)).toBe(false)
+    const bars = (await view.findAll({ type: 'Text', text: STRIP })).filter(b => b.props.mono)
+    expect(bars.length).toBeGreaterThan(1)
+    expect(bars.filter(b => b.props.color === AGENTS_COLOR)).toHaveLength(1) // the Subagents totals bar only
     await view.unmount()
   }
 })
@@ -308,5 +318,96 @@ test("the Agent call's description labels its subagent when the spawn settles wh
     const p = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'Pane', requestId: 'visual-recap', props: pane })
     expect(await p.find({ text: /▶ Agent Sleep probe · 3s/ })).toBeDefined()
     await p.unmount()
+  }
+})
+
+// A turn with two seconds of each tool category and of thinking before each, then the band and the panel.
+async function everyCategory(...[$, on]: Parameters<TestBody>) {
+  const clock = mock.clock(on, { now: 1_000 })
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.complete', () => ({ text: '' }))
+  on('tool.call', async () => {
+    await clock.advance(2_000)
+    return { result: 'ok' }
+  })
+  await $.turn.start({ text: 'go', turnId: 't1' })
+  for (const tool of ['Read', 'Edit', 'Bash', 'WebFetch', 'Agent', 'AskUserQuestion', 'mcp__x__y']) {
+    await clock.advance(2_000)
+    await $.tool.call({ tool } as never)
+  }
+  return clock
+}
+
+const wideBand = { hasSurvey: false, isWorking: true, maxRows: 10, bodyColumns: 200, scroll, view: {} } as never
+const runOf = (c: Cat) => new RegExp(`^${CATS[c].glyph}+$`)
+
+async function expectColors($: Parameters<TestBody>[0], color: (c: Cat) => string) {
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'AbovePrompt', props: wideBand })
+    expect((await band.find({ type: 'Text', text: STRIP }))?.props.mono).toBe(true)
+    for (const c of ALL) {
+      const drawn = (await band.findAll({ type: 'Text', text: runOf(c) })).filter(t => t.props.color === color(c))
+      expect(drawn.some(t => t.text.length > 1)).toBe(true) // its block in the strip
+      expect(drawn.some(t => t.text === CATS[c].glyph)).toBe(true) // its legend mark
+    }
+    await band.unmount()
+
+    const view = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'Pane', requestId: 'visual-recap', props: pane })
+    for (const c of ALL) {
+      const bars = (await view.findAll({ type: 'Text', text: runOf(c) })).filter(t => t.props.color === color(c) && t.props.mono)
+      expect(bars.length).toBeGreaterThanOrEqual(2) // its totals bar and its piece of the turn's bar
+    }
+    await view.unmount()
+  }
+}
+
+test('with the palette unset, each category draws in its default color and glyph on terminal and desktop', async ($, on) => {
+  await everyCategory($, on)
+  await expectColors($, c => CATS[c].color)
+})
+
+test('an unrecognized palette falls back to the default colors', { options: { palette: 'neon' } }, async ($, on) => {
+  await everyCategory($, on)
+  await expectColors($, c => CATS[c].color)
+})
+
+test('the theme palette draws each category in its theme key', { options: { palette: 'theme' } }, async ($, on) => {
+  await everyCategory($, on)
+  await expectColors($, c => CATS[c].theme)
+})
+
+test('a finished turn keeps the strip and its glyphs, dimmed; the next turn brings it back', async ($, on) => {
+  const clock = await everyCategory($, on)
+  const lines = new Map<string, string>()
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'AbovePrompt', props: wideBand })
+    lines.set(surface, (await band.find({ type: 'Text', text: STRIP }))!.text.slice(0, -1)) // the pulse left off
+    await band.unmount()
+  }
+  await $.turn.complete({ answer: 'ok', durationMs: 28_000, isAborted: false, turnId: 't1', reason: 'answer' })
+
+  const stopped = { ...(wideBand as object), isWorking: false } as never
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'AbovePrompt', props: stopped })
+    const line = (await band.find({ type: 'Text', text: STRIP }))!
+    expect(line.text).toBe(lines.get(surface)!) // same glyphs, same columns
+    const parts = line.children as Part[]
+    expect(parts.length).toBeGreaterThan(1)
+    expect(parts.every(p => p.props.dimColor === true)).toBe(true)
+    expect(await band.find({ type: 'Text', text: /✓ Done in 28s · waiting on you/ })).toBeDefined()
+    await band.unmount()
+  }
+
+  await clock.advance(5_000)
+  await $.turn.start({ text: 'again', turnId: 't2' })
+  await clock.advance(1_000)
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'AbovePrompt', props: wideBand })
+    const parts = (await band.find({ type: 'Text', text: STRIP }))!.children as Part[]
+    expect(parts.some(p => p.props.dimColor === true)).toBe(false)
+    expect(parts.at(-1)!.children.join('')).toMatch(/^[▂▄▆█]$/) // the pulsing leading edge
+    expect(await band.find({ type: 'Text', text: /^[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏]$/ })).toBeDefined() // the spinner
+    expect(await band.find({ type: 'Text', text: /Done in/ })).toBeUndefined()
+    await band.unmount()
   }
 })

@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="933" height="594" viewBox="0 0 933 594">
+<defs><pattern id="shade037A8EC" width="3" height="3" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1.5" height="1.5" fill="#37A8EC"/><rect x="1.5" y="0" width="1.5" height="1.5" fill="#37A8EC"/><rect x="0" y="1.5" width="1.5" height="1.5" fill="#37A8EC"/></pattern><pattern id="shade168BE1F" width="3" height="3" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1.5" height="1.5" fill="#68BE1F"/><rect x="1.5" y="1.5" width="1.5" height="1.5" fill="#68BE1F"/></pattern></defs>
 <rect width="933" height="594" rx="10" fill="#0d1117" stroke="#30363d"/>
 <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
 <text x="18" y="30.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">></text>
@@ -26,29 +27,41 @@
 <text x="33.6" y="156.96" textLength="234" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Update(src/settings/Panel.tsx)</text>
 <text x="33.6" y="174.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">⎿</text>
 <text x="49.2" y="174.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">…</text>
-<rect x="18" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="25.8" y="489.96" width="15.6" height="11.16" fill="#5B9BD5"/>
-<rect x="41.4" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="49.2" y="489.96" width="7.8" height="11.16" fill="#5B9BD5"/>
-<rect x="57" y="489.96" width="15.6" height="11.16" fill="#6BBF59"/>
-<rect x="72.6" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="80.4" y="489.96" width="31.2" height="11.16" fill="#C678DD"/>
-<rect x="111.6" y="489.96" width="15.6" height="11.16" fill="#6BBF59"/>
-<rect x="127.2" y="489.96" width="7.8" height="11.16" fill="#4FB6C2"/>
-<rect x="135" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="142.8" y="489.96" width="7.8" height="11.16" fill="#C678DD"/>
-<rect x="150.6" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="158.4" y="489.96" width="46.8" height="11.16" fill="#E5C07B"/>
-<rect x="205.2" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="213" y="489.96" width="15.6" height="11.16" fill="#6BBF59"/>
-<rect x="228.6" y="489.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="236.4" y="489.6" width="7.8" height="10.799999999999999" fill="#6BBF59"/>
-<text x="18" y="516.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6BBF59">⠹</text>
+<rect x="18" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="25.8" y="487.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="33.6" y="487.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="41.4" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="49.2" y="487.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="57" y="487.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="64.8" y="487.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="72.6" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="80.4" y="487.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="84.30000000000001" y="495" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="88.2" y="487.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="92.10000000000001" y="495" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="96" y="487.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="99.9" y="495" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="103.80000000000001" y="487.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="107.70000000000002" y="495" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="111.6" y="487.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="119.39999999999999" y="487.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="127.2" y="487.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="135" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="142.8" y="487.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="146.70000000000002" y="495" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="150.6" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="162.3" y="487.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="170.10000000000002" y="487.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="177.9" y="487.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="185.70000000000002" y="487.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="193.5" y="487.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="201.3" y="487.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="205.2" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="213" y="487.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="220.8" y="487.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="228.6" y="487.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="236.4" y="487.8" width="7.8" height="14.4" fill="#68BE1F"/>
+<text x="18" y="516.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#68BE1F">⠹</text>
 <text x="33.6" y="516.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Edit</text>
 <text x="72.6" y="516.96" textLength="140.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">hooks/register.tsx</text>
 <text x="220.8" y="516.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">·</text>
 <text x="236.4" y="516.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">3s</text>
-<rect x="268.6" y="509.4" width="5.8" height="5.8" rx="1" fill="#D97757"/>
+<rect x="267.6" y="505.8" width="7.8" height="14.4" fill="#C8601A"/>
 <text x="283.2" y="516.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
 <text x="353.4" y="516.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">56s</text>
 <rect x="18.5" y="524.5" width="436.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
@@ -67,33 +80,59 @@
 <text x="681" y="48.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">·</text>
 <text x="696.6" y="48.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">3s</text>
 <text x="478.2" y="84.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Thinking</text>
-<rect x="564" y="75.6" width="62.4" height="10.799999999999999" fill="#D97757"/>
-<rect x="626.4" y="75.6" width="179.4" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<rect x="564" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="571.8" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="579.6" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="587.4" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="595.2" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="603" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="610.8" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="618.6" y="73.8" width="7.8" height="14.4" fill="#C8601A"/>
+<text x="626.4" y="84.96" textLength="179.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·······················</text>
 <text x="837" y="84.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">56s</text>
 <text x="876" y="84.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">25%</text>
 <text x="478.2" y="102.96" textLength="70.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Subagents</text>
-<rect x="564" y="93.6" width="54.6" height="10.799999999999999" fill="#E5C07B"/>
-<rect x="618.6" y="93.6" width="187.2" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<rect x="567.9" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="575.6999999999999" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="583.5" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="591.3" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="599.1" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="606.9" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="614.6999999999999" y="91.8" width="3.9" height="14.4" fill="#5978FD"/>
+<text x="618.6" y="102.96" textLength="187.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">························</text>
 <text x="837" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">48s</text>
 <text x="876" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">21%</text>
 <text x="478.2" y="120.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Editing</text>
-<rect x="564" y="111.6" width="46.8" height="10.799999999999999" fill="#6BBF59"/>
-<rect x="610.8" y="111.6" width="195" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<rect x="564" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="571.8" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="579.6" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="587.4" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="595.2" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="603" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<text x="610.8" y="120.96" textLength="195" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·························</text>
 <text x="837" y="120.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">45s</text>
 <text x="876" y="120.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">20%</text>
 <text x="478.2" y="138.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Shell</text>
-<rect x="564" y="129.6" width="46.8" height="10.799999999999999" fill="#C678DD"/>
-<rect x="610.8" y="129.6" width="195" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<rect x="564" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="567.9" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="571.8" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="575.6999999999999" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="579.6" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="583.5" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="587.4" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="591.3" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="595.2" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="599.1" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="603" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="606.9" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<text x="610.8" y="138.96" textLength="195" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·························</text>
 <text x="837" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">43s</text>
 <text x="876" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">19%</text>
 <text x="478.2" y="156.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Reading</text>
-<rect x="564" y="147.6" width="23.4" height="10.799999999999999" fill="#5B9BD5"/>
-<rect x="587.4" y="147.6" width="218.4" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<rect x="564" y="145.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="571.8" y="145.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="579.6" y="145.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<text x="587.4" y="156.96" textLength="218.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">····························</text>
 <text x="837" y="156.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">22s</text>
 <text x="876" y="156.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">10%</text>
 <text x="478.2" y="174.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Web</text>
-<rect x="564" y="165.6" width="15.6" height="10.799999999999999" fill="#4FB6C2"/>
-<rect x="579.6" y="165.6" width="226.2" height="10.799999999999999" fill="#6f757e" opacity="0.3"/>
+<rect x="564" y="163.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="571.8" y="163.8" width="3.9" height="14.4" fill="#D3316A"/>
+<text x="579.6" y="174.96" textLength="226.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·····························</text>
 <text x="837" y="174.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">12s</text>
 <text x="883.8" y="174.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">5%</text>
 <text x="478.2" y="192.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Waiting</text>
@@ -103,9 +142,30 @@
 <text x="478.2" y="228.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Timeline</text>
 <text x="478.2" y="246.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+41m02s</text>
 <text x="556.2" y="246.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">1m08s</text>
-<rect x="610.8" y="237.96" width="93.6" height="11.16" fill="#D97757"/>
-<rect x="704.4" y="237.96" width="54.6" height="11.16" fill="#5B9BD5"/>
-<rect x="759" y="237.96" width="39" height="11.16" fill="#6BBF59"/>
+<rect x="610.8" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="618.5999999999999" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="626.4" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="634.1999999999999" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="642" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="649.8" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="657.5999999999999" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="665.4" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="673.1999999999999" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="681" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="688.8" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="696.5999999999999" y="235.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="704.4" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="712.1999999999999" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="720" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="727.8" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="735.6" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="743.4" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="751.1999999999999" y="235.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="759" y="235.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="766.8" y="235.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="774.6" y="235.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="782.4" y="235.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="790.2" y="235.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
 <text x="478.2" y="264.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Working:</text>
 <text x="548.4" y="264.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">add</text>
 <text x="579.6" y="264.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">a</text>
@@ -116,10 +176,30 @@
 <text x="751.2" y="264.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">settings</text>
 <text x="478.2" y="300.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+35m40s</text>
 <text x="556.2" y="300.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">1m31s</text>
-<rect x="610.8" y="291.96" width="23.4" height="11.16" fill="#D97757"/>
-<rect x="634.2" y="291.96" width="117" height="11.16" fill="#E5C07B"/>
-<rect x="751.2" y="291.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="766.8" y="291.96" width="31.2" height="11.16" fill="#6BBF59"/>
+<rect x="610.8" y="289.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="618.5999999999999" y="289.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="626.4" y="289.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="638.1" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="645.9" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="653.7" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="661.5" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="669.3000000000001" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="677.1" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="684.9" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="692.7" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="700.5" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="708.3000000000001" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="716.1" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="723.9" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="731.7" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="739.5" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="747.3000000000001" y="289.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="751.2" y="289.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="759" y="289.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="766.8" y="289.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="774.5999999999999" y="289.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="782.4" y="289.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="790.1999999999999" y="289.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
 <text x="478.2" y="318.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Summarizing…</text>
 <text x="478.2" y="354.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">──</text>
 <text x="501.59999999999997" y="354.96" textLength="109.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Auto-compacted</text>
@@ -128,18 +208,30 @@
 <text x="696.6" y="354.96" textLength="218.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">────────────────────────────</text>
 <text x="478.2" y="390.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+22m15s</text>
 <text x="556.2" y="390.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">2m40s</text>
-<rect x="610.8" y="381.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="626.4" y="381.96" width="15.6" height="11.16" fill="#5B9BD5"/>
-<rect x="642" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="649.8" y="381.96" width="7.8" height="11.16" fill="#5B9BD5"/>
-<rect x="657.6" y="381.96" width="31.2" height="11.16" fill="#6BBF59"/>
-<rect x="688.8" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="696.6" y="381.96" width="39" height="11.16" fill="#C678DD"/>
-<rect x="735.5999999999999" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="743.4" y="381.96" width="15.6" height="11.16" fill="#6BBF59"/>
-<rect x="759" y="381.96" width="15.6" height="11.16" fill="#4FB6C2"/>
-<rect x="774.5999999999999" y="381.96" width="7.8" height="11.16" fill="#D97757"/>
-<rect x="782.4" y="381.96" width="15.6" height="11.16" fill="#C678DD"/>
+<rect x="610.8" y="379.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="618.5999999999999" y="379.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="626.4" y="379.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="634.1999999999999" y="379.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="642" y="379.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="649.8" y="379.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="657.6" y="379.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="665.4" y="379.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="673.2" y="379.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="681" y="379.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="688.8" y="379.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="696.6" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="700.5" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="704.4" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="708.3" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="712.2" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="716.1" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="720" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="723.9" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="727.8000000000001" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="731.7" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="735.5999999999999" y="379.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="743.4" y="379.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="751.1999999999999" y="379.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="759" y="379.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="766.8" y="379.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="774.5999999999999" y="379.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="782.4" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="786.3" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="790.1999999999999" y="379.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="794.0999999999999" y="387" width="3.9" height="7.2" fill="#9F43C3"/>
 <text x="478.2" y="408.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Fixed</text>
 <text x="525" y="408.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
 <text x="556.2" y="408.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade">flaky</text>
@@ -157,9 +249,30 @@
 <text x="696.6" y="426.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade">green.</text>
 <text x="478.2" y="462.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+18m02s</text>
 <text x="571.8" y="462.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">42s</text>
-<rect x="610.8" y="453.96" width="39" height="11.16" fill="#D97757"/>
-<rect x="649.8" y="453.96" width="62.4" height="11.16" fill="#5B9BD5"/>
-<rect x="712.2" y="453.96" width="85.8" height="11.16" fill="#C678DD"/>
+<rect x="610.8" y="451.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="618.5999999999999" y="451.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="626.4" y="451.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="634.1999999999999" y="451.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="642" y="451.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="649.8" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="657.5999999999999" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="665.4" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="673.1999999999999" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="681" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="688.8" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="696.5999999999999" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="704.4" y="451.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="712.2" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="716.1" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="720" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="723.9" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="727.8000000000001" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="731.7" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="735.6" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="739.5" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="743.4000000000001" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="747.3000000000001" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="751.2" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="755.1" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="759" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="762.9" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="766.8000000000001" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="770.7" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="774.6" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="778.5" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="782.4000000000001" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="786.3000000000001" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="790.2" y="451.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="794.1" y="459" width="3.9" height="7.2" fill="#9F43C3"/>
 <text x="805.8" y="462.96" textLength="85.8" lengthAdjust="spacingAndGlyphs" fill="#E5A50A">interrupted</text>
 <text x="478.2" y="480.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Started</text>
 <text x="540.6" y="480.96" textLength="70.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">profiling</text>
@@ -170,11 +283,30 @@
 <text x="798" y="480.96" textLength="93.6" lengthAdjust="spacingAndGlyphs" fill="#d7dade">interrupted.</text>
 <text x="478.2" y="516.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">+3m11s</text>
 <text x="556.2" y="516.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">4m05s</text>
-<rect x="610.8" y="507.96" width="23.4" height="11.16" fill="#D97757"/>
-<rect x="634.2" y="507.96" width="54.6" height="11.16" fill="#5B9BD5"/>
-<rect x="688.8" y="507.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="704.4" y="507.96" width="46.8" height="11.16" fill="#6BBF59"/>
-<rect x="751.2" y="507.96" width="46.8" height="11.16" fill="#C678DD"/>
+<rect x="610.8" y="505.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="618.5999999999999" y="505.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="626.4" y="505.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="634.2" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="642" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="649.8000000000001" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="657.6" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="665.4000000000001" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="673.2" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="681" y="505.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="688.8" y="505.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="696.5999999999999" y="505.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="704.4" y="505.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="712.1999999999999" y="505.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="720" y="505.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="727.8" y="505.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="735.6" y="505.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="743.4" y="505.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="751.2" y="505.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="755.1" y="513" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="759" y="505.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="762.9" y="513" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="766.8000000000001" y="505.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="770.7" y="513" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="774.6" y="505.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="778.5" y="513" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="782.4000000000001" y="505.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="786.3000000000001" y="513" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="790.2" y="505.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="794.1" y="513" width="3.9" height="7.2" fill="#9F43C3"/>
 <text x="478.2" y="534.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">Read</text>
 <text x="517.2" y="534.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade">the</text>
 <text x="548.4" y="534.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade">auth</text>

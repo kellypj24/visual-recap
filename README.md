@@ -4,11 +4,11 @@ A Claude Code mod that shows where the agent spends its time, live, and keeps a 
 
 ![The band above the prompt, mid-turn: a colored strip of working time, the running command, and totals per activity](docs/band.svg)
 
-**The band** sits above the prompt. The strip runs left to right through the agent's working time, colored by activity. Under it: what the agent is doing right now and for how long, then the running totals, largest first.
+**The band** sits above the prompt. The strip runs left to right through the agent's working time, each activity in its own color and glyph (█ Thinking, ▓ Reading, ▒ Editing, ▚ Shell, ▌ Web, ▐ Subagents, ▞ Asking you, ░ Other tools), so the glyph tells two activities apart where the colors look alike. The legend and the panel's bars use the same glyphs. Under it: what the agent is doing right now and for how long, then the running totals, largest first.
 
-While the agent works, the strip is tall, its right edge pulses and a spinner turns beside the current action. When the agent stops, the strip drops to a thin line and the band says how long the turn took:
+While the agent works, the strip's right edge pulses and a spinner turns beside the current action. When the agent stops, the strip stays as it was, dimmed, and the band says how long the turn took. In the terminal, dimmed means drawn in your theme's dim color, so the glyphs carry the activities until the next turn starts:
 
-![The band after a turn: a thin strip and "Done in 2m40s · waiting on you"](docs/band-done.svg)
+![The band after a turn: the same strip dimmed and "Done in 2m40s · waiting on you"](docs/band-done.svg)
 
 ![The panel docked beside the conversation: time per activity as bars, then a timeline of turns with descriptions](docs/panel.svg)
 
@@ -49,6 +49,7 @@ In `/config`, under visual-recap:
 | --- | --- | --- |
 | Show band | on | Shows the strip and totals above the prompt. |
 | Open panel at startup | off | Opens the panel when a session starts. |
+| Palette | default | `default` uses the mod's own colors, the same on every theme. `theme` takes them from your Claude Code theme (including its light and colorblind themes), so they change when you switch themes. Built-in themes give Reading and Asking you the same color; their glyphs tell them apart. |
 
 ## How time is counted
 

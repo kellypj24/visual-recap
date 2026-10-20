@@ -2,11 +2,13 @@
 // Same glyphs, colors and layout rules as hooks/register.tsx; the numbers are made up.
 import { writeFileSync } from 'node:fs'
 
+// [label, default palette color, glyph], as CATS in hooks/recap.ts.
 const C = {
-  thinking: ['Thinking', '#D97757'], reading: ['Reading', '#5B9BD5'], editing: ['Editing', '#6BBF59'],
-  shell: ['Shell', '#C678DD'], web: ['Web', '#4FB6C2'], agents: ['Subagents', '#E5C07B'],
-  asking: ['Asking you', '#E06C75'], other: ['Other tools', '#9DA5B4'],
+  thinking: ['Thinking', '#C8601A', '█'], reading: ['Reading', '#37A8EC', '▓'], editing: ['Editing', '#68BE1F', '▒'],
+  shell: ['Shell', '#9F43C3', '▚'], web: ['Web', '#D3316A', '▌'], agents: ['Subagents', '#5978FD', '▐'],
+  asking: ['Asking you', '#2FA88A', '▞'], other: ['Other tools', '#8A8F98', '░'],
 }
+const GLYPHS = '█▓▒▚▌▐▞░'
 const BG = '#0d1117', FG = '#d7dade', DIM = '#6f757e', BORDER = '#30363d', WARN = '#E5A50A'
 const CW = 7.8, LH = 18, PAD = 18, FONT = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
 
@@ -21,7 +23,8 @@ const bold = text => seg(text, { bold: true })
 // seq: [cat, seconds][] in time order -> segments of at most `width` cells. Each block ends at cell
 // round(seconds before its end / scale). zoom (the band): 1, 2, 4, ... s per cell, the smallest that
 // fits, filled from the left; otherwise (the panel's turn bars) the scale fits the whole width.
-function strip(seq, width, glyph = '▆', zoom = false) {
+// Each block is drawn in its category's glyph; dimmed (the band once done), in the terminal's dim color.
+function strip(seq, width, zoom = false, dimmed = false) {
   const total = seq.reduce((n, [, s]) => n + s, 0)
   let scale = total / width
   if (zoom) for (scale = 1; total > width * scale; ) scale *= 2
@@ -33,8 +36,8 @@ function strip(seq, width, glyph = '▆', zoom = false) {
     const to = i === seq.length - 1 ? filled : Math.round(off / scale)
     const tail = out[out.length - 1]
     if (to <= at) return
-    if (tail && tail[1].color === C[cat][1]) tail[0] += glyph.repeat(to - at)
-    else out.push(seg(glyph.repeat(to - at), { color: C[cat][1] }))
+    if (tail && tail[1].cat === cat) tail[0] += C[cat][2].repeat(to - at)
+    else out.push(seg(C[cat][2].repeat(to - at), dimmed ? { cat, dim: true } : { cat, color: C[cat][1] }))
     at = to
   })
   return out
@@ -45,7 +48,7 @@ const totalsOf = seq => {
   return Object.entries(t).sort((a, b) => b[1] - a[1])
 }
 const legend = (seq, max = 99) =>
-  totalsOf(seq).slice(0, max).flatMap(([c, s]) => [seg('■', { color: C[c][1] }), dim(` ${C[c][0]} ${fmt(s)}  `)])
+  totalsOf(seq).slice(0, max).flatMap(([c, s]) => [seg(C[c][2], { color: C[c][1] }), dim(` ${C[c][0]} ${fmt(s)}  `)])
 
 // Draws one column of lines at x; returns SVG elements. `{ prompt: cols }` draws the input box.
 function column(lines, x, y0) {
@@ -60,13 +63,9 @@ function column(lines, x, y0) {
     let col = 0
     for (const [text, s] of line) {
       const fill = s.color ?? (s.dim ? DIM : FG)
-      for (const run of text.match(/(▆+|▂+|█+|░+|■|[^▆▂█░■]+)/g) ?? []) {
-        const px = x + col * CW, w = run.length * CW
-        if (run[0] === '▆') out.push(`<rect x="${px}" y="${top + LH * 0.22}" width="${w}" height="${LH * 0.62}" fill="${fill}"/>`)
-        else if (run[0] === '▂') out.push(`<rect x="${px}" y="${top + LH * 0.62}" width="${w}" height="${LH * 0.2}" fill="${fill}"/>`)
-        else if (run[0] === '█') out.push(`<rect x="${px}" y="${top + LH * 0.2}" width="${w}" height="${LH * 0.6}" fill="${fill}"/>`)
-        else if (run[0] === '░') out.push(`<rect x="${px}" y="${top + LH * 0.2}" width="${w}" height="${LH * 0.6}" fill="${DIM}" opacity="0.3"/>`)
-        else if (run[0] === '■') out.push(`<rect x="${px + 1}" y="${top + LH * 0.3}" width="${CW - 2}" height="${CW - 2}" rx="1" fill="${fill}"/>`)
+      for (const run of text.match(new RegExp(`[${GLYPHS}]+|[^${GLYPHS}]+`, 'g')) ?? []) {
+        const px = x + col * CW
+        if (GLYPHS.includes(run[0])) [...run].forEach((g, i) => out.push(cell(g, px + i * CW, top, fill)))
         // Each word at its own column: browsers collapse spaces, so spacing never comes from the text itself.
         else
           for (const m of run.matchAll(/\S+/g))
@@ -78,8 +77,27 @@ function column(lines, x, y0) {
   return out
 }
 
+// One cell of a glyph: blocks and quadrants as rects, the shades as dot patterns of 75%, 50% and 25%.
+const defs = new Map()
+function cell(g, px, top, fill) {
+  const y = top + LH * 0.1, h = LH * 0.8, hw = CW / 2, hh = h / 2
+  const r = (x, y, w, h, f = fill) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`
+  if (g === '█') return r(px, y, CW, h)
+  if (g === '▌') return r(px, y, hw, h)
+  if (g === '▐') return r(px + hw, y, hw, h)
+  if (g === '▚') return r(px, y, hw, hh) + r(px + hw, y + hh, hw, hh)
+  if (g === '▞') return r(px + hw, y, hw, hh) + r(px, y + hh, hw, hh)
+  const id = `shade${'▓▒░'.indexOf(g)}${fill.slice(1)}`
+  const dots = { '▓': [[0, 0], [1, 0], [0, 1]], '▒': [[0, 0], [1, 1]], '░': [[0, 0]] }[g]
+  defs.set(id, `<pattern id="${id}" width="3" height="3" patternUnits="userSpaceOnUse">${dots.map(([a, b]) => r(a * 1.5, b * 1.5, 1.5, 1.5)).join('')}</pattern>`)
+  return r(px, y, CW, h, `url(#${id})`)
+}
+
 function svg(width, height, body) {
+  const patterns = [...defs.values()].join('')
+  defs.clear()
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+<defs>${patterns}</defs>
 <rect width="${width}" height="${height}" rx="10" fill="${BG}" stroke="${BORDER}"/>
 <g font-family="${FONT}" font-size="13">
 ${body.join('\n')}
@@ -91,7 +109,7 @@ ${body.join('\n')}
 const s2 = [['thinking', 9], ['reading', 14], ['thinking', 5], ['reading', 8], ['editing', 22], ['thinking', 6], ['shell', 31], ['thinking', 4], ['editing', 9], ['web', 12], ['thinking', 7], ['shell', 12]]
 const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing', 14], ['thinking', 11]]
 
-// 1. The band: mid-turn (tall strip, pulsing edge, spinner), then stopped (thin strip, done line).
+// 1. The band: mid-turn (pulsing edge, spinner), then stopped (the same strip dimmed, done line).
 {
   const W = 84
   const draw = (file, lines) =>
@@ -99,13 +117,13 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
   draw('band.svg', [
     [dim('> fix the flaky login test')], [],
     [dim('⏺ Bash(npm test -- login)')], [dim('  ⎿ Running…')], [],
-    [...strip(s2, W - 1, '▆', true), seg('█', { color: C.shell[1] })],
+    [...strip(s2, W - 1, true), seg('█', { color: C.shell[1] })],
     [seg('⠹', { color: C.shell[1] }), bold(' Bash Run tests · 12s  '), ...legend(s2, 4)],
     { prompt: W + 2 }, [],
   ])
   draw('band-done.svg', [
     [dim('⏺ Fixed: the test now awaits the session refresh before asserting. All')], [dim('  42 login tests pass.')], [],
-    strip(s2, W, '▂', true),
+    strip(s2, W, true, true),
     [dim('✓ Done in 2m40s · waiting on you  '), ...legend(s2, 3)],
     { prompt: W + 2 }, [],
   ])
@@ -121,7 +139,7 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
   const tot = totalsOf(s3), sum = tot.reduce((a, [, s]) => a + s, 0)
   for (const [c, s] of tot) {
     const k = Math.round((s / sum) * barW)
-    pane.push([seg(C[c][0].padEnd(11)), seg('█'.repeat(k), { color: C[c][1] }), seg('░'.repeat(barW - k)), seg(` ${fmt(s).padStart(6)} ${String(Math.round((s / sum) * 100)).padStart(3)}%`)])
+    pane.push([seg(C[c][0].padEnd(11)), seg(C[c][2].repeat(k), { color: C[c][1] }), dim('·'.repeat(barW - k)), seg(` ${fmt(s).padStart(6)} ${String(Math.round((s / sum) * 100)).padStart(3)}%`)])
   }
   pane.push([dim('Waiting on you'.padEnd(11 + barW) + ' ' + '23m38s'.padStart(6))], [], [bold('Timeline')])
   const turns = [
@@ -149,7 +167,7 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
     [dim('⏺ Update(src/settings/Panel.tsx)')], [dim('  ⎿ …')],
   ]
   while (left.length < pane.length - 5) left.push([])
-  left.push([...strip(s3, LW - 1, '▆', true), seg('█', { color: C.editing[1] })], [seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
+  left.push([...strip(s3, LW - 1, true), seg('█', { color: C.editing[1] })], [seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
   const rows = Math.max(left.length + 1, pane.length)
   const xR = PAD + (LW + 3) * CW
   const width = xR + PW * CW + PAD

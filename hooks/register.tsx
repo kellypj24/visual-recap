@@ -2,7 +2,7 @@ import { atom, read, update } from 'claude-code'
 import type { EngineInterface, Register } from 'claude-code'
 
 import type { Agent, Cat, Mark, Span, Turn } from '../types'
-import { CATS, catOf, fallbackSummary, fmt, labelOf, runs, strip, summaryPrompt, sweep, totals } from './recap'
+import { CATS, catOf, colorOf, fallbackSummary, fmt, labelOf, runs, strip, summaryPrompt, sweep, totals } from './recap'
 
 const PANE = 'visual-recap'
 const MAX_SPANS = 3000 // ponytail: oldest spans drop off; totals then undercount very long sessions
@@ -143,6 +143,7 @@ function openPane($: $) {
 
 export const register: Register = (on, options) => {
   const showBand = options.showBand !== false
+  const color = (c: Cat) => colorOf(c, options.palette)
 
   on('session.start', async ($, e, next) => {
     await $.command.register({
@@ -315,7 +316,8 @@ export const register: Register = (on, options) => {
   })
 
   // Wide and short: a strip of agent-active time, then the live action and a legend.
-  // Working: tall strip, a pulsing leading edge and a spinner. Stopped: the strip drops to a thin line.
+  // Working: a pulsing leading edge and a spinner. Stopped: the same strip, dimmed.
+  // mono: a proportional face would give each category's glyph its own width.
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     if (!showBand || e.props.hasSurvey) return next(e)
     const s = await snapshot($)
@@ -329,16 +331,16 @@ export const register: Register = (on, options) => {
 
     return (
       <Box flexDirection="column">
-        <Text wrap="truncate">
+        <Text wrap="truncate" mono>
           {runs(cols).map(r => (
-            <Text color={CATS[r.cat].color}>{(isWorking ? '▆' : '▂').repeat(r.n)}</Text>
+            <Text color={color(r.cat)} dimColor={!isWorking}>{CATS[r.cat].glyph.repeat(r.n)}</Text>
           ))}
-          {isWorking ? <Text color={CATS[nowCat].color}>{PULSE[f % PULSE.length]}</Text> : null}
+          {isWorking ? <Text color={color(nowCat)}>{PULSE[f % PULSE.length]}</Text> : null}
         </Text>
         <Text wrap="truncate">
           {isWorking ? (
             <Text>
-              <Text color={CATS[nowCat].color}>{SPIN[f % SPIN.length]}</Text>
+              <Text color={color(nowCat)}>{SPIN[f % SPIN.length]}</Text>
               <Text weight="bold"> {s.liveText}  </Text>
             </Text>
           ) : last?.end !== undefined ? (
@@ -348,7 +350,7 @@ export const register: Register = (on, options) => {
           ) : null}
           {sortedCats(s.tot).map(c => (
             <Text>
-              <Text color={CATS[c].color}>■</Text>
+              <Text color={color(c)}>{CATS[c].glyph}</Text>
               <Text dimColor> {CATS[c].label} {fmt(s.tot[c]!)}  </Text>
             </Text>
           ))}
@@ -391,8 +393,8 @@ export const register: Register = (on, options) => {
           return (
             <Text wrap="truncate">
               {CATS[c].label.padEnd(11)}
-              <Text color={CATS[c].color}>{'█'.repeat(k)}</Text>
-              <Text dimColor>{'░'.repeat(barW - k)}</Text>
+              <Text color={color(c)} mono>{CATS[c].glyph.repeat(k)}</Text>
+              <Text dimColor mono>{'·'.repeat(barW - k)}</Text>
               {` ${fmt(s.tot[c]!).padStart(6)} ${String(Math.round((s.tot[c]! / sum) * 100)).padStart(3)}%`}
             </Text>
           )
@@ -414,7 +416,7 @@ export const register: Register = (on, options) => {
             <Text wrap="truncate">
               <Text dimColor>+{fmt(t.start - s.st).padEnd(7)} {fmt((t.end ?? s.to) - t.start).padStart(6)}  </Text>
               {turnBar(t).map(r => (
-                <Text color={CATS[r.cat].color}>{'▆'.repeat(r.n)}</Text>
+                <Text color={color(r.cat)} mono>{CATS[r.cat].glyph.repeat(r.n)}</Text>
               ))}
               {t.isAborted ? <Text color="warning"> interrupted</Text> : null}
             </Text>

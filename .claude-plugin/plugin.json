@@ -28,6 +28,13 @@
       "description": "Open the recap panel when a session starts (/visual-recap opens it any time)",
       "type": "boolean",
       "default": false
+    },
+    "palette": {
+      "title": "Palette",
+      "description": "Band and panel colors: default, or theme to follow your Claude Code theme",
+      "type": "string",
+      "options": ["default", "theme"],
+      "default": "default"
     }
   }
 }

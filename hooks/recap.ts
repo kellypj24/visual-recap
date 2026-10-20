@@ -1,14 +1,22 @@
+import type { ThemeKey } from 'claude-code'
+
 import type { Cat, Span, Turn } from '../types'
 
-export const CATS: Record<Cat, { label: string; color: string }> = {
-  thinking: { label: 'Thinking', color: '#D97757' },
-  reading: { label: 'Reading', color: '#5B9BD5' },
-  editing: { label: 'Editing', color: '#6BBF59' },
-  shell: { label: 'Shell', color: '#C678DD' },
-  web: { label: 'Web', color: '#4FB6C2' },
-  agents: { label: 'Subagents', color: '#E5C07B' },
-  asking: { label: 'Asking you', color: '#E06C75' },
-  other: { label: 'Other tools', color: '#9DA5B4' },
+// color: the default palette. theme: the key the `theme` palette follows. glyph: told apart without color.
+export const CATS: Record<Cat, { label: string; color: string; theme: ThemeKey; glyph: string }> = {
+  thinking: { label: 'Thinking', color: '#C8601A', theme: 'claude', glyph: '█' },
+  reading: { label: 'Reading', color: '#37A8EC', theme: 'suggestion', glyph: '▓' },
+  editing: { label: 'Editing', color: '#68BE1F', theme: 'diffAdded', glyph: '▒' },
+  shell: { label: 'Shell', color: '#9F43C3', theme: 'bashBorder', glyph: '▚' },
+  web: { label: 'Web', color: '#D3316A', theme: 'ide', glyph: '▌' },
+  agents: { label: 'Subagents', color: '#5978FD', theme: 'planMode', glyph: '▐' },
+  asking: { label: 'Asking you', color: '#2FA88A', theme: 'permission', glyph: '▞' },
+  other: { label: 'Other tools', color: '#8A8F98', theme: 'inactive', glyph: '░' },
+}
+
+// The `palette` setting: `theme` follows the person's Claude Code theme; anything else is the default palette.
+export function colorOf(cat: Cat, palette: unknown): string {
+  return palette === 'theme' ? CATS[cat].theme : CATS[cat].color
 }
 
 export function catOf(tool: string): Cat {
