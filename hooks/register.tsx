@@ -7,6 +7,7 @@ import { CATS, catOf, fallbackSummary, fmt, labelOf, runs, strip, summaryPrompt,
 const PANE = 'visual-recap'
 const MAX_SPANS = 3000 // ponytail: oldest spans drop off; totals then undercount very long sessions
 const MAX_ACTIONS = 60
+const KEEP_SESSIONS = 10 // ponytail: $.store holds 4 MiB in all; older sessions' recaps are dropped
 
 const spans = atom({ plugin: 'visual-recap', key: 'spans' } as const, [] as Span[])
 const turns = atom({ plugin: 'visual-recap', key: 'turns' } as const, [] as Turn[])
@@ -85,6 +86,43 @@ async function summarize($: $, turnId: string, answer: string) {
   await update($, turns, l => l.map(t => (t.id === turnId ? { ...t, summary } : t)))
 }
 
+type Saved = { spans: Span[]; turns: Turn[]; marks: Mark[]; startedAt: number; now: number }
+
+// $.state lives as long as the process, so each session's recap is also kept in $.store for --resume.
+async function save($: $, id: string) {
+  const [sp, tu, mk, st, n] = await Promise.all([read($, spans), read($, turns), read($, marks), read($, startedAt), read($, now)])
+  const saved: Saved = {
+    // Labels and actions only matter while a span runs or a turn awaits its summary.
+    spans: sp.map(s => (s.end === undefined ? s : { ...s, id: '', label: '' })),
+    turns: tu.map(t => (t.summary === undefined ? t : { ...t, actions: [] })),
+    marks: mk,
+    startedAt: st,
+    now: n,
+  }
+  const ids = ((await $.store.get('sessions')) as string[] | undefined) ?? []
+  const keep = [...ids.filter(x => x !== id), id]
+  for (const old of keep.slice(0, -KEEP_SESSIONS)) await $.store.delete(`s:${old}`)
+  await $.store.set('sessions', keep.slice(-KEEP_SESSIONS))
+  await $.store.set(`s:${id}`, saved)
+}
+
+async function restore($: $): Promise<boolean> {
+  const saved = (await $.store.get(`s:${await $.session.id()}`)) as Saved | undefined
+  if (!saved) return false
+  // Whatever was still running when the process ended stops where the recap last saw it.
+  const end = saved.now
+  await update($, spans, () => saved.spans.map(s => (s.end === undefined ? { ...s, end } : s)))
+  await update($, turns, () =>
+    saved.turns.map(t => {
+      const done = t.end === undefined ? { ...t, end, isAborted: true } : t
+      return done.summary === undefined ? { ...done, summary: fallbackSummary(done) } : done
+    }),
+  )
+  await update($, marks, () => saved.marks)
+  await update($, startedAt, () => saved.startedAt)
+  return true
+}
+
 function openPane($: $) {
   return $.ui.open({ id: PANE, title: 'Recap', columns: 56 })
 }
@@ -100,7 +138,7 @@ export const register: Register = (on, options) => {
     })
     if ((await read($, startedAt)) === 0) {
       const t = await $.clock.now()
-      await update($, startedAt, () => t)
+      if (!(await restore($).catch(() => false))) await update($, startedAt, () => t)
       await update($, now, () => t)
     }
     if ((await read($, turns)).some(t => t.end === undefined)) startTicker($)
@@ -186,7 +224,12 @@ export const register: Register = (on, options) => {
       await update($, now, () => t)
       stopTicker()
       const answer = e.answer
-      $.clock.after(1, () => void summarize($, e.turnId, answer).catch(() => undefined))
+      $.clock.after(1, () =>
+        void summarize($, e.turnId, answer)
+          .catch(() => undefined)
+          .then(async () => save($, await $.session.id()))
+          .catch(() => undefined),
+      )
     }
 
     return result
@@ -205,6 +248,15 @@ export const register: Register = (on, options) => {
   // A /clear ends the conversation but not the process: the timeline carries on past a divider.
   on('session.end', async ($, e, next) => {
     if (e.reason === 'clear') await addMark($, 'clear')
+    await save($, e.sessionId).catch(() => undefined)
+    // /resume swaps in another session: start over so session.start loads that one's recap.
+    if (e.reason === 'resume') {
+      stopTicker()
+      await update($, spans, () => [])
+      await update($, turns, () => [])
+      await update($, marks, () => [])
+      await update($, startedAt, () => 0)
+    }
 
     return next(e)
   })

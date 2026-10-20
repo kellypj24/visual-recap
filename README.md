@@ -19,6 +19,8 @@ While the agent works, the strip is tall, its right edge pulses and a spinner tu
 - A timeline of turns, newest first. Each turn has when it started (from session start), how long it took, a strip of that turn alone, and a one-line description of what happened. A running turn shows your prompt as **Working: …**; a finished one shows **Summarizing…** for a second or two until its description arrives; one you stopped with Esc is marked **interrupted**.
 - Dividers where the conversation was compacted or cleared with `/clear`. The timeline and totals carry on past them.
 
+The recap survives `/exit`: resume the session (`claude --resume <id>` or `/resume`) and it comes back, with the time you were away counted as waiting on you. The last 10 sessions are kept.
+
 The images are mockups with sample data, drawn by `docs/mockups.mjs`.
 
 ## Install
