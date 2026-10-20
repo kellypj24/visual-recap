@@ -1,6 +1,6 @@
 {
   "name": "visual-recap",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Live view of where the agent spends its time, plus a running summary timeline of the session.",
   "author": {
     "name": "Mike Ascah",
@@ -33,14 +33,20 @@
       "title": "Palette",
       "description": "Band and panel colors: default, or theme to follow your Claude Code theme",
       "type": "string",
-      "options": ["default", "theme"],
+      "options": [
+        "default",
+        "theme"
+      ],
       "default": "default"
     },
     "bandView": {
       "title": "Band view",
       "description": "The view the band starts each session in: wall (where the time goes, one activity per second) or work (the work mix, with subagents on a second row). /visual-recap view wall|work switches it until the session ends",
       "type": "string",
-      "options": ["wall", "work"],
+      "options": [
+        "wall",
+        "work"
+      ],
       "default": "wall"
     }
   }

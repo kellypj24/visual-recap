@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.0](https://github.com/mascah/visual-recap/compare/v0.1.1...v0.2.0) (2026-10-20)
+
+
+### Features
+
+* band colors and glyphs (261020-v96wp) ([#17](https://github.com/mascah/visual-recap/issues/17)) ([2714095](https://github.com/mascah/visual-recap/commit/27140959567bee2e3478c7553f0908ea512bc3a0))
+* band views and work-mix panel ([#18](https://github.com/mascah/visual-recap/issues/18)) ([93a158f](https://github.com/mascah/visual-recap/commit/93a158f6bc404c877d9b944fa759ff8111f51f64))
+* steadier band strip ([#15](https://github.com/mascah/visual-recap/issues/15)) ([45bb4da](https://github.com/mascah/visual-recap/commit/45bb4da83f8cda8bb764e0f7470ce10765cdc8ea))
+
+
+### Bug Fixes
+
+* time background subagents from their own run ([#16](https://github.com/mascah/visual-recap/issues/16)) ([74aa686](https://github.com/mascah/visual-recap/commit/74aa6868c086720560b7eb7681dec3c1e30c282d))
+
 ## [0.1.1](https://github.com/mascah/visual-recap/compare/v0.1.0...v0.1.1) (2026-10-20)
 
 
