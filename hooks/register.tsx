@@ -96,6 +96,7 @@ export const register: Register = (on, options) => {
     await $.command.register({
       name: 'visual-recap',
       description: 'Open the visual recap: time by activity and a summary timeline',
+      immediate: true,
     })
     if ((await read($, startedAt)) === 0) {
       const t = await $.clock.now()
