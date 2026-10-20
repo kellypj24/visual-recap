@@ -1,0 +1,28 @@
+# Grove: where its documents live, which branch holds what is agreed, and
+# the harnesses init writes Grove's skills for.
+root: grove
+target: main
+# Each harness init writes Grove's skills for (claude, codex, cursor,
+# opencode, pi, hermes), as skills or, where the harness has them, as
+# commands. Run grove init again after changing it.
+agents:
+  claude: skills
+# The change schema a new change has unless the owner names another while
+# proposing: Grove's default, or one of the project's in <root>/schemas/.
+schema: default
+# Facts about this project given to every skill: the language, how tests
+# run, anything an agent cannot read from the code. Keep it short.
+context: ""
+# Extra lines for Grove's instructions: under documents, for one kind of
+# document, given when it is written; under skills, for one skill, given
+# with its guide. Such as
+#   documents:
+#     proposal:
+#       - List who is affected.
+#   skills:
+#     apply:
+#       - Commit after each task, naming its task ID.
+# Kinds: proposal, change-spec, tasks, implementation, spec, and those of
+# the project's own schemas.
+# Skills: explore, propose, apply, archive.
+rules: {}

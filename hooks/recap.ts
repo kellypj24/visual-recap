@@ -67,28 +67,38 @@ export function totals(pieces: readonly Piece[]): Partial<Record<Cat | 'idle', n
   return tot
 }
 
-// One category per column over agent-active time (idle squeezed out).
-export function strip(pieces: readonly Piece[], width: number): Cat[] {
-  const active = pieces.filter(p => p.cats[0] !== 'idle')
-  const total = active.reduce((n, p) => n + p.t1 - p.t0, 0)
-  if (total <= 0 || width <= 0) return []
-  const cols: Partial<Record<Cat, number>>[] = Array.from({ length: width }, () => ({}))
-  let off = 0
-  for (const p of active) {
-    const end = off + p.t1 - p.t0
-    const c1 = Math.min(width - 1, Math.floor((end / total) * width))
-    for (let c = Math.floor((off / total) * width); c <= c1; c++) {
-      const seg = Math.min(end, ((c + 1) * total) / width) - Math.max(off, (c * total) / width)
-      if (seg <= 0) continue
-      for (const k of p.cats as Cat[]) cols[c]![k] = (cols[c]![k] ?? 0) + seg / p.cats.length
+// Seconds per column for the band: the smallest step of 1 s, 2 s, 4 s, ... at which `activeMs` fits in `width`.
+// It only moves when the bar fills, so between rescales blocks already drawn keep their columns.
+export function scaleFor(activeMs: number, width: number): number {
+  let ms = 1000
+  while (activeMs > width * ms) ms *= 2
+  return ms
+}
+
+// One category per column over agent-active time (idle squeezed out). Blocks (runs of one
+// category; parallel pieces split their time) end at column round(time before their end / scale),
+// so each gets a whole number of columns and no edge moves while the scale holds.
+// zoom: fill from the left at scaleFor(); otherwise fit the whole width.
+export function strip(pieces: readonly Piece[], width: number, zoom = false): Cat[] {
+  const blocks: { cat: Cat; end: number }[] = []
+  let total = 0
+  for (const p of pieces) {
+    if (p.cats[0] === 'idle') continue
+    for (const cat of p.cats as Cat[]) {
+      total += (p.t1 - p.t0) / p.cats.length
+      if (blocks.at(-1)?.cat === cat) blocks.at(-1)!.end = total
+      else blocks.push({ cat, end: total })
     }
-    off = end
   }
-  let last: Cat = 'thinking'
-  return cols.map(m => {
-    const best = (Object.entries(m) as [Cat, number][]).sort((a, b) => b[1] - a[1])[0]
-    return (last = best ? best[0] : last)
+  if (total <= 0 || width <= 0) return []
+  const scale = zoom ? scaleFor(total, width) : total / width
+  const filled = zoom ? Math.max(1, Math.round(total / scale)) : width
+  const cols: Cat[] = []
+  blocks.forEach((b, i) => {
+    const to = i === blocks.length - 1 ? filled : Math.round(b.end / scale)
+    while (cols.length < to) cols.push(b.cat)
   })
+  return cols
 }
 
 export function runs(cols: readonly Cat[]): { cat: Cat; n: number }[] {

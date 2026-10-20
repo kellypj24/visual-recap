@@ -18,26 +18,25 @@ const seg = (text, style = {}) => [text, style]
 const dim = text => seg(text, { dim: true })
 const bold = text => seg(text, { bold: true })
 
-// seq: [cat, seconds][] in time order -> segments of `width` cells, dominant category per cell.
-function strip(seq, width, glyph = '▆') {
+// seq: [cat, seconds][] in time order -> segments of at most `width` cells. Each block ends at cell
+// round(seconds before its end / scale). zoom (the band): 1, 2, 4, ... s per cell, the smallest that
+// fits, filled from the left; otherwise (the panel's turn bars) the scale fits the whole width.
+function strip(seq, width, glyph = '▆', zoom = false) {
   const total = seq.reduce((n, [, s]) => n + s, 0)
-  const cells = []
-  for (let c = 0; c < width; c++) {
-    const lo = (c * total) / width, hi = ((c + 1) * total) / width, w = {}
-    let off = 0
-    for (const [cat, s] of seq) {
-      const a = Math.max(lo, off), b = Math.min(hi, off + s)
-      if (b > a) w[cat] = (w[cat] || 0) + b - a
-      off += s
-    }
-    cells.push(Object.entries(w).sort((x, y) => y[1] - x[1])[0][0])
-  }
+  let scale = total / width
+  if (zoom) for (scale = 1; total > width * scale; ) scale *= 2
+  const filled = zoom ? Math.max(1, Math.round(total / scale)) : width
   const out = []
-  for (const cat of cells) {
+  let off = 0, at = 0
+  seq.forEach(([cat, s], i) => {
+    off += s
+    const to = i === seq.length - 1 ? filled : Math.round(off / scale)
     const tail = out[out.length - 1]
-    if (tail && tail[1].color === C[cat][1]) tail[0] += glyph
-    else out.push(seg(glyph, { color: C[cat][1] }))
-  }
+    if (to <= at) return
+    if (tail && tail[1].color === C[cat][1]) tail[0] += glyph.repeat(to - at)
+    else out.push(seg(glyph.repeat(to - at), { color: C[cat][1] }))
+    at = to
+  })
   return out
 }
 const totalsOf = seq => {
@@ -100,13 +99,13 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
   draw('band.svg', [
     [dim('> fix the flaky login test')], [],
     [dim('⏺ Bash(npm test -- login)')], [dim('  ⎿ Running…')], [],
-    [...strip(s2, W - 1), seg('█', { color: C.shell[1] })],
+    [...strip(s2, W - 1, '▆', true), seg('█', { color: C.shell[1] })],
     [seg('⠹', { color: C.shell[1] }), bold(' Bash Run tests · 12s  '), ...legend(s2, 4)],
     { prompt: W + 2 }, [],
   ])
   draw('band-done.svg', [
     [dim('⏺ Fixed: the test now awaits the session refresh before asserting. All')], [dim('  42 login tests pass.')], [],
-    strip(s2, W, '▂'),
+    strip(s2, W, '▂', true),
     [dim('✓ Done in 2m40s · waiting on you  '), ...legend(s2, 3)],
     { prompt: W + 2 }, [],
   ])
@@ -150,7 +149,7 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
     [dim('⏺ Update(src/settings/Panel.tsx)')], [dim('  ⎿ …')],
   ]
   while (left.length < pane.length - 5) left.push([])
-  left.push([...strip(s3, LW - 1), seg('█', { color: C.editing[1] })], [seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
+  left.push([...strip(s3, LW - 1, '▆', true), seg('█', { color: C.editing[1] })], [seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
   const rows = Math.max(left.length + 1, pane.length)
   const xR = PAD + (LW + 3) * CW
   const width = xR + PW * CW + PAD

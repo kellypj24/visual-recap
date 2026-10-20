@@ -1,0 +1,6 @@
+title: Band views and work-mix panel
+created: 2026-10-20T22:07:27Z
+description: Band shows wall-clock time by default and switches to a work-mix view; the panel shows the work mix with subagents on their own row
+schema: default
+depends_on: [261020-5e6me]
+base: 46b95635e968ff88bbfb0539591b98ee27bd0832

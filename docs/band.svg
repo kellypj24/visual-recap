@@ -15,18 +15,18 @@
 <text x="33.6" y="84.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">⎿</text>
 <text x="49.2" y="84.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Running…</text>
 <rect x="18" y="111.96" width="39" height="11.16" fill="#D97757"/>
-<rect x="57" y="111.96" width="70.2" height="11.16" fill="#5B9BD5"/>
-<rect x="127.2" y="111.96" width="23.4" height="11.16" fill="#D97757"/>
-<rect x="150.6" y="111.96" width="31.2" height="11.16" fill="#5B9BD5"/>
-<rect x="181.79999999999998" y="111.96" width="109.2" height="11.16" fill="#6BBF59"/>
-<rect x="291" y="111.96" width="23.4" height="11.16" fill="#D97757"/>
-<rect x="314.4" y="111.96" width="148.2" height="11.16" fill="#C678DD"/>
-<rect x="462.59999999999997" y="111.96" width="15.6" height="11.16" fill="#D97757"/>
-<rect x="478.2" y="111.96" width="39" height="11.16" fill="#6BBF59"/>
-<rect x="517.2" y="111.96" width="62.4" height="11.16" fill="#4FB6C2"/>
-<rect x="579.6" y="111.96" width="31.2" height="11.16" fill="#D97757"/>
-<rect x="610.8" y="111.96" width="54.6" height="11.16" fill="#C678DD"/>
-<rect x="665.4" y="111.6" width="7.8" height="10.799999999999999" fill="#C678DD"/>
+<rect x="57" y="111.96" width="54.6" height="11.16" fill="#5B9BD5"/>
+<rect x="111.6" y="111.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="127.2" y="111.96" width="31.2" height="11.16" fill="#5B9BD5"/>
+<rect x="158.4" y="111.96" width="85.8" height="11.16" fill="#6BBF59"/>
+<rect x="244.2" y="111.96" width="23.4" height="11.16" fill="#D97757"/>
+<rect x="267.6" y="111.96" width="124.8" height="11.16" fill="#C678DD"/>
+<rect x="392.4" y="111.96" width="15.6" height="11.16" fill="#D97757"/>
+<rect x="408" y="111.96" width="31.2" height="11.16" fill="#6BBF59"/>
+<rect x="439.2" y="111.96" width="46.8" height="11.16" fill="#4FB6C2"/>
+<rect x="486" y="111.96" width="31.2" height="11.16" fill="#D97757"/>
+<rect x="517.2" y="111.96" width="46.8" height="11.16" fill="#C678DD"/>
+<rect x="564" y="111.6" width="7.8" height="10.799999999999999" fill="#C678DD"/>
 <text x="18" y="138.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#C678DD">⠹</text>
 <text x="33.6" y="138.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Bash</text>
 <text x="72.6" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Run</text>

@@ -1,7 +1,8 @@
 import { expect, test } from 'claude-code/testing'
 
-import type { Span, Turn } from '../types'
-import { catOf, labelOf, runs, strip, sweep, totals } from '../hooks/recap'
+import type { Cat, Span, Turn } from '../types'
+import { catOf, labelOf, runs, scaleFor, strip, sweep, totals } from '../hooks/recap'
+import type { Piece } from '../hooks/recap'
 
 const turn: Turn = { id: 't', start: 0, end: 100, prompt: 'x', actions: [] }
 const spans: Span[] = [
@@ -23,6 +24,56 @@ test('the strip covers active time only, left to right', async () => {
   expect(cols[0]).toBe('thinking')
   expect(cols[9]).toBe('thinking')
   expect(runs(cols).some(r => r.cat === 'shell')).toBe(true)
+})
+
+// Back-to-back blocks of [category, seconds], as sweep() would cut them.
+const seq = (...b: [Cat, number][]): Piece[] => {
+  let t = 0
+  return b.map(([c, s]) => ({ t0: t, t1: (t += s * 1000), cats: [c] }))
+}
+
+test('a second added with room left leaves the drawn columns alone', async () => {
+  const before = strip(seq(['thinking', 25], ['shell', 15]), 80, true)
+  expect(before).toHaveLength(40) // 1 s per column, not stretched to 80
+  const after = strip(seq(['thinking', 25], ['shell', 15], ['reading', 1]), 80, true)
+  expect(after).toHaveLength(41)
+  expect(after.slice(0, 40)).toEqual(before)
+  expect(after[40]).toBe('reading')
+})
+
+test('a full bar doubles the scale and still shows the whole session', async () => {
+  const full = strip(seq(['thinking', 40], ['shell', 40]), 80, true)
+  expect(runs(full)).toEqual([{ cat: 'thinking', n: 40 }, { cat: 'shell', n: 40 }])
+  const over = strip(seq(['thinking', 40], ['shell', 41]), 80, true)
+  expect(scaleFor(81_000, 80)).toBe(2_000)
+  expect(runs(over)).toEqual([{ cat: 'thinking', n: 20 }, { cat: 'shell', n: 21 }])
+})
+
+test('a long session on a fresh band takes the smallest step that fits', async () => {
+  expect(scaleFor(600_000, 80)).toBe(8_000)
+  expect(strip(seq(['thinking', 600]), 80, true)).toHaveLength(75)
+  // A new width picks again from the start of the ladder.
+  expect(scaleFor(100_000, 80)).toBe(2_000)
+  expect(scaleFor(100_000, 120)).toBe(1_000)
+})
+
+test('blocks that would split a column get whole columns adding up to the filled width', async () => {
+  const cols = strip(seq(['thinking', 10.5], ['shell', 10.5]), 80, true)
+  expect(cols).toHaveLength(21)
+  const [a, b] = runs(cols)
+  expect([10, 11]).toContain(a!.n)
+  expect(a!.cat).toBe('thinking')
+  expect(b).toEqual({ cat: 'shell', n: 21 - a!.n })
+  // Fitted (the panel's bars): each block within one column of its share, the whole width used.
+  const fit = runs(strip(seq(['thinking', 1], ['reading', 1], ['shell', 1]), 10))
+  expect(fit.map(r => r.n)).toEqual([3, 4, 3])
+})
+
+test('redraws at the same scale keep the edges of finished blocks', async () => {
+  const head: [Cat, number][] = [['thinking', 12.4], ['reading', 7.6], ['editing', 3.5]]
+  const one = runs(strip(seq(...head, ['shell', 10.2]), 80, true))
+  const two = runs(strip(seq(...head, ['shell', 11.7]), 80, true))
+  expect(two.slice(0, -1)).toEqual(one.slice(0, -1))
 })
 
 test('tools map to categories and short labels', async () => {

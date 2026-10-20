@@ -91,3 +91,42 @@ test('time the model spends writing a tool call counts as that tool, not thinkin
   expect(await view.find({ text: /Thinking.*  2s/ })).toBeDefined()
   await view.unmount()
 })
+
+const bandProps = { hasSurvey: false, isWorking: true, maxRows: 10, bodyColumns: 80, scroll, view: {} } as never
+
+// The strip line as one color per column, the pulsing leading edge left off.
+async function stripCols(band: { find: (q: { type: string; text: RegExp }) => Promise<{ children: unknown[] } | undefined> }) {
+  const line = await band.find({ type: 'Text', text: /^▆/ })
+  const parts = (line?.children ?? []) as { props: { color?: string }; children: string[] }[]
+  return parts.slice(0, -1).flatMap(p => Array.from(p.children.join(''), () => p.props.color))
+}
+
+test('a second later the band keeps the blocks it drew, on terminal and desktop', async ($, on) => {
+  const clock = mock.clock(on, { now: 1_000 })
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('tool.call', async () => {
+    await clock.advance(4_000)
+    return { result: 'ok' }
+  })
+  await $.turn.start({ text: 'go', turnId: 't1' })
+  await clock.advance(3_000)
+  await $.tool.call({ tool: 'Bash', command: 'make' } as never)
+  await clock.advance(2_000)
+
+  const before = new Map<string, (string | undefined)[]>()
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'AbovePrompt', props: bandProps })
+    before.set(surface, await stripCols(band))
+    await band.unmount()
+  }
+  await clock.advance(1_000)
+  for (const surface of ['terminal', 'desktop'] as const) {
+    const band = await $.ui.mount({ plugin: 'visual-recap', surface, component: 'AbovePrompt', props: bandProps })
+    const was = before.get(surface)!
+    const cols = await stripCols(band)
+    expect(was).toHaveLength(9) // 9 s at 1 s per column, not stretched across 79
+    expect(cols).toHaveLength(10)
+    expect(cols.slice(0, 9)).toEqual(was)
+    await band.unmount()
+  }
+})

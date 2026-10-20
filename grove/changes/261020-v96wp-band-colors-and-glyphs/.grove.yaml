@@ -1,0 +1,6 @@
+title: Band colors and glyphs
+created: 2026-10-20T22:07:27Z
+description: A better-separated default palette, a theme-following preset, and a glyph per category
+schema: default
+depends_on: [261020-5e6me]
+base: 46b95635e968ff88bbfb0539591b98ee27bd0832

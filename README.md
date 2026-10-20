@@ -58,7 +58,7 @@ In `/config`, under visual-recap:
 
 ![Wall clock with idle gaps above; the band strip below, with the gaps removed](docs/strip.svg)
 
-- Each cell of a strip takes the color of whatever filled most of that slice of time. A session with only short answers so far is one solid Thinking bar.
+- The band's strip always shows the whole session. It fills from the left at a fixed scale, starting at one second per cell, so blocks already drawn stay put while the newest one grows. When the bar is full, the scale doubles and every block halves in one step. Each block gets a whole number of cells, as close to its share of the time as it can be. A turn's strip in the panel always spans its full width.
 - Subagents' work counts once, as Subagents.
 
 ## Turn descriptions use an extra model call

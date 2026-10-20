@@ -1,0 +1,5 @@
+title: Steadier band strip
+created: 2026-10-20T21:54:43Z
+description: Step zoom and whole-block columns so the band's blocks stop resizing every second
+schema: default
+base: 46b95635e968ff88bbfb0539591b98ee27bd0832

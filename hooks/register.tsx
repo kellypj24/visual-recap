@@ -268,7 +268,7 @@ export const register: Register = (on, options) => {
     const s = await snapshot($)
     const isWorking = s.live !== undefined
     const f = isWorking ? await read($, frame) : 0
-    const cols = strip(s.pieces, Math.max(10, e.props.bodyColumns) - (isWorking ? 1 : 0))
+    const cols = strip(s.pieces, Math.max(10, e.props.bodyColumns) - (isWorking ? 1 : 0), true)
     if (!cols.length) return next(e)
     const { Box, Text } = $.ui.resolve(e)
     const nowCat: Cat = s.running?.cat ?? 'thinking'
