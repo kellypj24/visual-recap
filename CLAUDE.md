@@ -26,6 +26,8 @@ A Claude Code mod (a plugin of function hooks): a band above the prompt and a pa
 ## Conventions
 
 - Tool time is measured on the main loop only (`e.agentId === undefined`). A subagent is timed as one `agents` span from its own `turn.start` to `turn.complete`, since a background Agent call returns at once. That span is background: `sweep` counts it only while the main loop is idle, and the band shows it only then. `agent.spawn` gives each subagent its label and the main turn it belongs to (a nested one inherits its parent's), kept in the `agents` atom. Its tool calls add to that turn's actions, not to the timing.
+- Two ways of counting, both in `hooks/recap.ts`. Wall clock (`sweep`; the band's default view): each second once, to main-loop tools, else Thinking while a main turn is open, else Subagents while a subagent runs, else idle. Work mix (`workMix` and `lanes`; the panel, and the band's `work` view): main-loop rows from main-loop spans alone, adding up to the main loop's active time, plus every subagent run in full on top, overlapping runs each counted. There the main loop's own Agent calls are labeled "Agent calls".
+- The band's view lives in the `view` atom (null means the `bandView` option) and is reset at `session.end`, so a pick lasts until the session ends.
 - The band animates at 4 frames a second through the `frame` atom, which only the band reads, so the panel redraws once a second. Keep it that way.
 - The panel and band must draw on every surface: use the element table from `$.ui.resolve(e)` and test on terminal and desktop.
 - The Haiku summary call sends the turn's prompt, its action labels and the start of the reply. Sending anything more needs a README update.

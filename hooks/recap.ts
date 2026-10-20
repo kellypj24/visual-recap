@@ -38,7 +38,7 @@ export function labelOf(input: Record<string, unknown>): string {
   return `${String(input.tool)}${arg ? ` ${arg}` : ''}`.slice(0, 100)
 }
 
-export type Piece = { t0: number; t1: number; cats: (Cat | 'idle')[] }
+export type Piece<T extends string = Cat> = { t0: number; t1: number; cats: (T | 'idle')[] }
 
 // Splits [from, to] into pieces by what was running: main-loop tools win, else thinking
 // inside a turn, else a subagent's own run, else idle. Parallel tools share a piece.
@@ -92,12 +92,12 @@ export function scaleFor(activeMs: number, width: number): number {
 // category; parallel pieces split their time) end at column round(time before their end / scale),
 // so each gets a whole number of columns and no edge moves while the scale holds.
 // zoom: fill from the left at scaleFor(); otherwise fit the whole width.
-export function strip(pieces: readonly Piece[], width: number, zoom = false): Cat[] {
-  const blocks: { cat: Cat; end: number }[] = []
+export function strip<T extends string>(pieces: readonly Piece<T>[], width: number, zoom = false): T[] {
+  const blocks: { cat: T; end: number }[] = []
   let total = 0
   for (const p of pieces) {
     if (p.cats[0] === 'idle') continue
-    for (const cat of p.cats as Cat[]) {
+    for (const cat of p.cats as T[]) {
       total += (p.t1 - p.t0) / p.cats.length
       if (blocks.at(-1)?.cat === cat) blocks.at(-1)!.end = total
       else blocks.push({ cat, end: total })
@@ -106,7 +106,7 @@ export function strip(pieces: readonly Piece[], width: number, zoom = false): Ca
   if (total <= 0 || width <= 0) return []
   const scale = zoom ? scaleFor(total, width) : total / width
   const filled = zoom ? Math.max(1, Math.round(total / scale)) : width
-  const cols: Cat[] = []
+  const cols: T[] = []
   blocks.forEach((b, i) => {
     const to = i === blocks.length - 1 ? filled : Math.round(b.end / scale)
     while (cols.length < to) cols.push(b.cat)
@@ -114,8 +114,40 @@ export function strip(pieces: readonly Piece[], width: number, zoom = false): Ca
   return cols
 }
 
-export function runs(cols: readonly Cat[]): { cat: Cat; n: number }[] {
-  const out: { cat: Cat; n: number }[] = []
+const isMain = (s: Span) => s.agentId === undefined
+
+// Work-mix totals: the main loop's own categories, adding up to its active time (no subagent fills its gaps),
+// and Subagents, every subagent run counted in full however many overlap.
+export function workMix(spans: readonly Span[], turns: readonly Turn[], from: number, to: number) {
+  const main = totals(sweep(spans.filter(isMain), turns, from, to))
+  delete main.idle
+  const subagents = spans.filter(s => !isMain(s)).reduce((n, s) => n + Math.max(0, Math.min(s.end ?? to, to) - Math.max(s.start, from)), 0)
+  return { main, subagents }
+}
+
+// The work-mix band's two rows, on the wall-clock strip's axis (time the main loop or any subagent was busy):
+// the main loop's categories on top, 'gap' where only subagents ran; below, 'agents' wherever a subagent ran.
+export function lanes(spans: readonly Span[], turns: readonly Turn[], from: number, to: number) {
+  const main = sweep(spans.filter(isMain), turns, from, to)
+  const sub = sweep(spans.filter(s => !isMain(s)), [], from, to)
+  const top: Piece<Cat | 'gap'>[] = []
+  const low: Piece<'agents' | 'gap'>[] = []
+  // Both sweeps cover [from, to] edge to edge: walk them together, cutting at either's edges.
+  for (let i = 0, j = 0, t = from; i < main.length && j < sub.length; ) {
+    const m = main[i]!, s = sub[j]!, t1 = Math.min(m.t1, s.t1)
+    if (m.cats[0] !== 'idle' || s.cats[0] !== 'idle') {
+      top.push({ t0: t, t1, cats: m.cats[0] === 'idle' ? ['gap'] : m.cats })
+      low.push({ t0: t, t1, cats: s.cats[0] === 'idle' ? ['gap'] : ['agents'] })
+    }
+    t = t1
+    if (m.t1 === t1) i++
+    if (s.t1 === t1) j++
+  }
+  return { top, low }
+}
+
+export function runs<T>(cols: readonly T[]): { cat: T; n: number }[] {
+  const out: { cat: T; n: number }[] = []
   for (const cat of cols) {
     const tail = out[out.length - 1]
     if (tail?.cat === cat) tail.n++

@@ -35,6 +35,13 @@
       "type": "string",
       "options": ["default", "theme"],
       "default": "default"
+    },
+    "bandView": {
+      "title": "Band view",
+      "description": "The view the band starts each session in: wall (where the time goes, one activity per second) or work (the work mix, with subagents on a second row). /visual-recap view wall|work switches it until the session ends",
+      "type": "string",
+      "options": ["wall", "work"],
+      "default": "wall"
     }
   }
 }

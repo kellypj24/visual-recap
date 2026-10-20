@@ -9,7 +9,7 @@ const C = {
   asking: ['Asking you', '#2FA88A', '▞'], other: ['Other tools', '#8A8F98', '░'],
 }
 const GLYPHS = '█▓▒▚▌▐▞░'
-const BG = '#0d1117', FG = '#d7dade', DIM = '#6f757e', BORDER = '#30363d', WARN = '#E5A50A'
+const BG = '#0d1117', FG = '#d7dade', DIM = '#6f757e', BORDER = '#30363d', WARN = '#E5A50A', ACCENT = '#D77757'
 const CW = 7.8, LH = 18, PAD = 18, FONT = 'ui-monospace, SFMono-Regular, Menlo, Consolas, monospace'
 
 const fmt = s => (s < 60 ? `${s}s` : `${Math.floor(s / 60)}m${String(s % 60).padStart(2, '0')}s`)
@@ -24,6 +24,7 @@ const bold = text => seg(text, { bold: true })
 // round(seconds before its end / scale). zoom (the band): 1, 2, 4, ... s per cell, the smallest that
 // fits, filled from the left; otherwise (the panel's turn bars) the scale fits the whole width.
 // Each block is drawn in its category's glyph; dimmed (the band once done), in the terminal's dim color.
+// A 'gap' block (the work-mix band's rows, where the other row was busy) takes its cells but draws nothing.
 function strip(seq, width, zoom = false, dimmed = false) {
   const total = seq.reduce((n, [, s]) => n + s, 0)
   let scale = total / width
@@ -36,7 +37,8 @@ function strip(seq, width, zoom = false, dimmed = false) {
     const to = i === seq.length - 1 ? filled : Math.round(off / scale)
     const tail = out[out.length - 1]
     if (to <= at) return
-    if (tail && tail[1].cat === cat) tail[0] += C[cat][2].repeat(to - at)
+    if (cat === 'gap') out.push(seg(' '.repeat(to - at)))
+    else if (tail && tail[1].cat === cat) tail[0] += C[cat][2].repeat(to - at)
     else out.push(seg(C[cat][2].repeat(to - at), dimmed ? { cat, dim: true } : { cat, color: C[cat][1] }))
     at = to
   })
@@ -47,8 +49,11 @@ const totalsOf = seq => {
   for (const [c, s] of seq) t[c] = (t[c] || 0) + s
   return Object.entries(t).sort((a, b) => b[1] - a[1])
 }
-const legend = (seq, max = 99) =>
-  totalsOf(seq).slice(0, max).flatMap(([c, s]) => [seg(C[c][2], { color: C[c][1] }), dim(` ${C[c][0]} ${fmt(s)}  `)])
+// mix: the work-mix band's legend, where the main loop's own Agent calls are named apart from the Subagents total.
+const legend = (seq, max = 99, mix = false) =>
+  totalsOf(seq.filter(([c]) => c !== 'gap')).slice(0, max).flatMap(([c, s]) => [seg(C[c][2], { color: C[c][1] }), dim(` ${mix && c === 'agents' ? 'Agent calls' : C[c][0]} ${fmt(s)}  `)])
+// The legend line is the band's view switch, a Button: the terminal draws its letter first.
+const key = seg('v:', { color: ACCENT })
 
 // Draws one column of lines at x; returns SVG elements. `{ prompt: cols }` draws the input box.
 function column(lines, x, y0) {
@@ -118,13 +123,30 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
     [dim('> fix the flaky login test')], [],
     [dim('⏺ Bash(npm test -- login)')], [dim('  ⎿ Running…')], [],
     [...strip(s2, W - 1, true), seg('█', { color: C.shell[1] })],
-    [seg('⠹', { color: C.shell[1] }), bold(' Bash Run tests · 12s  '), ...legend(s2, 4)],
+    [key, seg(' '), seg('⠹', { color: C.shell[1] }), bold(' Bash Run tests · 12s  '), ...legend(s2, 4)],
     { prompt: W + 2 }, [],
   ])
   draw('band-done.svg', [
     [dim('⏺ Fixed: the test now awaits the session refresh before asserting. All')], [dim('  42 login tests pass.')], [],
     strip(s2, W, true, true),
-    [dim('✓ Done in 2m40s · waiting on you  '), ...legend(s2, 3)],
+    [key, dim(' ✓ Done in 2m40s · waiting on you  '), ...legend(s2, 3)],
+    { prompt: W + 2 }, [],
+  ])
+  // The work-mix view: the main loop's strip, and under it when subagents ran, on the same time axis. A
+  // background subagent outlives the turn that launched it: the top row is empty while only it runs.
+  const lanes = [
+    ['thinking', 'gap', 9], ['reading', 'gap', 14], ['thinking', 'gap', 4], ['thinking', 'agents', 5], ['gap', 'agents', 38],
+    ['thinking', 'agents', 6], ['editing', 'agents', 22], ['shell', 'agents', 12], ['shell', 'gap', 19], ['thinking', 'gap', 4],
+    ['editing', 'gap', 9], ['web', 'gap', 12], ['thinking', 'gap', 7], ['shell', 'gap', 12],
+  ]
+  const top = lanes.map(([c, , s]) => [c, s]), low = lanes.map(([, c, s]) => [c, s])
+  draw('band-work.svg', [
+    [dim('> wire the new endpoint into the client')], [],
+    [dim('⏺ Bash(npm test -- client)')], [dim('  ⎿ Running…')], [],
+    [...strip(top, W - 1, true), seg('█', { color: C.shell[1] })],
+    strip(low, W - 1, true),
+    // Two subagents overlapped, so their total (each counted in full) is more than the lower row's cells.
+    [key, seg(' '), seg('⠹', { color: C.shell[1] }), bold(' Bash Run tests · 12s  '), ...legend(top, 2, true), seg(C.agents[2], { color: C.agents[1] }), dim(` ${C.agents[0]} 2m10s`)],
     { prompt: W + 2 }, [],
   ])
 }
@@ -133,14 +155,16 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
 {
   const PW = 56, barW = PW - 25, LW = 56
   const pane = [
-    [bold('Session 42m10s'), dim('  agent 18m32s · 6 turns')],
+    [bold('Session 42m10s'), dim('  agent 18m32s · subagents 3m05s · 6 turns')],
     [seg('▶ Edit hooks/register.tsx · 3s')], [],
   ]
   const tot = totalsOf(s3), sum = tot.reduce((a, [, s]) => a + s, 0)
   for (const [c, s] of tot) {
     const k = Math.round((s / sum) * barW)
-    pane.push([seg(C[c][0].padEnd(11)), seg(C[c][2].repeat(k), { color: C[c][1] }), dim('·'.repeat(barW - k)), seg(` ${fmt(s).padStart(6)} ${String(Math.round((s / sum) * 100)).padStart(3)}%`)])
+    pane.push([seg((c === 'agents' ? 'Agent calls' : C[c][0]).padEnd(11)), seg(C[c][2].repeat(k), { color: C[c][1] }), dim('·'.repeat(barW - k)), seg(` ${fmt(s).padStart(6)} ${String(Math.round((s / sum) * 100)).padStart(3)}%`)])
   }
+  // The subagents' own work, each counted in full, adds on top of the main loop's rows: no share of them.
+  pane.push([seg(C.agents[0].padEnd(11 + barW), { color: C.agents[1] }), seg(' ' + '3m05s'.padStart(6))])
   pane.push([dim('Waiting on you'.padEnd(11 + barW) + ' ' + '23m38s'.padStart(6))], [], [bold('Timeline')])
   const turns = [
     { at: '41m02s', dur: '1m08s', seq: [['thinking', 20], ['reading', 12], ['editing', 9]], line: dim('Working: add a dark mode toggle to settings') },
@@ -167,7 +191,7 @@ const s3 = [...s2, ['thinking', 8], ['agents', 48], ['thinking', 6], ['editing',
     [dim('⏺ Update(src/settings/Panel.tsx)')], [dim('  ⎿ …')],
   ]
   while (left.length < pane.length - 5) left.push([])
-  left.push([...strip(s3, LW - 1, true), seg('█', { color: C.editing[1] })], [seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
+  left.push([...strip(s3, LW - 1, true), seg('█', { color: C.editing[1] })], [key, seg(' '), seg('⠹', { color: C.editing[1] }), bold(' Edit hooks/register.tsx · 3s  '), ...legend(s3, 1)], { prompt: LW })
   const rows = Math.max(left.length + 1, pane.length)
   const xR = PAD + (LW + 3) * CW
   const width = xR + PW * CW + PAD

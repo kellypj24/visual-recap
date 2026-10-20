@@ -86,24 +86,25 @@
 <rect x="548.4000000000001" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="552.3000000000001" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
 <rect x="556.2" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="560.1" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
 <rect x="564" y="109.8" width="7.8" height="14.4" fill="#9F43C3"/>
-<text x="18" y="138.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#9F43C3">⠹</text>
-<text x="33.6" y="138.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Bash</text>
-<text x="72.6" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Run</text>
-<text x="103.8" y="138.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">tests</text>
-<text x="150.6" y="138.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">·</text>
-<text x="166.20000000000002" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">12s</text>
-<rect x="205.2" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="209.1" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
-<text x="220.8" y="138.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Shell</text>
-<text x="267.6" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">43s</text>
-<rect x="306.59999999999997" y="127.8" width="7.8" height="14.4" fill="#C8601A"/>
-<text x="322.2" y="138.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
-<text x="392.4" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
-<rect x="431.4" y="127.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
-<text x="447" y="138.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Editing</text>
-<text x="509.4" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
-<rect x="548.4" y="127.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
-<text x="563.9999999999999" y="138.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Reading</text>
-<text x="626.4" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">22s</text>
+<text x="18" y="138.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#D77757">v:</text>
+<text x="41.4" y="138.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#9F43C3">⠹</text>
+<text x="57" y="138.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Bash</text>
+<text x="96" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Run</text>
+<text x="127.2" y="138.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">tests</text>
+<text x="174" y="138.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">·</text>
+<text x="189.60000000000002" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">12s</text>
+<rect x="228.6" y="127.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="232.5" y="135" width="3.9" height="7.2" fill="#9F43C3"/>
+<text x="244.20000000000002" y="138.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Shell</text>
+<text x="291" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">43s</text>
+<rect x="330" y="127.8" width="7.8" height="14.4" fill="#C8601A"/>
+<text x="345.6" y="138.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
+<text x="415.8" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
+<rect x="454.8" y="127.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<text x="470.4" y="138.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Editing</text>
+<text x="532.8" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
+<rect x="571.8" y="127.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<text x="587.4" y="138.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Reading</text>
+<text x="649.8000000000001" y="138.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">22s</text>
 <rect x="18.5" y="146.5" width="670.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
 <text x="29.7" y="166" fill="#d7dade">&gt;</text>
 </g>

@@ -1,7 +1,7 @@
 import { expect, test } from 'claude-code/testing'
 
 import type { Cat, Span, Turn } from '../types'
-import { CATS, catOf, colorOf, labelOf, runs, scaleFor, strip, sweep, totals } from '../hooks/recap'
+import { CATS, catOf, colorOf, labelOf, lanes, runs, scaleFor, strip, sweep, totals, workMix } from '../hooks/recap'
 import type { Piece } from '../hooks/recap'
 
 const turn: Turn = { id: 't', start: 0, end: 100, prompt: 'x', actions: [] }
@@ -33,6 +33,53 @@ test("a subagent's run fills only time the main loop leaves idle", async () => {
   expect(tot.thinking).toBe(6) // t1's 2s + t2's 4s
   expect(tot.agents).toBe(8) // 2-5 and 15-20, while the main loop was idle
   expect(tot.idle).toBe(5)
+})
+
+// time-accounting, "Wall-clock attribution puts the main loop first", both scenarios.
+const bg: Span = { id: 'a', cat: 'agents', label: 'Agent', start: 0, agentId: 'a1', turnId: 't1' }
+
+test('wall clock: a background subagent gets nothing while the main loop thinks or runs tools', async () => {
+  // Turn 1 launched the subagent and ended at 1s; turn 2 thinks 4s, then runs Bash 6s.
+  const turns: Turn[] = [
+    { id: 't1', start: 0, end: 1, prompt: 'x', actions: [] },
+    { id: 't2', start: 1, end: 11, prompt: 'y', actions: [] },
+  ]
+  const sp: Span[] = [bg, { id: 'b', cat: 'shell', label: 'Bash', start: 5, end: 11 }]
+  const tot = totals(sweep(sp, turns, 1, 11))
+  expect(tot).toEqual({ thinking: 4, shell: 6 })
+})
+
+test('wall clock: a background subagent while you are away counts as Subagents, not waiting', async () => {
+  const turns: Turn[] = [{ id: 't1', start: 0, end: 1, prompt: 'x', actions: [] }]
+  expect(totals(sweep([bg], turns, 1, 31))).toEqual({ agents: 30 })
+})
+
+// time-accounting, "Work-mix totals count subagent work on top": Two subagents beside the main loop.
+test('work mix: main-loop rows add up to its own time and overlapping subagents each count in full', async () => {
+  const m = 60_000
+  const turns: Turn[] = [{ id: 't1', start: 0, end: 5 * m, prompt: 'x', actions: [] }]
+  const sp: Span[] = [
+    { id: 'b', cat: 'shell', label: 'Bash', start: 0, end: 5 * m },
+    { ...bg, start: 0, end: 5 * m },
+    { ...bg, id: 'c', agentId: 'a2', start: 0, end: 5 * m },
+  ]
+  expect(workMix(sp, turns, 0, 5 * m)).toEqual({ main: { shell: 5 * m }, subagents: 10 * m })
+  // Subagent time with no main turn open is not the main loop's.
+  const after = workMix([{ ...bg, start: 0, end: 7 * m }], turns, 0, 7 * m)
+  expect(after).toEqual({ main: { thinking: 5 * m }, subagents: 7 * m })
+})
+
+// band, "Work-mix view": A subagent beside the main loop.
+test('work-mix lanes: the lower row fills only where a subagent ran, on the top row\'s axis', async () => {
+  const s = 1000
+  // A 10s turn; a subagent runs through its second half and 4s past it.
+  const turns: Turn[] = [{ id: 't1', start: 0, end: 10 * s, prompt: 'x', actions: [] }]
+  const sp: Span[] = [{ ...bg, start: 5 * s, end: 14 * s }]
+  const { top, low } = lanes(sp, turns, 0, 20 * s)
+  expect(runs(strip(top, 80, true))).toEqual([{ cat: 'thinking', n: 10 }, { cat: 'gap', n: 4 }])
+  expect(runs(strip(low, 80, true))).toEqual([{ cat: 'gap', n: 5 }, { cat: 'agents', n: 9 }])
+  // The same axis as the wall-clock strip: idle squeezed out, nothing else.
+  expect(strip(sweep(sp, turns, 0, 20 * s), 80, true)).toHaveLength(14)
 })
 
 test('the strip covers active time only, left to right', async () => {

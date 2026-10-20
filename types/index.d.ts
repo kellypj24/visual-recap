@@ -17,8 +17,11 @@ export type Agent = { label: string; turnId?: string }
 // A divider in the timeline: where the conversation was cleared or compacted.
 export type Mark = { at: number; kind: 'clear' | 'compact'; isAuto?: boolean }
 
+// The band's two views: wall-clock time, or the work mix with subagents on a row of their own.
+export type BandView = 'wall' | 'work'
+
 declare module 'claude-code' {
   interface PluginState {
-    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number; marks: Mark[]; agents: Record<string, Agent> }
+    'visual-recap': { spans: Span[]; turns: Turn[]; now: number; startedAt: number; frame: number; marks: Mark[]; agents: Record<string, Agent>; view: BandView | null }
   }
 }

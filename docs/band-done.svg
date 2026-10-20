@@ -88,23 +88,24 @@
 <rect x="540.6" y="73.8" width="3.9" height="7.2" fill="#6f757e"/><rect x="544.5" y="81" width="3.9" height="7.2" fill="#6f757e"/>
 <rect x="548.4000000000001" y="73.8" width="3.9" height="7.2" fill="#6f757e"/><rect x="552.3000000000001" y="81" width="3.9" height="7.2" fill="#6f757e"/>
 <rect x="556.2" y="73.8" width="3.9" height="7.2" fill="#6f757e"/><rect x="560.1" y="81" width="3.9" height="7.2" fill="#6f757e"/>
-<text x="18" y="102.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">✓</text>
-<text x="33.6" y="102.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Done</text>
-<text x="72.6" y="102.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">in</text>
-<text x="96" y="102.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">2m40s</text>
-<text x="142.8" y="102.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·</text>
-<text x="158.4" y="102.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">waiting</text>
-<text x="220.79999999999998" y="102.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">on</text>
-<text x="244.2" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">you</text>
-<rect x="283.2" y="91.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="287.09999999999997" y="99" width="3.9" height="7.2" fill="#9F43C3"/>
-<text x="298.8" y="102.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Shell</text>
-<text x="345.6" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">43s</text>
-<rect x="384.59999999999997" y="91.8" width="7.8" height="14.4" fill="#C8601A"/>
-<text x="400.2" y="102.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
-<text x="470.4" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
-<rect x="509.4" y="91.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
-<text x="525" y="102.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Editing</text>
-<text x="587.4000000000001" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
+<text x="18" y="102.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#D77757">v:</text>
+<text x="41.4" y="102.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">✓</text>
+<text x="57" y="102.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Done</text>
+<text x="96" y="102.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">in</text>
+<text x="119.4" y="102.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">2m40s</text>
+<text x="166.2" y="102.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">·</text>
+<text x="181.79999999999998" y="102.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">waiting</text>
+<text x="244.2" y="102.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">on</text>
+<text x="267.6" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">you</text>
+<rect x="306.59999999999997" y="91.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="310.49999999999994" y="99" width="3.9" height="7.2" fill="#9F43C3"/>
+<text x="322.2" y="102.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Shell</text>
+<text x="369" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">43s</text>
+<rect x="408" y="91.8" width="7.8" height="14.4" fill="#C8601A"/>
+<text x="423.6" y="102.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
+<text x="493.8" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
+<rect x="532.8" y="91.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<text x="548.4" y="102.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Editing</text>
+<text x="610.8000000000001" y="102.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">31s</text>
 <rect x="18.5" y="110.5" width="670.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
 <text x="29.7" y="130" fill="#d7dade">&gt;</text>
 </g>
