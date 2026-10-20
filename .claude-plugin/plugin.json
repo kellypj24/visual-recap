@@ -1,6 +1,6 @@
 {
   "name": "visual-recap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Live view of where the agent spends its time, plus a running summary timeline of the session.",
   "author": {
     "name": "Mike Ascah",
