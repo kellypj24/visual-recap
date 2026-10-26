@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="706.8" height="198" viewBox="0 0 706.8 198">
+<defs><pattern id="shade037A8EC" width="3" height="3" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1.5" height="1.5" fill="#37A8EC"/><rect x="1.5" y="0" width="1.5" height="1.5" fill="#37A8EC"/><rect x="0" y="1.5" width="1.5" height="1.5" fill="#37A8EC"/></pattern><pattern id="shade168BE1F" width="3" height="3" patternUnits="userSpaceOnUse"><rect x="0" y="0" width="1.5" height="1.5" fill="#68BE1F"/><rect x="1.5" y="1.5" width="1.5" height="1.5" fill="#68BE1F"/></pattern></defs>
+<rect width="706.8" height="198" rx="10" fill="#0d1117" stroke="#30363d"/>
+<g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
+<text x="18" y="30.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">></text>
+<text x="33.6" y="30.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">wire</text>
+<text x="72.6" y="30.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">the</text>
+<text x="103.8" y="30.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">new</text>
+<text x="135" y="30.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">endpoint</text>
+<text x="205.2" y="30.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">into</text>
+<text x="244.2" y="30.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">the</text>
+<text x="275.4" y="30.96" textLength="46.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">client</text>
+<text x="18" y="66.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">⏺</text>
+<text x="33.6" y="66.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Bash(npm</text>
+<text x="103.8" y="66.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">test</text>
+<text x="142.8" y="66.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">--</text>
+<text x="166.2" y="66.96" textLength="54.6" lengthAdjust="spacingAndGlyphs" fill="#6f757e">client)</text>
+<text x="33.6" y="84.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#6f757e">⎿</text>
+<text x="49.2" y="84.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Running…</text>
+<rect x="18" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="25.8" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="33.6" y="109.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="41.4" y="109.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="49.2" y="109.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="57" y="109.8" width="7.8" height="14.4" fill="url(#shade037A8EC)"/>
+<rect x="64.8" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="72.6" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="158.4" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="166.2" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="174" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="181.79999999999998" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="189.6" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="197.39999999999998" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="205.2" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="213" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="216.9" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="220.8" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="224.70000000000002" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="228.6" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="232.5" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="236.4" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="240.3" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="244.2" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="248.1" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="252" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="255.9" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="259.8" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="263.7" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="267.6" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="275.4" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="283.2" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="291" y="109.8" width="7.8" height="14.4" fill="url(#shade168BE1F)"/>
+<rect x="298.8" y="109.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="306.6" y="109.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="314.40000000000003" y="109.8" width="3.9" height="14.4" fill="#D3316A"/>
+<rect x="322.2" y="109.8" width="7.8" height="14.4" fill="#C8601A"/>
+<rect x="330" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="333.9" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="337.8" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="341.7" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="345.6" y="109.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="349.5" y="117" width="3.9" height="7.2" fill="#9F43C3"/>
+<rect x="353.4" y="109.8" width="7.8" height="14.4" fill="#9F43C3"/>
+<rect x="76.5" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="84.3" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="92.1" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="99.9" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="107.7" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="115.5" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="123.3" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="131.1" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="138.9" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="146.70000000000002" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="154.5" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="162.29999999999998" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="170.1" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="177.9" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="185.70000000000002" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="193.5" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="201.29999999999998" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="209.1" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="216.9" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="224.7" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<rect x="232.5" y="127.8" width="3.9" height="14.4" fill="#5978FD"/>
+<text x="18" y="156.96" textLength="15.6" lengthAdjust="spacingAndGlyphs" fill="#D77757">v:</text>
+<text x="41.4" y="156.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#9F43C3">⠹</text>
+<text x="57" y="156.96" textLength="31.2" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Bash</text>
+<text x="96" y="156.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">Run</text>
+<text x="127.2" y="156.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">tests</text>
+<text x="174" y="156.96" textLength="7.8" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">·</text>
+<text x="189.60000000000002" y="156.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#d7dade" font-weight="700">12s</text>
+<rect x="228.6" y="145.8" width="3.9" height="7.2" fill="#9F43C3"/><rect x="232.5" y="153" width="3.9" height="7.2" fill="#9F43C3"/>
+<text x="244.20000000000002" y="156.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Shell</text>
+<text x="291" y="156.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">43s</text>
+<rect x="330" y="145.8" width="7.8" height="14.4" fill="#C8601A"/>
+<text x="345.6" y="156.96" textLength="62.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Thinking</text>
+<text x="415.8" y="156.96" textLength="23.4" lengthAdjust="spacingAndGlyphs" fill="#6f757e">35s</text>
+<rect x="458.7" y="145.8" width="3.9" height="14.4" fill="#5978FD"/>
+<text x="470.4" y="156.96" textLength="70.2" lengthAdjust="spacingAndGlyphs" fill="#6f757e">Subagents</text>
+<text x="548.4" y="156.96" textLength="39" lengthAdjust="spacingAndGlyphs" fill="#6f757e">2m10s</text>
+<rect x="18.5" y="164.5" width="670.8" height="32" rx="5" fill="none" stroke="#6f757e"/>
+<text x="29.7" y="184" fill="#d7dade">&gt;</text>
+</g>
+</svg>

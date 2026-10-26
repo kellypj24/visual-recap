@@ -1,27 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="760" height="150" viewBox="0 0 760 150">
+<defs></defs>
 <rect width="760" height="150" rx="10" fill="#0d1117" stroke="#30363d"/>
 <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13">
 <defs><pattern id="idle" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#0d1117"/><rect width="2" height="6" fill="#6f757e"/></pattern></defs>
 <text x="18" y="30" fill="#6f757e">Wall clock (striped = waiting on you)</text>
-<rect x="18" y="38" width="10.595121951219513" height="20" fill="#D97757"/>
+<rect x="18" y="38" width="10.595121951219513" height="20" fill="#C8601A"/>
 <rect x="28.59512195121951" y="38" width="123.60975609756099" height="20" fill="url(#idle)"/>
-<rect x="152.2048780487805" y="38" width="15.892682926829268" height="20" fill="#D97757"/>
-<rect x="168.09756097560978" y="38" width="38.84878048780488" height="20" fill="#5B9BD5"/>
-<rect x="206.94634146341465" y="38" width="38.84878048780488" height="20" fill="#6BBF59"/>
-<rect x="245.79512195121953" y="38" width="54.74146341463415" height="20" fill="#C678DD"/>
+<rect x="152.2048780487805" y="38" width="15.892682926829268" height="20" fill="#C8601A"/>
+<rect x="168.09756097560978" y="38" width="38.84878048780488" height="20" fill="#37A8EC"/>
+<rect x="206.94634146341465" y="38" width="38.84878048780488" height="20" fill="#68BE1F"/>
+<rect x="245.79512195121953" y="38" width="54.74146341463415" height="20" fill="#9F43C3"/>
 <rect x="300.5365853658537" y="38" width="247.21951219512198" height="20" fill="url(#idle)"/>
-<rect x="547.7560975609756" y="38" width="14.126829268292683" height="20" fill="#D97757"/>
-<rect x="561.8829268292683" y="38" width="84.7609756097561" height="20" fill="#E5C07B"/>
-<rect x="646.6439024390244" y="38" width="24.721951219512196" height="20" fill="#6BBF59"/>
+<rect x="547.7560975609756" y="38" width="14.126829268292683" height="20" fill="#C8601A"/>
+<rect x="561.8829268292683" y="38" width="84.7609756097561" height="20" fill="#5978FD"/>
+<rect x="646.6439024390244" y="38" width="24.721951219512196" height="20" fill="#68BE1F"/>
 <rect x="671.3658536585366" y="38" width="70.63414634146342" height="20" fill="url(#idle)"/>
 <text x="18" y="92" fill="#6f757e">Band strip: working time only</text>
-<rect x="18" y="100" width="27.15" height="20" fill="#D97757"/>
-<rect x="45.15" y="100" width="40.725" height="20" fill="#D97757"/>
-<rect x="85.875" y="100" width="99.55000000000001" height="20" fill="#5B9BD5"/>
-<rect x="185.425" y="100" width="99.55000000000001" height="20" fill="#6BBF59"/>
-<rect x="284.975" y="100" width="140.275" height="20" fill="#C678DD"/>
-<rect x="425.25" y="100" width="36.2" height="20" fill="#D97757"/>
-<rect x="461.45" y="100" width="217.2" height="20" fill="#E5C07B"/>
-<rect x="678.65" y="100" width="63.349999999999994" height="20" fill="#6BBF59"/>
+<rect x="18" y="100" width="27.15" height="20" fill="#C8601A"/>
+<rect x="45.15" y="100" width="40.725" height="20" fill="#C8601A"/>
+<rect x="85.875" y="100" width="99.55000000000001" height="20" fill="#37A8EC"/>
+<rect x="185.425" y="100" width="99.55000000000001" height="20" fill="#68BE1F"/>
+<rect x="284.975" y="100" width="140.275" height="20" fill="#9F43C3"/>
+<rect x="425.25" y="100" width="36.2" height="20" fill="#C8601A"/>
+<rect x="461.45" y="100" width="217.2" height="20" fill="#5978FD"/>
+<rect x="678.65" y="100" width="63.349999999999994" height="20" fill="#68BE1F"/>
 </g>
 </svg>

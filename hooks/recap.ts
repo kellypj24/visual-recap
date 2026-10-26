@@ -1,14 +1,22 @@
+import type { ThemeKey } from 'claude-code'
+
 import type { Cat, Span, Turn } from '../types'
 
-export const CATS: Record<Cat, { label: string; color: string }> = {
-  thinking: { label: 'Thinking', color: '#D97757' },
-  reading: { label: 'Reading', color: '#5B9BD5' },
-  editing: { label: 'Editing', color: '#6BBF59' },
-  shell: { label: 'Shell', color: '#C678DD' },
-  web: { label: 'Web', color: '#4FB6C2' },
-  agents: { label: 'Subagents', color: '#E5C07B' },
-  asking: { label: 'Asking you', color: '#E06C75' },
-  other: { label: 'Other tools', color: '#9DA5B4' },
+// color: the default palette. theme: the key the `theme` palette follows. glyph: told apart without color.
+export const CATS: Record<Cat, { label: string; color: string; theme: ThemeKey; glyph: string }> = {
+  thinking: { label: 'Thinking', color: '#C8601A', theme: 'claude', glyph: '█' },
+  reading: { label: 'Reading', color: '#37A8EC', theme: 'suggestion', glyph: '▓' },
+  editing: { label: 'Editing', color: '#68BE1F', theme: 'diffAdded', glyph: '▒' },
+  shell: { label: 'Shell', color: '#9F43C3', theme: 'bashBorder', glyph: '▚' },
+  web: { label: 'Web', color: '#D3316A', theme: 'ide', glyph: '▌' },
+  agents: { label: 'Subagents', color: '#5978FD', theme: 'planMode', glyph: '▐' },
+  asking: { label: 'Asking you', color: '#2FA88A', theme: 'permission', glyph: '▞' },
+  other: { label: 'Other tools', color: '#8A8F98', theme: 'inactive', glyph: '░' },
+}
+
+// The `palette` setting: `theme` follows the person's Claude Code theme; anything else is the default palette.
+export function colorOf(cat: Cat, palette: unknown): string {
+  return palette === 'theme' ? CATS[cat].theme : CATS[cat].color
 }
 
 export function catOf(tool: string): Cat {
@@ -30,20 +38,25 @@ export function labelOf(input: Record<string, unknown>): string {
   return `${String(input.tool)}${arg ? ` ${arg}` : ''}`.slice(0, 100)
 }
 
-export type Piece = { t0: number; t1: number; cats: (Cat | 'idle')[] }
+export type Piece<T extends string = Cat> = { t0: number; t1: number; cats: (T | 'idle')[] }
 
-// Splits [from, to] into pieces by what was running: tools win, else thinking
-// inside a turn, else idle. Parallel tools share a piece.
+// Splits [from, to] into pieces by what was running: main-loop tools win, else thinking
+// inside a turn, else a subagent's own run, else idle. Parallel tools share a piece.
 export function sweep(spans: readonly Span[], turns: readonly Turn[], from: number, to: number): Piece[] {
   const ev: [number, number, string][] = []
   for (const t of turns) ev.push([t.start, 1, 'turn'], [t.end ?? to, -1, 'turn'])
-  for (const s of spans) ev.push([s.start, 1, s.cat], [s.end ?? to, -1, s.cat])
+  // A subagent's run (agentId set) is background: it fills only time the main loop leaves idle.
+  for (const s of spans) {
+    const k = s.agentId === undefined ? s.cat : 'subagent'
+    ev.push([s.start, 1, k], [s.end ?? to, -1, k])
+  }
   ev.sort((a, b) => a[0] - b[0])
   const open = new Map<string, number>()
   const current = (): Piece['cats'] => {
-    const tools = [...open].filter(([k, n]) => k !== 'turn' && n > 0).map(([k]) => k as Cat)
+    const tools = [...open].filter(([k, n]) => k !== 'turn' && k !== 'subagent' && n > 0).map(([k]) => k as Cat)
     if (tools.length) return tools
-    return (open.get('turn') ?? 0) > 0 ? ['thinking'] : ['idle']
+    if ((open.get('turn') ?? 0) > 0) return ['thinking']
+    return (open.get('subagent') ?? 0) > 0 ? ['agents'] : ['idle']
   }
   const out: Piece[] = []
   let prev = from
@@ -67,32 +80,74 @@ export function totals(pieces: readonly Piece[]): Partial<Record<Cat | 'idle', n
   return tot
 }
 
-// One category per column over agent-active time (idle squeezed out).
-export function strip(pieces: readonly Piece[], width: number): Cat[] {
-  const active = pieces.filter(p => p.cats[0] !== 'idle')
-  const total = active.reduce((n, p) => n + p.t1 - p.t0, 0)
-  if (total <= 0 || width <= 0) return []
-  const cols: Partial<Record<Cat, number>>[] = Array.from({ length: width }, () => ({}))
-  let off = 0
-  for (const p of active) {
-    const end = off + p.t1 - p.t0
-    const c1 = Math.min(width - 1, Math.floor((end / total) * width))
-    for (let c = Math.floor((off / total) * width); c <= c1; c++) {
-      const seg = Math.min(end, ((c + 1) * total) / width) - Math.max(off, (c * total) / width)
-      if (seg <= 0) continue
-      for (const k of p.cats as Cat[]) cols[c]![k] = (cols[c]![k] ?? 0) + seg / p.cats.length
-    }
-    off = end
-  }
-  let last: Cat = 'thinking'
-  return cols.map(m => {
-    const best = (Object.entries(m) as [Cat, number][]).sort((a, b) => b[1] - a[1])[0]
-    return (last = best ? best[0] : last)
-  })
+// Seconds per column for the band: the smallest step of 1 s, 2 s, 4 s, ... at which `activeMs` fits in `width`.
+// It only moves when the bar fills, so between rescales blocks already drawn keep their columns.
+export function scaleFor(activeMs: number, width: number): number {
+  let ms = 1000
+  while (activeMs > width * ms) ms *= 2
+  return ms
 }
 
-export function runs(cols: readonly Cat[]): { cat: Cat; n: number }[] {
-  const out: { cat: Cat; n: number }[] = []
+// One category per column over agent-active time (idle squeezed out). Blocks (runs of one
+// category; parallel pieces split their time) end at column round(time before their end / scale),
+// so each gets a whole number of columns and no edge moves while the scale holds.
+// zoom: fill from the left at scaleFor(); otherwise fit the whole width.
+export function strip<T extends string>(pieces: readonly Piece<T>[], width: number, zoom = false): T[] {
+  const blocks: { cat: T; end: number }[] = []
+  let total = 0
+  for (const p of pieces) {
+    if (p.cats[0] === 'idle') continue
+    for (const cat of p.cats as T[]) {
+      total += (p.t1 - p.t0) / p.cats.length
+      if (blocks.at(-1)?.cat === cat) blocks.at(-1)!.end = total
+      else blocks.push({ cat, end: total })
+    }
+  }
+  if (total <= 0 || width <= 0) return []
+  const scale = zoom ? scaleFor(total, width) : total / width
+  const filled = zoom ? Math.max(1, Math.round(total / scale)) : width
+  const cols: T[] = []
+  blocks.forEach((b, i) => {
+    const to = i === blocks.length - 1 ? filled : Math.round(b.end / scale)
+    while (cols.length < to) cols.push(b.cat)
+  })
+  return cols
+}
+
+const isMain = (s: Span) => s.agentId === undefined
+
+// Work-mix totals: the main loop's own categories, adding up to its active time (no subagent fills its gaps),
+// and Subagents, every subagent run counted in full however many overlap.
+export function workMix(spans: readonly Span[], turns: readonly Turn[], from: number, to: number) {
+  const main = totals(sweep(spans.filter(isMain), turns, from, to))
+  delete main.idle
+  const subagents = spans.filter(s => !isMain(s)).reduce((n, s) => n + Math.max(0, Math.min(s.end ?? to, to) - Math.max(s.start, from)), 0)
+  return { main, subagents }
+}
+
+// The work-mix band's two rows, on the wall-clock strip's axis (time the main loop or any subagent was busy):
+// the main loop's categories on top, 'gap' where only subagents ran; below, 'agents' wherever a subagent ran.
+export function lanes(spans: readonly Span[], turns: readonly Turn[], from: number, to: number) {
+  const main = sweep(spans.filter(isMain), turns, from, to)
+  const sub = sweep(spans.filter(s => !isMain(s)), [], from, to)
+  const top: Piece<Cat | 'gap'>[] = []
+  const low: Piece<'agents' | 'gap'>[] = []
+  // Both sweeps cover [from, to] edge to edge: walk them together, cutting at either's edges.
+  for (let i = 0, j = 0, t = from; i < main.length && j < sub.length; ) {
+    const m = main[i]!, s = sub[j]!, t1 = Math.min(m.t1, s.t1)
+    if (m.cats[0] !== 'idle' || s.cats[0] !== 'idle') {
+      top.push({ t0: t, t1, cats: m.cats[0] === 'idle' ? ['gap'] : m.cats })
+      low.push({ t0: t, t1, cats: s.cats[0] === 'idle' ? ['gap'] : ['agents'] })
+    }
+    t = t1
+    if (m.t1 === t1) i++
+    if (s.t1 === t1) j++
+  }
+  return { top, low }
+}
+
+export function runs<T>(cols: readonly T[]): { cat: T; n: number }[] {
+  const out: { cat: T; n: number }[] = []
   for (const cat of cols) {
     const tail = out[out.length - 1]
     if (tail?.cat === cat) tail.n++
