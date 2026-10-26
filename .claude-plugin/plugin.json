@@ -48,6 +48,12 @@
         "work"
       ],
       "default": "wall"
+    },
+    "summaries": {
+      "title": "Turn summaries",
+      "description": "Describe each finished turn with a one-sentence Haiku summary; the call sends the turn's prompt, its action labels and the start of the reply. Off: no model call is made, nothing is sent, and the timeline lists the turn's actions instead",
+      "type": "boolean",
+      "default": true
     }
   }
 }

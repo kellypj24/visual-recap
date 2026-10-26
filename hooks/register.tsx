@@ -94,17 +94,20 @@ async function addMark($: $, kind: Mark['kind'], isAuto?: boolean) {
   await update($, marks, l => [...l, { at, kind, ...(isAuto ? { isAuto } : {}) }].slice(-100))
 }
 
-async function summarize($: $, turnId: string, answer: string) {
+async function summarize($: $, turnId: string, answer: string, useModel: boolean) {
   const turn = (await read($, turns)).find(t => t.id === turnId)
   if (!turn) return
-  const r = await $.model.complete({
-    model: 'haiku',
-    prompt: summaryPrompt(turn, answer),
-    maxTokens: 120,
-    effort: 'low',
-    timeoutMs: 30000,
-  })
-  const text = r.isAnswered ? r.text.trim().split('\n')[0]! : ''
+  let text = ''
+  if (useModel) {
+    const r = await $.model.complete({
+      model: 'haiku',
+      prompt: summaryPrompt(turn, answer),
+      maxTokens: 120,
+      effort: 'low',
+      timeoutMs: 30000,
+    })
+    text = r.isAnswered ? r.text.trim().split('\n')[0]! : ''
+  }
   const summary = text || fallbackSummary(turn)
   await update($, turns, l => l.map(t => (t.id === turnId ? { ...t, summary } : t)))
 }
@@ -152,6 +155,7 @@ function openPane($: $) {
 
 export const register: Register = (on, options) => {
   const showBand = options.showBand !== false
+  const summaries = options.summaries !== false
   const color = (c: Cat) => colorOf(c, options.palette)
   // An unrecognized value counts as unset, so the wall-clock view.
   const defaultView: BandView = options.bandView === 'work' ? 'work' : 'wall'
@@ -288,7 +292,7 @@ export const register: Register = (on, options) => {
       await update($, spans, l => l.map(s => (s.end === undefined && s.agentId === undefined ? { ...s, end: t } : s)))
       const answer = e.answer
       $.clock.after(1, () =>
-        void summarize($, e.turnId, answer)
+        void summarize($, e.turnId, answer, summaries)
           .catch(() => undefined)
           .then(async () => save($, await $.session.id()))
           .catch(() => undefined),

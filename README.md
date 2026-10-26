@@ -60,6 +60,7 @@ In `/config`, under visual-recap:
 | Open panel at startup | off | Opens the panel when a session starts. |
 | Palette | default | `default` uses the mod's own colors, the same on every theme. `theme` takes them from your Claude Code theme (including its light and colorblind themes), so they change when you switch themes. Built-in themes give Reading and Asking you the same color; their glyphs tell them apart. |
 | Band view | `wall` | The view the band starts each session in: `wall` (wall clock) or `work` (work mix). Any other value means `wall`. |
+| Turn summaries | on | Ask Haiku for a one-sentence description of each finished turn. Off: no model call is made, and the timeline lists the turn's actions instead. |
 
 ## How time is counted
 
@@ -76,7 +77,7 @@ In `/config`, under visual-recap:
 
 ## Turn descriptions use an extra model call
 
-When a turn ends, the mod asks Haiku for a one-sentence description. It sends your prompt, the actions taken (file names, commands) and the start of the agent's reply. This uses your account and costs one small call per turn. If the call fails, the entry lists the turn's first actions instead.
+When a turn ends, the mod asks Haiku for a one-sentence description. It sends your prompt, the actions taken (file names, commands) and the start of the agent's reply. This uses your account and costs one small call per turn. If the call fails, the entry lists the turn's first actions instead. To skip the call entirely, turn off the **Turn summaries** setting: nothing is sent, and every entry lists the turn's actions.
 
 ## Contributing
 

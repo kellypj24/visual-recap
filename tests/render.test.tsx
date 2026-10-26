@@ -595,3 +595,27 @@ test("the Agent call's description labels its subagent when the spawn settles wh
     await p.unmount()
   }
 })
+
+test('with summaries off, a finished turn lists its actions and makes no model call', { options: { summaries: false } }, async ($, on) => {
+  const clock = mock.clock(on, { now: 1_000 })
+  let modelCalls = 0
+  on('turn.start', ($, e) => ({ turnId: e.turnId }))
+  on('turn.complete', () => ({ text: '' }))
+  on('model.complete', () => {
+    modelCalls++
+    return { value: { isAnswered: true, text: 'A model summary that must not appear.' } } as never
+  })
+  on('tool.call', async () => ({ result: 'ok' }))
+
+  await clock.advance(10_000)
+  await $.turn.start({ text: 'what time is it', turnId: 't1' })
+  await $.tool.call({ tool: 'Bash', command: 'date' } as never)
+  await $.turn.complete({ answer: 'noon', durationMs: 2_000, isAborted: false, turnId: 't1', reason: 'answer' })
+  await clock.advance(4_000)
+
+  expect(modelCalls).toBe(0)
+  const view = await $.ui.mount({ plugin: 'visual-recap', surface: 'terminal', component: 'Pane', requestId: 'visual-recap', props: pane })
+  expect(await view.find({ text: /1 actions: Bash date/ })).toBeDefined()
+  expect(await view.find({ text: /model summary/ })).toBeUndefined()
+  await view.unmount()
+})
