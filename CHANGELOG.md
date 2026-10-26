@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/mascah/visual-recap/compare/v0.2.0...v0.3.0) (2026-10-26)
+
+
+### Features
+
+* add a setting to turn off the Haiku turn summaries ([#22](https://github.com/mascah/visual-recap/issues/22)) ([c43ce90](https://github.com/mascah/visual-recap/commit/c43ce9054fc401feee6517eebbded489a8b50d5d))
+
 ## [0.2.0](https://github.com/mascah/visual-recap/compare/v0.1.1...v0.2.0) (2026-10-20)
 
 
